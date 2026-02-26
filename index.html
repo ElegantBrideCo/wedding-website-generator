@@ -26,9 +26,9 @@
         .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 500; margin-bottom: 14px; }
         .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 300; color: var(--text); line-height: 1.15; margin-bottom: 16px; }
         .hero h1 em { color: var(--blush); font-style: italic; }
-        .hero p { font-size: 1.05rem; color: var(--text-light); max-width: 520px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+        .hero p { font-size: 1.05rem; color: var(--text-light); max-width: 560px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
 
-        .main-wrap { max-width: 860px; margin: 0 auto; padding: 50px 20px 80px; }
+        .main-wrap { max-width: 900px; margin: 0 auto; padding: 50px 20px 80px; }
 
         .steps { display: flex; align-items: center; justify-content: center; margin-bottom: 44px; }
         .step { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-light); }
@@ -37,17 +37,19 @@
         .step-num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
         .step.done .step-num { background: var(--sage); color: white; border-color: var(--sage); }
         .step.active .step-num { background: var(--blush); color: white; border-color: var(--blush); }
-        .step-line { width: 50px; height: 1px; background: var(--border); margin: 0 8px; }
+        .step-line { width: 40px; height: 1px; background: var(--border); margin: 0 8px; }
 
         .form-card { background: white; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
-        .form-section { padding: 36px 40px; border-bottom: 1px solid var(--warm-gray); }
+        .form-section { padding: 32px 40px; border-bottom: 1px solid var(--warm-gray); }
         .form-section:last-of-type { border-bottom: none; }
         .section-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: 6px; }
         .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--text); margin-bottom: 20px; }
+        .section-desc { color: var(--text-light); font-size: 0.88rem; line-height: 1.6; margin-bottom: 18px; margin-top: -10px; }
 
         .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .field-grid.full { grid-template-columns: 1fr; }
-        @media (max-width: 600px) { .field-grid { grid-template-columns: 1fr; } .form-section { padding: 24px 20px; } }
+        .field-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
+        @media (max-width: 640px) { .field-grid, .field-grid.thirds { grid-template-columns: 1fr; } .form-section { padding: 24px 20px; } }
 
         .field { display: flex; flex-direction: column; gap: 6px; }
         .field label { font-size: 0.8rem; font-weight: 500; color: var(--text); letter-spacing: 0.02em; }
@@ -56,6 +58,42 @@
         .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--blush); }
         .field textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
 
+        /* Photo upload */
+        .photo-upload-area { border: 2px dashed var(--border); border-radius: 12px; padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--cream); position: relative; }
+        .photo-upload-area:hover { border-color: var(--blush); background: white; }
+        .photo-upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+        .photo-upload-area .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+        .photo-upload-area .upload-text { font-size: 0.9rem; color: var(--text-light); }
+        .photo-upload-area .upload-hint { font-size: 0.75rem; color: var(--border); margin-top: 4px; }
+        .photo-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 14px; }
+        .photo-thumb { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; }
+        .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-thumb .remove-photo { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        /* Wedding party */
+        .party-member { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; padding: 12px; background: var(--cream); border-radius: 8px; margin-bottom: 10px; }
+        @media (max-width: 640px) { .party-member { grid-template-columns: 1fr 1fr; } }
+        .add-btn { display: flex; align-items: center; gap: 6px; padding: 10px 16px; background: white; border: 2px dashed var(--border); border-radius: 8px; color: var(--blush); font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; width: 100%; justify-content: center; margin-top: 8px; }
+        .add-btn:hover { border-color: var(--blush); background: var(--blush-light); }
+        .remove-btn { background: none; border: none; color: var(--text-light); cursor: pointer; font-size: 1.1rem; padding: 8px; transition: color 0.2s; }
+        .remove-btn:hover { color: var(--blush); }
+
+        /* Schedule */
+        .schedule-item { display: grid; grid-template-columns: 120px 1fr auto; gap: 10px; align-items: end; padding: 12px; background: var(--cream); border-radius: 8px; margin-bottom: 10px; }
+        @media (max-width: 640px) { .schedule-item { grid-template-columns: 1fr 1fr; } }
+
+        /* Registry */
+        .registry-preset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .registry-preset { display: none; }
+        .registry-preset-label { border: 2px solid var(--border); border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--cream); }
+        .registry-preset-label:hover { border-color: var(--blush); background: white; }
+        .registry-preset:checked + .registry-preset-label { border-color: var(--sage); background: white; box-shadow: 0 0 0 3px rgba(168,184,156,0.2); }
+        .registry-preset-label .reg-icon { font-size: 1.4rem; margin-bottom: 6px; }
+        .registry-preset-label .reg-name { font-size: 0.78rem; font-weight: 600; color: var(--text); display: block; }
+        .registry-preset-label .reg-badge { font-size: 0.65rem; color: var(--sage); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-top: 2px; }
+        .custom-registry { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+
+        /* Tone picker */
         .tone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 4px; }
         @media (max-width: 600px) { .tone-grid { grid-template-columns: 1fr 1fr; } }
         .tone-option { display: none; }
@@ -66,6 +104,7 @@
         .tone-name { font-size: 0.78rem; font-weight: 600; color: var(--text); letter-spacing: 0.03em; }
         .tone-desc { font-size: 0.7rem; color: var(--text-light); line-height: 1.4; }
 
+        /* Theme */
         .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .theme-option { display: none; }
         .theme-label { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
@@ -77,12 +116,13 @@
         .theme-info strong { font-size: 0.82rem; display: block; color: var(--text); }
         .theme-info small { font-size: 0.72rem; color: var(--text-light); }
 
+        /* Generate */
         .generate-wrap { padding: 36px 40px; text-align: center; background: var(--cream); border-top: 1px solid var(--warm-gray); }
         .btn-generate { background: var(--blush); color: white; border: none; padding: 16px 48px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 10px; }
         .btn-generate:hover { background: #C49090; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,165,165,0.4); }
-        .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .generate-note { font-size: 0.8rem; color: var(--text-light); margin-top: 12px; }
 
+        /* Loading */
         .loading-state { display: none; text-align: center; padding: 60px 40px; }
         .loading-state.visible { display: block; }
         .loading-rings { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 24px; }
@@ -93,6 +133,7 @@
         .loading-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--text); margin-bottom: 8px; }
         .loading-sub { color: var(--text-light); font-size: 0.9rem; }
 
+        /* Result */
         #resultSection { display: none; }
         #resultSection.visible { display: block; }
         .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
@@ -109,14 +150,17 @@
         .dot { width: 10px; height: 10px; border-radius: 50%; }
         .dot-r { background: #FF6058; } .dot-y { background: #FFBD2E; } .dot-g { background: #28C840; }
         .url-bar { flex: 1; background: white; border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; color: var(--text-light); }
-        iframe#previewFrame { width: 100%; height: 700px; border: none; display: block; }
+        iframe#previewFrame { width: 100%; height: 750px; border: none; display: block; }
 
+        /* Affiliate banner */
         .affiliate-banner { margin-top: 40px; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px 36px; }
         .affiliate-banner h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; margin-bottom: 6px; color: var(--text); }
         .affiliate-banner p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
         .affiliate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
         .affiliate-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; text-decoration: none; transition: all 0.2s; background: var(--cream); }
         .affiliate-card:hover { border-color: var(--blush); background: white; transform: translateY(-2px); }
+        .affiliate-card.featured { border-color: var(--sage); background: white; position: relative; }
+        .affiliate-card.featured::before { content: '★ Top Pick'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--sage); color: white; font-size: 0.65rem; font-weight: 600; padding: 2px 10px; border-radius: 20px; letter-spacing: 0.05em; white-space: nowrap; }
         .aff-icon { font-size: 1.6rem; margin-bottom: 6px; }
         .aff-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
         .aff-desc { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; }
@@ -136,22 +180,23 @@
     <div class="hero-inner">
         <div class="hero-eyebrow">&#10022; Free Wedding Tool</div>
         <h1>Your Wedding Website,<br><em>Written &amp; Built for You</em></h1>
-        <p>Answer a few questions and we'll craft a beautiful, personalized wedding website — with AI-written copy in the tone that matches your love story.</p>
+        <p>Fill in the details, choose your style, and we'll create a beautiful personalized wedding website — complete with AI-written copy, photo gallery, schedule, registry &amp; more.</p>
     </div>
 </div>
 
 <div class="main-wrap">
 
     <div class="steps">
-        <div class="step active" id="step1indicator"><div class="step-num">1</div><span>Your Details</span></div>
+        <div class="step active" id="step1indicator"><div class="step-num">1</div><span>Details</span></div>
         <div class="step-line"></div>
-        <div class="step" id="step2indicator"><div class="step-num">2</div><span>Your Story</span></div>
+        <div class="step" id="step2indicator"><div class="step-num">2</div><span>Story &amp; Style</span></div>
         <div class="step-line"></div>
         <div class="step" id="step3indicator"><div class="step-num">3</div><span>Your Website</span></div>
     </div>
 
     <div class="form-card" id="formSection">
 
+        <!-- SECTION 1: THE COUPLE -->
         <div class="form-section">
             <div class="section-label">Section 01</div>
             <div class="section-title">The Happy Couple</div>
@@ -161,14 +206,31 @@
             </div>
         </div>
 
+        <!-- SECTION 2: PHOTOS -->
         <div class="form-section">
             <div class="section-label">Section 02</div>
+            <div class="section-title">Your Photos <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
+            <p class="section-desc">Add photos of you two — engagement photos, proposal moment, or just your favorites. They'll appear in a beautiful gallery on your website.</p>
+            <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('photoInput').click()">
+                <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
+                <div class="upload-icon">&#128247;</div>
+                <div class="upload-text">Click to upload photos</div>
+                <div class="upload-hint">JPG, PNG · Up to 5 photos · Max 5MB each</div>
+            </div>
+            <div class="photo-preview-grid" id="photoPreviewGrid"></div>
+        </div>
+
+        <!-- SECTION 3: THE BIG DAY -->
+        <div class="form-section">
+            <div class="section-label">Section 03</div>
             <div class="section-title">The Big Day</div>
             <div class="field-grid">
                 <div class="field"><label>Wedding Date</label><input type="date" id="weddingDate"></div>
-                <div class="field"><label>Ceremony Location <span class="hint">(venue or description)</span></label><input type="text" id="ceremonyLocation" placeholder="e.g. Riverside Gardens, Austin TX"></div>
+                <div class="field"><label>Ceremony Venue <span class="hint">(name &amp; city)</span></label><input type="text" id="ceremonyLocation" placeholder="e.g. Riverside Gardens, Austin TX"></div>
                 <div class="field"><label>Ceremony Time</label><input type="time" id="ceremonyTime"></div>
-                <div class="field"><label>Reception Location <span class="hint">(leave blank if same)</span></label><input type="text" id="receptionLocation" placeholder="Same as ceremony"></div>
+                <div class="field"><label>Ceremony Address <span class="hint">(for map)</span></label><input type="text" id="ceremonyAddress" placeholder="e.g. 123 River Rd, Austin TX 78701"></div>
+                <div class="field"><label>Reception Venue <span class="hint">(leave blank if same)</span></label><input type="text" id="receptionLocation" placeholder="Same as ceremony"></div>
+                <div class="field"><label>Reception Address <span class="hint">(if different)</span></label><input type="text" id="receptionAddress" placeholder="Leave blank if same as ceremony"></div>
                 <div class="field"><label>Dress Code</label>
                     <select id="dressCode">
                         <option value="">Select dress code...</option>
@@ -177,24 +239,121 @@
                         <option>Casual</option><option>Outdoor / Come Comfortable</option>
                     </select>
                 </div>
-                <div class="field"><label>Hotel / Accommodation Info <span class="hint">(optional)</span></label><input type="text" id="hotelInfo" placeholder="e.g. Block of rooms at Marriott Downtown"></div>
             </div>
         </div>
 
+        <!-- SECTION 3b: ACCOMMODATIONS -->
         <div class="form-section">
-            <div class="section-label">Section 03</div>
+            <div class="section-label">Section 03b</div>
+            <div class="section-title">Accommodations <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
+            <p class="section-desc">Add recommended hotels or lodging options for guests. Include a booking link so they can reserve easily.</p>
+            <div id="hotelItems"></div>
+            <button class="add-btn" onclick="addHotel()">+ Add Hotel</button>
+            <div style="display:none">
+            </div>
+        </div>
+
+        <!-- SECTION 4: SCHEDULE -->
+        <div class="form-section">
+            <div class="section-label">Section 04</div>
+            <div class="section-title">Day-of Schedule <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
+            <p class="section-desc">Give guests a timeline for the day so they know what to expect.</p>
+            <div id="scheduleItems"></div>
+            <button class="add-btn" onclick="addScheduleItem()">+ Add Event</button>
+        </div>
+
+        <!-- SECTION 5: WEDDING PARTY -->
+        <div class="form-section">
+            <div class="section-label">Section 05</div>
+            <div class="section-title">Wedding Party <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
+            <p class="section-desc">Introduce your wedding party! Add a note about each person and choose a tone — our AI will write them a fun personalized blurb.</p>
+            <div id="partyMembers"></div>
+            <button class="add-btn" onclick="addPartyMember()">+ Add Member</button>
+        </div>
+
+        <!-- SECTION 6: REGISTRY -->
+        <div class="form-section">
+            <div class="section-label">Section 06</div>
+            <div class="section-title">Registry</div>
+            <p class="section-desc">Select your registries. Amazon is listed first as the top recommendation — it's the most convenient option for guests!</p>
+            <div class="registry-preset-grid">
+                <div>
+                    <input type="checkbox" name="registry" id="reg-amazon" value="amazon" class="registry-preset" checked>
+                    <label for="reg-amazon" class="registry-preset-label">
+                        <div class="reg-icon">&#127873;</div>
+                        <span class="reg-name">Amazon</span>
+                        <span class="reg-badge">&#9733; Top Pick</span>
+                    </label>
+                </div>
+                <div>
+                    <input type="checkbox" name="registry" id="reg-target" value="target" class="registry-preset">
+                    <label for="reg-target" class="registry-preset-label">
+                        <div class="reg-icon">&#127919;</div>
+                        <span class="reg-name">Target</span>
+                        <span class="reg-badge">&nbsp;</span>
+                    </label>
+                </div>
+                <div>
+                    <input type="checkbox" name="registry" id="reg-walmart" value="walmart" class="registry-preset">
+                    <label for="reg-walmart" class="registry-preset-label">
+                        <div class="reg-icon">&#127970;</div>
+                        <span class="reg-name">Walmart</span>
+                        <span class="reg-badge">&nbsp;</span>
+                    </label>
+                </div>
+                <div>
+                    <input type="checkbox" name="registry" id="reg-ikea" value="ikea" class="registry-preset">
+                    <label for="reg-ikea" class="registry-preset-label">
+                        <div class="reg-icon">&#128065;</div>
+                        <span class="reg-name">IKEA</span>
+                        <span class="reg-badge">&nbsp;</span>
+                    </label>
+                </div>
+                <div>
+                    <input type="checkbox" name="registry" id="reg-honeyfund" value="honeyfund" class="registry-preset">
+                    <label for="reg-honeyfund" class="registry-preset-label">
+                        <div class="reg-icon">&#127965;</div>
+                        <span class="reg-name">Honeyfund</span>
+                        <span class="reg-badge">&nbsp;</span>
+                    </label>
+                </div>
+                <div>
+                    <input type="checkbox" name="registry" id="reg-custom" value="custom" class="registry-preset">
+                    <label for="reg-custom" class="registry-preset-label">
+                        <div class="reg-icon">&#128279;</div>
+                        <span class="reg-name">Other</span>
+                        <span class="reg-badge">&nbsp;</span>
+                    </label>
+                </div>
+            </div>
+            <div id="amazonUrlField" class="field" style="margin-bottom:12px;">
+                <label>Your Amazon Registry URL <span class="hint">(paste your personal registry link)</span></label>
+                <input type="url" id="amazonUrl" placeholder="https://www.amazon.com/wedding/registry/...">
+            </div>
+            <div id="customRegistryFields" style="display:none;">
+                <div class="custom-registry">
+                    <div class="field"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Crate &amp; Barrel"></div>
+                    <div class="field"><label>Registry URL</label><input type="url" id="customRegUrl" placeholder="https://..."></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 7: YOUR STORY -->
+        <div class="form-section">
+            <div class="section-label">Section 07</div>
             <div class="section-title">Your Story</div>
             <div class="field-grid full" style="gap:16px;">
                 <div class="field"><label>How did you meet? <span class="hint">(a sentence or two is fine)</span></label><textarea id="howMet" placeholder="e.g. We met at a mutual friend's birthday party in 2019..."></textarea></div>
-                <div class="field"><label>The Proposal <span class="hint">(how did it happen?)</span></label><textarea id="proposal" placeholder="e.g. He proposed at sunrise on the beach where we had our first date..."></textarea></div>
+                <div class="field"><label>The Proposal <span class="hint">(how did it happen?)</span></label><textarea id="proposal" placeholder="e.g. He proposed at sunrise on the beach..."></textarea></div>
                 <div class="field"><label>Anything else you'd like guests to know? <span class="hint">(optional)</span></label><textarea id="extraDetails" placeholder="e.g. Our dog Biscuit will be the ring bearer!" style="min-height:70px;"></textarea></div>
             </div>
         </div>
 
+        <!-- SECTION 8: TONE -->
         <div class="form-section">
-            <div class="section-label">Section 04</div>
-            <div class="section-title">Choose Your Story's Tone</div>
-            <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:18px;line-height:1.6;">How should we write your "Our Story" section? The rest of your website stays clean and professional.</p>
+            <div class="section-label">Section 08</div>
+            <div class="section-title">Story Tone</div>
+            <p class="section-desc">How should we write your "Our Story" section?</p>
             <div class="tone-grid">
                 <div><input type="radio" name="tone" id="tone-romantic" value="romantic" class="tone-option" checked><label for="tone-romantic" class="tone-label"><span class="tone-emoji">&#128149;</span><span class="tone-name">Romantic</span><span class="tone-desc">Warm, heartfelt &amp; poetic</span></label></div>
                 <div><input type="radio" name="tone" id="tone-humorous" value="humorous" class="tone-option"><label for="tone-humorous" class="tone-label"><span class="tone-emoji">&#128516;</span><span class="tone-name">Humorous</span><span class="tone-desc">Funny &amp; lighthearted</span></label></div>
@@ -204,9 +363,10 @@
             </div>
         </div>
 
+        <!-- SECTION 9: THEME -->
         <div class="form-section">
-            <div class="section-label">Section 05</div>
-            <div class="section-title">Website Color Theme</div>
+            <div class="section-label">Section 09</div>
+            <div class="section-title">Color Theme</div>
             <div class="theme-grid">
                 <div><input type="radio" name="theme" id="theme-blush" value="blush" class="theme-option" checked><label for="theme-blush" class="theme-label"><div class="theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="theme-info"><strong>Blush &amp; Sage</strong><small>Soft, romantic, elegant</small></div></label></div>
                 <div><input type="radio" name="theme" id="theme-navy" value="navy" class="theme-option"><label for="theme-navy" class="theme-label"><div class="theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="theme-info"><strong>Navy &amp; Gold</strong><small>Classic, formal, timeless</small></div></label></div>
@@ -214,31 +374,22 @@
             </div>
         </div>
 
-        <div class="form-section">
-            <div class="section-label">Section 06</div>
-            <div class="section-title">Registry Links <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
-            <div class="field-grid">
-                <div class="field"><label>Registry 1 Name</label><input type="text" id="reg1name" placeholder="e.g. Amazon"></div>
-                <div class="field"><label>Registry 1 URL</label><input type="url" id="reg1url" placeholder="https://..."></div>
-                <div class="field"><label>Registry 2 Name <span class="hint">(optional)</span></label><input type="text" id="reg2name" placeholder="e.g. Target"></div>
-                <div class="field"><label>Registry 2 URL <span class="hint">(optional)</span></label><input type="url" id="reg2url" placeholder="https://..."></div>
-            </div>
-        </div>
-
         <div class="generate-wrap">
             <button class="btn-generate" onclick="generateWebsite()" id="generateBtn">
                 <span>&#10022;</span> Generate My Wedding Website
             </button>
-            <div class="generate-note">Takes about 15-20 seconds &middot; Completely free &middot; No account required</div>
+            <div class="generate-note">Takes about 20 seconds &middot; Completely free &middot; No account required</div>
         </div>
     </div>
 
+    <!-- LOADING -->
     <div class="loading-state" id="loadingState">
         <div class="loading-rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
-        <div class="loading-title">Writing your love story&hellip;</div>
-        <div class="loading-sub" id="loadingMessage">Crafting your personalized copy</div>
+        <div class="loading-title">Creating your wedding website&hellip;</div>
+        <div class="loading-sub" id="loadingMessage">Writing your love story</div>
     </div>
 
+    <!-- RESULT -->
     <div id="resultSection">
         <div class="result-actions">
             <button class="btn-action btn-primary" onclick="downloadWebsite()">&#8595; Download Website</button>
@@ -248,16 +399,16 @@
         <div class="preview-frame-wrap">
             <div class="preview-bar">
                 <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-                <div class="url-bar">yournames.netlify.app &mdash; preview</div>
+                <div class="url-bar" id="previewUrl">yournames.netlify.app &mdash; preview</div>
             </div>
             <iframe id="previewFrame" title="Wedding Website Preview"></iframe>
         </div>
 
         <div class="affiliate-banner">
             <h3>Complete Your Wedding Planning</h3>
-            <p>Everything you need to plan your perfect day &mdash; hand-picked by Elegant Bride Co.</p>
+            <p>Everything you need — hand-picked by Elegant Bride Co.</p>
             <div class="affiliate-grid">
-                <a href="https://www.amazon.com/wedding?tag=elegantbridec-20" target="_blank" class="affiliate-card"><div class="aff-icon">&#127873;</div><div class="aff-name">Amazon Registry</div><div class="aff-desc">Build your registry</div></a>
+                <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" class="affiliate-card featured"><div class="aff-icon">&#127873;</div><div class="aff-name">Amazon Registry</div><div class="aff-desc">Build your registry</div></a>
                 <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" class="affiliate-card"><div class="aff-icon">&#128507;</div><div class="aff-name">Wedding Dresses</div><div class="aff-desc">Find your dream dress</div></a>
                 <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" class="affiliate-card"><div class="aff-icon">&#9993;&#65039;</div><div class="aff-name">Invitations</div><div class="aff-desc">Beautiful invite sets</div></a>
                 <a href="https://www.elegantbrideco.com/decorations" target="_blank" class="affiliate-card"><div class="aff-icon">&#127800;</div><div class="aff-name">Wedding D&eacute;cor</div><div class="aff-desc">Style your venue</div></a>
@@ -275,17 +426,197 @@
 
 <script>
     let generatedHTML = '';
-    const loadingMessages = ['Crafting your personalized copy...','Writing your love story...','Designing your website...','Adding the finishing touches...','Almost ready...'];
-    let msgInterval;
+    let uploadedPhotos = []; // base64 encoded photos
 
-    function cycleMessages() {
-        let i = 0;
-        msgInterval = setInterval(() => {
-            i = (i + 1) % loadingMessages.length;
-            document.getElementById('loadingMessage').textContent = loadingMessages[i];
-        }, 3000);
+    // ── PHOTO UPLOAD ─────────────────────────────────────────────────────────
+    function handlePhotoUpload(event) {
+        const files = Array.from(event.target.files);
+        const remaining = 5 - uploadedPhotos.length;
+        const toProcess = files.slice(0, remaining);
+
+        toProcess.forEach(file => {
+            if (file.size > 5 * 1024 * 1024) { alert(`${file.name} is too large. Max 5MB per photo.`); return; }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedPhotos.push({ src: e.target.result, name: file.name });
+                renderPhotoThumbs();
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
+    function renderPhotoThumbs() {
+        const grid = document.getElementById('photoPreviewGrid');
+        grid.innerHTML = uploadedPhotos.map((p, i) => `
+            <div class="photo-thumb">
+                <img src="${p.src}" alt="Photo ${i+1}">
+                <button class="remove-photo" onclick="removePhoto(${i})">&#10005;</button>
+            </div>
+        `).join('');
+    }
+
+    function removePhoto(index) {
+        uploadedPhotos.splice(index, 1);
+        renderPhotoThumbs();
+    }
+
+    // ── SCHEDULE ─────────────────────────────────────────────────────────────
+    let scheduleItems = [
+        { time: '', event: '', note: '' }
+    ];
+
+    function renderSchedule() {
+        document.getElementById('scheduleItems').innerHTML = scheduleItems.map((item, i) => `
+            <div class="schedule-item">
+                <div class="field"><label>Time</label><input type="time" value="${item.time}" onchange="scheduleItems[${i}].time=this.value"></div>
+                <div class="field"><label>Event</label><input type="text" value="${item.event}" placeholder="e.g. Ceremony begins" onchange="scheduleItems[${i}].event=this.value"></div>
+                <div class="field"><label>Note <span class="hint">(optional)</span></label><input type="text" value="${item.note}" placeholder="e.g. Please be seated by 3:45" onchange="scheduleItems[${i}].note=this.value"></div>
+                <button class="remove-btn" onclick="removeScheduleItem(${i})" title="Remove">&#10005;</button>
+            </div>
+        `).join('');
+    }
+
+    function addScheduleItem() {
+        scheduleItems.push({ time: '', event: '', note: '' });
+        renderSchedule();
+    }
+
+    function removeScheduleItem(index) {
+        scheduleItems.splice(index, 1);
+        renderSchedule();
+    }
+
+    renderSchedule();
+
+    // ── WEDDING PARTY ─────────────────────────────────────────────────────────
+    let partyMembers = [];
+
+    function renderParty() {
+        document.getElementById('partyMembers').innerHTML = partyMembers.map((m, i) => `
+            <div style="background:var(--cream);border-radius:10px;padding:16px;margin-bottom:12px;border:1px solid var(--border);">
+                <div style="display:grid;grid-template-columns:80px 1fr;gap:16px;align-items:start;margin-bottom:12px;">
+                    <!-- Photo upload -->
+                    <div>
+                        <div style="width:80px;height:80px;border-radius:50%;border:2px dashed var(--border);overflow:hidden;cursor:pointer;position:relative;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;"
+                             onclick="document.getElementById('partyPhoto_${i}').click()">
+                            ${m.photo
+                                ? `<img src="${m.photo}" style="width:100%;height:100%;object-fit:cover;">`
+                                : `<span style="font-size:1.4rem;">&#128100;</span><span style="font-size:0.6rem;color:var(--text-light);text-align:center;line-height:1.2;">Add<br>Photo</span>`
+                            }
+                        </div>
+                        <input type="file" id="partyPhoto_${i}" accept="image/*" style="display:none" onchange="handlePartyPhoto(${i}, event)">
+                        ${m.photo ? `<button onclick="partyMembers[${i}].photo='';renderParty();" style="display:block;width:80px;margin-top:4px;font-size:0.65rem;color:var(--text-light);background:none;border:none;cursor:pointer;text-align:center;">Remove</button>` : ''}
+                    </div>
+                    <!-- Fields -->
+                    <div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+                            <div class="field"><label>Name</label><input type="text" value="${m.name}" placeholder="e.g. Emily Johnson" onchange="partyMembers[${i}].name=this.value"></div>
+                            <div class="field"><label>Role</label><input type="text" value="${m.role}" placeholder="e.g. Maid of Honor" onchange="partyMembers[${i}].role=this.value"></div>
+                            <div class="field"><label>Relation <span class="hint">(optional)</span></label><input type="text" value="${m.relation}" placeholder="e.g. Sister of the bride" onchange="partyMembers[${i}].relation=this.value"></div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;">
+                            <div class="field"><label>Tell us about them <span class="hint">(personality, fun facts, how you know them)</span></label><input type="text" value="${m.note}" placeholder="e.g. My college roommate who convinced me to swipe right" onchange="partyMembers[${i}].note=this.value"></div>
+                            <button class="remove-btn" onclick="removePartyMember(${i})" title="Remove" style="margin-bottom:2px;">&#10005;</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size:0.78rem;font-weight:500;color:var(--text);display:block;margin-bottom:8px;">Blurb tone for ${m.name || 'this person'}:</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        ${['Sweet','Funny','Roast','Heartfelt','Professional'].map(tone => `
+                        <label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border:1.5px solid ${m.tone===tone?'var(--blush)':'var(--border)'};border-radius:20px;cursor:pointer;font-size:0.78rem;font-weight:500;background:${m.tone===tone?'var(--blush-light)':'white'};transition:all 0.15s;">
+                            <input type="radio" name="partytone_${i}" value="${tone}" ${m.tone===tone?'checked':''} onchange="partyMembers[${i}].tone=this.value;renderParty();" style="display:none;">
+                            ${tone}
+                        </label>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function handlePartyPhoto(index, event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { alert('Photo too large. Max 5MB.'); return; }
+        // Compress to ~200x200 circle
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const SIZE = 300;
+                canvas.width = SIZE; canvas.height = SIZE;
+                const ctx = canvas.getContext('2d');
+                // Crop to square from center
+                const min = Math.min(img.width, img.height);
+                const sx = (img.width - min) / 2;
+                const sy = (img.height - min) / 2;
+                ctx.drawImage(img, sx, sy, min, min, 0, 0, SIZE, SIZE);
+                partyMembers[index].photo = canvas.toDataURL('image/jpeg', 0.75);
+                renderParty();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function addPartyMember() {
+        partyMembers.push({ name: '', role: '', relation: '', note: '', tone: 'Sweet', photo: '' });
+        renderParty();
+    }
+
+    function removePartyMember(index) {
+        partyMembers.splice(index, 1);
+        renderParty();
+    }
+
+    // ── HOTELS ───────────────────────────────────────────────────────────────
+    let hotelItems = [];
+
+    function renderHotels() {
+        document.getElementById('hotelItems').innerHTML = hotelItems.map((h, i) => `
+            <div style="background:var(--cream);border-radius:10px;padding:16px;margin-bottom:12px;border:1px solid var(--border);">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+                    <div class="field"><label>Hotel Name</label><input type="text" value="${h.name}" placeholder="e.g. Marriott Downtown" onchange="hotelItems[${i}].name=this.value"></div>
+                    <div class="field"><label>Price Range <span class="hint">(per night)</span></label>
+                        <select onchange="hotelItems[${i}].price=this.value">
+                            <option value="" ${h.price===''?'selected':''}>Select range...</option>
+                            <option value="Under $100/night" ${h.price==='Under $100/night'?'selected':''}>Under $100/night</option>
+                            <option value="$100–$150/night" ${h.price==='$100–$150/night'?'selected':''}>$100–$150/night</option>
+                            <option value="$150–$200/night" ${h.price==='$150–$200/night'?'selected':''}>$150–$200/night</option>
+                            <option value="$200–$300/night" ${h.price==='$200–$300/night'?'selected':''}>$200–$300/night</option>
+                            <option value="$300+/night" ${h.price==='$300+/night'?'selected':''}>$300+/night</option>
+                        </select>
+                    </div>
+                    <div class="field"><label>Address <span class="hint">(optional)</span></label><input type="text" value="${h.address}" placeholder="e.g. 123 Main St, Austin TX" onchange="hotelItems[${i}].address=this.value"></div>
+                    <div class="field"><label>Booking Link <span class="hint">(optional)</span></label><input type="url" value="${h.bookingUrl}" placeholder="https://..." onchange="hotelItems[${i}].bookingUrl=this.value"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div class="field" style="flex:1;margin-right:10px;"><label>Note <span class="hint">(e.g. "We have a room block — mention our wedding")</span></label><input type="text" value="${h.note}" placeholder="e.g. Ask for the Anderson wedding block rate" onchange="hotelItems[${i}].note=this.value"></div>
+                    <button class="remove-btn" onclick="removeHotel(${i})" title="Remove">&#10005;</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function addHotel() {
+        hotelItems.push({ name: '', address: '', price: '', bookingUrl: '', note: '' });
+        renderHotels();
+    }
+
+    function removeHotel(index) {
+        hotelItems.splice(index, 1);
+        renderHotels();
+    }
+
+    renderHotels();
+
+    // ── REGISTRY TOGGLE ───────────────────────────────────────────────────────
+    document.getElementById('reg-custom').addEventListener('change', function() {
+        document.getElementById('customRegistryFields').style.display = this.checked ? 'block' : 'none';
+    });
+
+    // ── THEME COLORS ──────────────────────────────────────────────────────────
     function getTheme(name) {
         const themes = {
             blush: { primary:'#D4A5A5', primaryDark:'#B88A8A', accent:'#A8B89C', bg:'#FBF8F5', light:'#F0E8E8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif" },
@@ -295,6 +626,7 @@
         return themes[name] || themes.blush;
     }
 
+    // ── BUILD WEBSITE HTML ────────────────────────────────────────────────────
     function buildWebsiteHTML(data, storyCopy) {
         const t = getTheme(data.theme);
         const wDate = data.weddingDate ? new Date(data.weddingDate + 'T12:00:00') : null;
@@ -302,32 +634,149 @@
         const fTime = data.ceremonyTime ? new Date('2000-01-01T' + data.ceremonyTime).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'}) : '';
         const reception = (data.receptionLocation && data.receptionLocation.trim()) ? data.receptionLocation : data.ceremonyLocation;
 
-        const registryHTML = (data.reg1name && data.reg1url) ? `
-        <section style="padding:80px 20px; background:${t.light};">
+        // Registry links
+        const registryLinks = {
+            amazon: { name: 'Amazon', url: data.amazonUrl || 'https://www.amazon.com/wedding/home?tag=elegantbridec-20', emoji: '&#127873;' },
+            target: { name: 'Target', url: 'https://www.target.com/gift-registry/wedding-registry', emoji: '&#127919;' },
+            walmart: { name: 'Walmart', url: 'https://www.walmart.com/cp/wedding-registry/1229486', emoji: '&#127970;' },
+            ikea: { name: 'IKEA', url: 'https://www.ikea.com/us/en/customer-service/services/wedding-list/', emoji: '&#128065;' },
+            honeyfund: { name: 'Honeyfund', url: 'https://www.honeyfund.com/', emoji: '&#127965;' },
+        };
+        if (data.customRegName && data.customRegUrl) registryLinks.custom = { name: data.customRegName, url: data.customRegUrl, emoji: '&#128279;' };
+
+        const selectedRegistries = data.selectedRegistries.map(key => registryLinks[key]).filter(Boolean);
+
+        const registrySection = selectedRegistries.length > 0 ? `
+        <section id="registry" style="padding:80px 20px;background:${t.light};">
           <div style="max-width:700px;margin:0 auto;text-align:center;">
             <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Gifts</div>
-            <h2 style="font-family:${t.headFont};font-size:2.4rem;font-weight:300;color:${t.text};margin-bottom:20px;">Registry</h2>
-            <p style="font-size:1rem;line-height:1.8;color:${t.text};opacity:0.75;max-width:500px;margin:0 auto 28px;font-weight:300;">Your presence is the greatest gift. But if you'd like to celebrate us with something special, we're registered at the following:</p>
+            <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:16px;">Registry</h2>
+            <p style="font-size:1rem;line-height:1.8;color:${t.text};opacity:0.75;max-width:500px;margin:0 auto 28px;font-weight:300;">Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:</p>
             <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-              <a href="${data.reg1url}" target="_blank" style="display:inline-block;padding:14px 32px;border-radius:50px;background:${t.primary};color:white;text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;">${data.reg1name} Registry &rarr;</a>
-              ${data.reg2name && data.reg2url ? `<a href="${data.reg2url}" target="_blank" style="display:inline-block;padding:14px 32px;border-radius:50px;background:white;color:${t.primary};border:2px solid ${t.primary};text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;">${data.reg2name} Registry &rarr;</a>` : ''}
+              ${selectedRegistries.map((r, i) => `<a href="${r.url}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:50px;${i===0 ? `background:${t.primary};color:white;` : `background:white;color:${t.primary};border:2px solid ${t.primary};`}text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;">${r.emoji} ${r.name}</a>`).join('')}
             </div>
           </div>
         </section>` : '';
 
-        const hotelCard = data.hotelInfo ? `
-          <div style="background:white;border-radius:14px;padding:24px 20px;text-align:center;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);">
-            <div style="font-size:1.6rem;margin-bottom:10px;">&#127968;</div>
-            <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Accommodations</div>
-            <div style="font-size:0.95rem;color:${t.text};line-height:1.5;">${data.hotelInfo}</div>
-          </div>` : '';
+        // Gallery section
+        const gallerySection = data.photos && data.photos.length > 0 ? `
+        <section id="gallery" style="padding:80px 20px;background:${t.bg};">
+          <div style="max-width:800px;margin:0 auto;text-align:center;">
+            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Photos</div>
+            <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:36px;">Our Gallery</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+              ${data.photos.map(p => `<div style="border-radius:12px;overflow:hidden;aspect-ratio:4/3;"><img src="${p.src}" alt="Wedding photo" style="width:100%;height:100%;object-fit:cover;"></div>`).join('')}
+            </div>
+          </div>
+        </section>` : '';
 
-        const dressCard = data.dressCode ? `
-          <div style="background:white;border-radius:14px;padding:24px 20px;text-align:center;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);">
-            <div style="font-size:1.6rem;margin-bottom:10px;">&#128507;</div>
-            <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Dress Code</div>
-            <div style="font-size:0.95rem;color:${t.text};line-height:1.5;">${data.dressCode}</div>
-          </div>` : '';
+        // Schedule section
+        const validSchedule = data.schedule.filter(s => s.time && s.event);
+        const scheduleSection = validSchedule.length > 0 ? `
+        <section id="schedule" style="padding:80px 20px;background:${t.light};">
+          <div style="max-width:600px;margin:0 auto;text-align:center;">
+            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">When &amp; What</div>
+            <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:36px;">Day-of Schedule</h2>
+            <div style="text-align:left;">
+              ${validSchedule.map(s => {
+                const fTime = new Date('2000-01-01T' + s.time).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'});
+                return `<div style="display:flex;gap:20px;margin-bottom:24px;align-items:flex-start;">
+                  <div style="min-width:80px;text-align:right;font-size:0.85rem;font-weight:600;color:${t.primary};padding-top:2px;">${fTime}</div>
+                  <div style="width:10px;height:10px;border-radius:50%;background:${t.primary};flex-shrink:0;margin-top:4px;box-shadow:0 0 0 3px ${t.light},0 0 0 4px ${t.primary};"></div>
+                  <div>
+                    <div style="font-weight:500;color:${t.text};">${s.event}</div>
+                    ${s.note ? `<div style="font-size:0.85rem;color:${t.text};opacity:0.55;margin-top:2px;">${s.note}</div>` : ''}
+                  </div>
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
+        </section>` : '';
+
+        // Wedding party section
+        const validParty = data.partyMembers.filter(p => p.name && p.role);
+        const partySection = validParty.length > 0 ? `
+        <section id="party" style="padding:80px 20px;background:${t.bg};">
+          <div style="max-width:860px;margin:0 auto;text-align:center;">
+            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">The People</div>
+            <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:36px;">Wedding Party</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;text-align:left;">
+              ${validParty.map(p => `
+                <div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);text-align:center;">
+                  ${p.photo
+                    ? `<img src="${p.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid ${t.light};">`
+                    : `<div style="width:80px;height:80px;border-radius:50%;background:${t.light};margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;">&#128100;</div>`
+                  }
+                  <div style="font-weight:600;color:${t.text};margin-bottom:2px;font-size:1rem;">${p.name}</div>
+                  <div style="font-size:0.72rem;color:${t.primary};font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">${p.role}</div>
+                  ${p.relation ? `<div style="font-size:0.78rem;color:${t.text};opacity:0.45;margin-bottom:10px;">${p.relation}</div>` : '<div style="margin-bottom:10px;"></div>'}
+                  ${data.partyBlurbs && data.partyBlurbs[p.name] ? `<div style="font-size:0.85rem;color:${t.text};opacity:0.7;line-height:1.6;font-style:italic;border-top:1px solid rgba(0,0,0,0.06);padding-top:10px;text-align:left;">"${data.partyBlurbs[p.name]}"</div>` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </section>` : '';
+
+        // Map + Hotels section
+        const ceremonyAddr = data.ceremonyAddress || data.ceremonyLocation;
+        const receptionAddr = (data.receptionAddress && data.receptionAddress.trim()) ? data.receptionAddress : (data.receptionLocation && data.receptionLocation !== data.ceremonyLocation ? data.receptionLocation : null);
+        const hasDualMap = ceremonyAddr && receptionAddr;
+
+        const validHotels = (data.hotels || []).filter(h => h.name);
+
+        const mapSection = (ceremonyAddr || validHotels.length > 0) ? `
+        <section style="padding:80px 20px;background:${t.light};">
+          <div style="max-width:860px;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:40px;">
+              <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Getting There</div>
+              <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};">Travel &amp; Accommodations</h2>
+            </div>
+
+            ${ceremonyAddr ? `
+            <div style="${hasDualMap ? 'display:grid;grid-template-columns:1fr 1fr;gap:24px;' : ''}margin-bottom:${validHotels.length > 0 ? '40px' : '0'};">
+              <div>
+                <div style="font-weight:600;color:${t.text};margin-bottom:6px;font-size:0.9rem;">&#128146; Ceremony</div>
+                <div style="font-size:0.85rem;color:${t.text};opacity:0.6;margin-bottom:10px;">${ceremonyAddr}</div>
+                <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+                  <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(ceremonyAddr)}&output=embed&z=15" width="100%" height="280" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
+                </div>
+              </div>
+              ${hasDualMap ? `
+              <div>
+                <div style="font-weight:600;color:${t.text};margin-bottom:6px;font-size:0.9rem;">&#127942; Reception</div>
+                <div style="font-size:0.85rem;color:${t.text};opacity:0.6;margin-bottom:10px;">${receptionAddr}</div>
+                <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+                  <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(receptionAddr)}&output=embed&z=15" width="100%" height="280" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
+                </div>
+              </div>` : ''}
+            </div>` : ''}
+
+            ${validHotels.length > 0 ? `
+            <div>
+              <h3 style="font-family:${t.headFont};font-size:1.4rem;font-weight:400;color:${t.text};margin-bottom:20px;text-align:center;">&#127968; Recommended Hotels</h3>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+                ${validHotels.map(h => `
+                <div style="background:white;border-radius:12px;padding:20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+                  <div style="font-weight:600;color:${t.text};font-size:0.95rem;margin-bottom:4px;">${h.name}</div>
+                  ${h.price ? `<div style="font-size:0.78rem;color:${t.primary};font-weight:600;margin-bottom:6px;">${h.price}</div>` : ''}
+                  ${h.address ? `<div style="font-size:0.8rem;color:${t.text};opacity:0.55;margin-bottom:8px;">&#128205; ${h.address}</div>` : ''}
+                  ${h.note ? `<div style="font-size:0.82rem;color:${t.text};opacity:0.7;font-style:italic;margin-bottom:12px;">${h.note}</div>` : ''}
+                  ${h.bookingUrl ? `<a href="${h.bookingUrl}" target="_blank" style="display:inline-block;padding:8px 18px;background:${t.primary};color:white;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:500;">Book Now &rarr;</a>` : ''}
+                </div>`).join('')}
+              </div>
+            </div>` : ''}
+          </div>
+        </section>` : '';
+
+        // Build nav links
+        const navLinks = [
+            '<a href="#story" onclick="event.preventDefault();document.getElementById(\'story\').scrollIntoView({behavior:\'smooth\'});">Our Story</a>',
+            '<a href="#details" onclick="event.preventDefault();document.getElementById(\'details\').scrollIntoView({behavior:\'smooth\'});">Details</a>',
+            validSchedule.length > 0 ? '<a href="#schedule" onclick="event.preventDefault();document.getElementById(\'schedule\').scrollIntoView({behavior:\'smooth\'});">Schedule</a>' : '',
+            validParty.length > 0 ? '<a href="#party" onclick="event.preventDefault();document.getElementById(\'party\').scrollIntoView({behavior:\'smooth\'});">Wedding Party</a>' : '',
+            data.photos && data.photos.length > 0 ? '<a href="#gallery" onclick="event.preventDefault();document.getElementById(\'gallery\').scrollIntoView({behavior:\'smooth\'});">Gallery</a>' : '',
+            selectedRegistries.length > 0 ? '<a href="#registry" onclick="event.preventDefault();document.getElementById(\'registry\').scrollIntoView({behavior:\'smooth\'});">Registry</a>' : '',
+        ].filter(Boolean).join('\n    ');
 
         return `<!DOCTYPE html>
 <html lang="en">
@@ -339,13 +788,13 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:${t.bodyFont};background:${t.bg};color:${t.text};}
-nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);z-index:100;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:60px;}
-.nav-names{font-family:${t.headFont};font-size:1.2rem;color:${t.primary};font-weight:400;}
-.nav-links{display:flex;gap:28px;}
-.nav-links a{text-decoration:none;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:${t.text};opacity:0.65;font-weight:500;transition:opacity 0.2s;}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);z-index:100;padding:0 30px;display:flex;align-items:center;justify-content:space-between;height:58px;}
+.nav-names{font-family:${t.headFont};font-size:1.1rem;color:${t.primary};font-weight:400;white-space:nowrap;}
+.nav-links{display:flex;gap:20px;overflow-x:auto;}
+.nav-links a{text-decoration:none;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:${t.text};opacity:0.65;font-weight:500;transition:opacity 0.2s;white-space:nowrap;cursor:pointer;}
 .nav-links a:hover{opacity:1;color:${t.primary};}
 @keyframes floatDown{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
-@media(max-width:600px){nav{padding:0 20px;}.nav-links{gap:16px;}.nav-links a{font-size:0.7rem;}}
+@media(max-width:600px){nav{padding:0 16px;}.nav-links{gap:12px;}}
 </style>
 </head>
 <body>
@@ -353,9 +802,7 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdr
 <nav>
   <div class="nav-names">${data.name1} &amp; ${data.name2}</div>
   <div class="nav-links">
-    <a href="#story" onclick="event.preventDefault();document.getElementById('story').scrollIntoView({behavior:'smooth'});return false;">Our Story</a>
-    <a href="#details" onclick="event.preventDefault();document.getElementById('details').scrollIntoView({behavior:'smooth'});return false;">Details</a>
-    ${data.reg1name && data.reg1url ? '<a href="#registry" onclick="event.preventDefault();document.getElementById(\'registry\').scrollIntoView({behavior:\'smooth\'});return false;">Registry</a>' : ''}
+    ${navLinks}
   </div>
 </nav>
 
@@ -369,9 +816,9 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdr
     </div>
     ${data.ceremonyLocation ? `<div style="font-size:1rem;color:${t.text};opacity:0.5;letter-spacing:0.06em;margin-bottom:40px;">${data.ceremonyLocation}</div>` : ''}
     <div style="display:inline-flex;align-items:center;gap:12px;font-size:0.8rem;color:${t.primary};letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">
-      <span style="display:block;width:60px;height:1px;background:${t.primary};opacity:0.4;"></span>
+      <span style="display:block;width:50px;height:1px;background:${t.primary};opacity:0.4;"></span>
       We&rsquo;re getting married
-      <span style="display:block;width:60px;height:1px;background:${t.primary};opacity:0.4;"></span>
+      <span style="display:block;width:50px;height:1px;background:${t.primary};opacity:0.4;"></span>
     </div>
   </div>
   <div style="position:absolute;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:6px;color:${t.text};opacity:0.25;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;animation:floatDown 2.5s ease-in-out infinite;">
@@ -393,21 +840,25 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdr
 </section>
 
 <!-- DETAILS -->
-<section id="details" style="padding:90px 20px;background:${t.light};">
-  <div style="max-width:700px;margin:0 auto;text-align:center;">
+<section id="details" style="padding:80px 20px;background:${t.light};">
+  <div style="max-width:750px;margin:0 auto;text-align:center;">
     <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">The Big Day</div>
     <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:36px;line-height:1.2;">Wedding Details</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;text-align:center;">
-      ${fDate ? `<div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.6rem;margin-bottom:10px;">&#128197;</div><div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Date</div><div style="font-size:0.9rem;color:${t.text};line-height:1.5;">${fDate}</div></div>` : ''}
-      <div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.6rem;margin-bottom:10px;">&#128146;</div><div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Ceremony</div><div style="font-size:0.9rem;color:${t.text};line-height:1.5;">${data.ceremonyLocation || 'TBA'}${fTime ? '<br>' + fTime : ''}</div></div>
-      <div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.6rem;margin-bottom:10px;">&#127942;</div><div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Reception</div><div style="font-size:0.9rem;color:${t.text};line-height:1.5;">${reception || 'TBA'}</div></div>
-      ${dressCard}
-      ${hotelCard}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;text-align:center;">
+      ${fDate ? `<div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128197;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Date</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${fDate}</div></div>` : ''}
+      <div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128146;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Ceremony</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${data.ceremonyLocation || 'TBA'}${fTime ? '<br>' + fTime : ''}</div></div>
+      <div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#127942;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Reception</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${reception || 'TBA'}</div></div>
+      ${data.dressCode ? `<div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128507;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Dress Code</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${data.dressCode}</div></div>` : ''}
+      
     </div>
   </div>
 </section>
 
-${registryHTML ? registryHTML.replace('<section ', '<section id="registry" ') : ''}
+${scheduleSection}
+${partySection}
+${gallerySection}
+${mapSection}
+${registrySection}
 
 <footer style="background:${t.text};color:white;text-align:center;padding:50px 20px;">
   <div style="font-family:${t.headFont};font-size:2rem;font-weight:300;margin-bottom:8px;opacity:0.9;">${data.name1} &amp; ${data.name2}</div>
@@ -415,9 +866,12 @@ ${registryHTML ? registryHTML.replace('<section ', '<section id="registry" ') : 
   <div style="font-size:0.72rem;opacity:0.25;letter-spacing:0.08em;">Website created with <a href="https://www.elegantbrideco.com" target="_blank" style="color:white;">Elegant Bride Co.</a></div>
 </footer>
 
-
 </body></html>`;
     }
+
+    // ── GENERATE ──────────────────────────────────────────────────────────────
+    const loadingMessages = ['Writing your love story...','Designing your website...','Building your gallery...','Adding the finishing touches...','Almost ready...'];
+    let msgInterval;
 
     async function generateWebsite() {
         const data = {
@@ -425,19 +879,25 @@ ${registryHTML ? registryHTML.replace('<section ', '<section id="registry" ') : 
             name2: document.getElementById('name2').value.trim(),
             weddingDate: document.getElementById('weddingDate').value,
             ceremonyLocation: document.getElementById('ceremonyLocation').value.trim(),
+            ceremonyAddress: document.getElementById('ceremonyAddress').value.trim(),
             ceremonyTime: document.getElementById('ceremonyTime').value,
             receptionLocation: document.getElementById('receptionLocation').value.trim(),
+            receptionAddress: document.getElementById('receptionAddress').value.trim(),
             dressCode: document.getElementById('dressCode').value,
-            hotelInfo: document.getElementById('hotelInfo').value.trim(),
+            hotelInfo: '',
             howMet: document.getElementById('howMet').value.trim(),
             proposal: document.getElementById('proposal').value.trim(),
             extraDetails: document.getElementById('extraDetails').value.trim(),
             tone: document.querySelector('input[name="tone"]:checked').value,
             theme: document.querySelector('input[name="theme"]:checked').value,
-            reg1name: document.getElementById('reg1name').value.trim(),
-            reg1url: document.getElementById('reg1url').value.trim(),
-            reg2name: document.getElementById('reg2name').value.trim(),
-            reg2url: document.getElementById('reg2url').value.trim(),
+            amazonUrl: document.getElementById('amazonUrl').value.trim(),
+            customRegName: document.getElementById('customRegName').value.trim(),
+            customRegUrl: document.getElementById('customRegUrl').value.trim(),
+            selectedRegistries: Array.from(document.querySelectorAll('input[name="registry"]:checked')).map(cb => cb.value),
+            photos: uploadedPhotos,
+            schedule: scheduleItems,
+            partyMembers: partyMembers,
+            hotels: hotelItems,
         };
 
         if (!data.name1 || !data.name2) { alert('Please enter both names!'); return; }
@@ -446,7 +906,12 @@ ${registryHTML ? registryHTML.replace('<section ', '<section id="registry" ') : 
         document.getElementById('formSection').style.display = 'none';
         document.getElementById('loadingState').classList.add('visible');
         document.getElementById('resultSection').classList.remove('visible');
-        cycleMessages();
+
+        let mi = 0;
+        msgInterval = setInterval(() => {
+            mi = (mi + 1) % loadingMessages.length;
+            document.getElementById('loadingMessage').textContent = loadingMessages[mi];
+        }, 3000);
 
         document.getElementById('step1indicator').classList.remove('active');
         document.getElementById('step1indicator').classList.add('done');
@@ -455,10 +920,22 @@ ${registryHTML ? registryHTML.replace('<section ', '<section id="registry" ') : 
         const toneGuide = {
             romantic: 'Warm, poetic, deeply heartfelt. Use evocative language and paint a picture of their love.',
             humorous: 'Funny, lighthearted, witty. Include gentle humor. Make guests laugh while still feeling the love.',
-            modern: 'Clean, direct, confident. No flowery language. Genuine and concise like a couple who knows who they are.',
-            whimsical: 'Dreamy, fairytale-inspired, full of imagery and metaphor. Like the opening of a beautiful storybook.',
-            classic: 'Timeless, elegant, graceful. The kind of story that belongs in a beautifully printed keepsake.'
+            modern: 'Clean, direct, confident. No flowery language. Genuine and concise.',
+            whimsical: 'Dreamy, fairytale-inspired, full of imagery and metaphor.',
+            classic: 'Timeless, elegant, graceful. Like a story in a beautifully printed keepsake.'
         };
+
+        // Build party blurb instructions
+        const partyWithNotes = data.partyMembers.filter(p => p.name && p.role);
+        const partyInstruction = partyWithNotes.length > 0 ? `
+
+Also write a short 2-3 sentence blurb for each wedding party member below. Match the tone specified for each person. After the story HTML, output the blurbs in this exact format:
+PARTY_BLURBS_START
+[{"name":"...","blurb":"..."}]
+PARTY_BLURBS_END
+
+Wedding party:
+${partyWithNotes.map(p => `- ${p.name} (${p.role}${p.relation ? ', ' + p.relation : ''}): Tone: ${p.tone || 'Sweet'}. About them: ${p.note || 'No info provided'}`).join('\n')}` : '';
 
         const prompt = `Write the "Our Story" section for ${data.name1} and ${data.name2}'s wedding website.
 
@@ -468,9 +945,9 @@ Extra details: ${data.extraDetails || 'None'}
 
 Tone: ${toneGuide[data.tone]}
 
-Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped in: <div class="story-pull" style="font-style:italic;text-align:center;padding:28px 0;border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin:32px 0;opacity:0.8;font-size:1.2rem;line-height:1.5;">quote here</div>
+Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped in: <div class="story-pull" style="font-style:italic;text-align:center;padding:28px 0;border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin:32px 0;opacity:0.8;font-size:1.15rem;line-height:1.5;font-family:Georgia,serif;">quote here</div>${partyInstruction}
 
-Output only the HTML. No headings, no labels, no explanation.`;
+Output the story HTML first. Nothing else unless party blurbs were requested.`;
 
         try {
             const res = await fetch('/.netlify/functions/generate', {
@@ -479,7 +956,19 @@ Output only the HTML. No headings, no labels, no explanation.`;
                 body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
             });
             const result = await res.json();
-            const storyCopy = result.content?.[0]?.text || '<p>A beautiful love story, written in the stars.</p>';
+            const rawText = result.content?.[0]?.text || '<p>A beautiful love story, written in the stars.</p>';
+            let storyCopy = rawText;
+            let partyBlurbs = {};
+            if (rawText.includes('PARTY_BLURBS_START')) {
+                const parts = rawText.split('PARTY_BLURBS_START');
+                storyCopy = parts[0].trim();
+                try {
+                    const jsonPart = parts[1].split('PARTY_BLURBS_END')[0].trim();
+                    const blurbArr = JSON.parse(jsonPart);
+                    blurbArr.forEach(b => { partyBlurbs[b.name] = b.blurb; });
+                } catch(e) { console.warn('Could not parse party blurbs', e); }
+            }
+            data.partyBlurbs = partyBlurbs;
 
             clearInterval(msgInterval);
             document.getElementById('step2indicator').classList.remove('active');
@@ -490,6 +979,7 @@ Output only the HTML. No headings, no labels, no explanation.`;
 
             const iframe = document.getElementById('previewFrame');
             iframe.srcdoc = generatedHTML;
+            document.getElementById('previewUrl').textContent = `${data.name1.toLowerCase()}-${data.name2.toLowerCase()}.netlify.app — preview`;
 
             document.getElementById('loadingState').classList.remove('visible');
             document.getElementById('resultSection').classList.add('visible');
@@ -520,13 +1010,21 @@ Output only the HTML. No headings, no labels, no explanation.`;
         navigator.clipboard.writeText(generatedHTML).then(() => {
             const btn = document.querySelector('.btn-sage');
             const orig = btn.innerHTML;
-            btn.textContent = '&#10003; Copied!';
+            btn.textContent = 'Copied!';
             setTimeout(() => btn.innerHTML = orig, 2000);
         });
     }
 
-        function resetForm() {
+    function resetForm() {
         generatedHTML = '';
+        uploadedPhotos = [];
+        scheduleItems = [{ time: '', event: '', note: '' }];
+        partyMembers = [];
+        hotelItems = [];
+        renderSchedule();
+        renderParty();
+        renderHotels();
+        renderPhotoThumbs();
         document.getElementById('formSection').style.display = 'block';
         document.getElementById('resultSection').classList.remove('visible');
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active','done'));
@@ -534,6 +1032,5 @@ Output only the HTML. No headings, no labels, no explanation.`;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
-
 </body>
 </html>
