@@ -204,6 +204,18 @@
                 <div class="field"><label>Your Name <span class="hint">(Partner 1)</span></label><input type="text" id="name1" placeholder="e.g. Sarah"></div>
                 <div class="field"><label>Their Name <span class="hint">(Partner 2)</span></label><input type="text" id="name2" placeholder="e.g. James"></div>
             </div>
+            <div style="margin-top:16px;">
+                <label style="font-size:0.82rem;font-weight:500;color:var(--text);display:block;margin-bottom:8px;">Couple Photo <span style="font-weight:300;color:var(--text-light);">(optional — displays as a banner at the top of your website)</span></label>
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div id="heroPhotoPreview" style="width:90px;height:90px;border-radius:12px;border:2px dashed var(--border);overflow:hidden;cursor:pointer;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;flex-shrink:0;" onclick="document.getElementById('heroPhotoInput').click()">
+                        <span style="font-size:1.6rem;">📷</span>
+                        <span style="font-size:0.62rem;color:var(--text-light);text-align:center;line-height:1.3;">Add<br>Photo</span>
+                    </div>
+                    <div style="font-size:0.8rem;color:var(--text-light);line-height:1.6;">A beautiful photo of you two will appear as a full-width banner behind your names. Landscape photos work best.</div>
+                </div>
+                <input type="file" id="heroPhotoInput" accept="image/*" style="display:none" onchange="handleHeroPhoto(event)">
+                <div id="heroRemoveBtn" style="display:none;margin-top:8px;"><button onclick="heroPhoto='';document.getElementById('heroPhotoPreview').innerHTML='<span style=\\'font-size:1.6rem;\\'>📷</span><span style=\\'font-size:0.62rem;color:var(--text-light);text-align:center;\\'>Add Photo</span>';document.getElementById('heroRemoveBtn').style.display='none';" style="font-size:0.75rem;color:var(--text-light);background:none;border:none;cursor:pointer;text-decoration:underline;">✕ Remove photo</button></div>
+            </div>
         </div>
 
         <!-- SECTION 2: PHOTOS -->
@@ -274,65 +286,37 @@
         <!-- SECTION 6: REGISTRY -->
         <div class="form-section">
             <div class="section-label">Section 06</div>
-            <div class="section-title">Registry</div>
-            <p class="section-desc">Select your registries. Amazon is listed first as the top recommendation — it's the most convenient option for guests!</p>
-            <div class="registry-preset-grid">
-                <div>
-                    <input type="checkbox" name="registry" id="reg-amazon" value="amazon" class="registry-preset" checked>
-                    <label for="reg-amazon" class="registry-preset-label">
-                        <div class="reg-icon">&#127873;</div>
-                        <span class="reg-name">Amazon</span>
-                        <span class="reg-badge">&#9733; Top Pick</span>
-                    </label>
-                </div>
-                <div>
-                    <input type="checkbox" name="registry" id="reg-target" value="target" class="registry-preset">
-                    <label for="reg-target" class="registry-preset-label">
-                        <div class="reg-icon">&#127919;</div>
-                        <span class="reg-name">Target</span>
-                        <span class="reg-badge">&nbsp;</span>
-                    </label>
-                </div>
-                <div>
-                    <input type="checkbox" name="registry" id="reg-walmart" value="walmart" class="registry-preset">
-                    <label for="reg-walmart" class="registry-preset-label">
-                        <div class="reg-icon">&#127970;</div>
-                        <span class="reg-name">Walmart</span>
-                        <span class="reg-badge">&nbsp;</span>
-                    </label>
-                </div>
-                <div>
-                    <input type="checkbox" name="registry" id="reg-ikea" value="ikea" class="registry-preset">
-                    <label for="reg-ikea" class="registry-preset-label">
-                        <div class="reg-icon">&#128065;</div>
-                        <span class="reg-name">IKEA</span>
-                        <span class="reg-badge">&nbsp;</span>
-                    </label>
-                </div>
-                <div>
-                    <input type="checkbox" name="registry" id="reg-honeyfund" value="honeyfund" class="registry-preset">
-                    <label for="reg-honeyfund" class="registry-preset-label">
-                        <div class="reg-icon">&#127965;</div>
-                        <span class="reg-name">Honeyfund</span>
-                        <span class="reg-badge">&nbsp;</span>
-                    </label>
-                </div>
-                <div>
-                    <input type="checkbox" name="registry" id="reg-custom" value="custom" class="registry-preset">
-                    <label for="reg-custom" class="registry-preset-label">
-                        <div class="reg-icon">&#128279;</div>
-                        <span class="reg-name">Other</span>
-                        <span class="reg-badge">&nbsp;</span>
-                    </label>
-                </div>
+            <div class="section-title">Registry <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
+            <p class="section-desc">Which registries would you like to include on your website?</p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+                <label style="display:flex;align-items:center;gap:14px;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);" id="reg-amazon-wrap">
+                    <input type="checkbox" id="reg-amazon" name="registry" value="amazon" checked onchange="updateRegStyle('amazon',this.checked)" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
+                    <div style="flex:1;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="font-weight:600;color:var(--text);font-size:0.95rem;">Amazon Registry</span>
+                            <span style="background:var(--sage);color:white;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase;">★ Recommended</span>
+                        </div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Largest selection, easy for guests, fast shipping</div>
+                    </div>
+                </label>
+                <label style="display:flex;align-items:center;gap:14px;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);" id="reg-honeyfund-wrap">
+                    <input type="checkbox" id="reg-honeyfund" name="registry" value="honeyfund" onchange="updateRegStyle('honeyfund',this.checked)" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
+                    <div style="flex:1;">
+                        <div style="font-weight:600;color:var(--text);font-size:0.95rem;">Honeyfund</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Let guests contribute to your honeymoon or experiences</div>
+                    </div>
+                </label>
+                <label style="display:flex;align-items:center;gap:14px;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);" id="reg-custom-wrap">
+                    <input type="checkbox" id="reg-custom" name="registry" value="custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
+                    <div style="flex:1;">
+                        <div style="font-weight:600;color:var(--text);font-size:0.95rem;">Other Registry</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Target, Walmart, Crate &amp; Barrel, Zola, etc.</div>
+                    </div>
+                </label>
             </div>
-            <div id="amazonUrlField" class="field" style="margin-bottom:12px;">
-                <label>Your Amazon Registry URL <span class="hint">(paste your personal registry link)</span></label>
-                <input type="url" id="amazonUrl" placeholder="https://www.amazon.com/wedding/registry/...">
-            </div>
-            <div id="customRegistryFields" style="display:none;">
-                <div class="custom-registry">
-                    <div class="field"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Crate &amp; Barrel"></div>
+            <div id="customRegistryFields" style="display:none;margin-top:14px;">
+                <div class="field-grid">
+                    <div class="field"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Target"></div>
                     <div class="field"><label>Registry URL</label><input type="url" id="customRegUrl" placeholder="https://..."></div>
                 </div>
             </div>
@@ -370,7 +354,11 @@
             <div class="theme-grid">
                 <div><input type="radio" name="theme" id="theme-blush" value="blush" class="theme-option" checked><label for="theme-blush" class="theme-label"><div class="theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="theme-info"><strong>Blush &amp; Sage</strong><small>Soft, romantic, elegant</small></div></label></div>
                 <div><input type="radio" name="theme" id="theme-navy" value="navy" class="theme-option"><label for="theme-navy" class="theme-label"><div class="theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="theme-info"><strong>Navy &amp; Gold</strong><small>Classic, formal, timeless</small></div></label></div>
-                <div><input type="radio" name="theme" id="theme-sage" value="sage" class="theme-option"><label for="theme-sage" class="theme-label"><div class="theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="theme-info"><strong>Forest &amp; Linen</strong><small>Natural, earthy, boho</small></div></label></div>
+                <div><input type="radio" name="theme" id="theme-sage" value="sage" class="theme-option"><label for="theme-sage" class="theme-label"><div class="theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="theme-info"><strong>Forest &amp; Linen</strong><small>Natural, earthy, serene</small></div></label></div>
+                <div><input type="radio" name="theme" id="theme-ivory" value="ivory" class="theme-option"><label for="theme-ivory" class="theme-label"><div class="theme-swatch"><span style="background:#B5A898;"></span><span style="background:#FAFAF7;"></span><span style="background:#C8B89A;"></span></div><div class="theme-info"><strong>Ivory &amp; Champagne</strong><small>Neutral, clean, timeless</small></div></label></div>
+                <div><input type="radio" name="theme" id="theme-dustyrose" value="dustyrose" class="theme-option"><label for="theme-dustyrose" class="theme-label"><div class="theme-swatch"><span style="background:#C2848A;"></span><span style="background:#FDF8F8;"></span><span style="background:#9B7B8C;"></span></div><div class="theme-info"><strong>Dusty Rose &amp; Mauve</strong><small>Romantic, moody ✿ floral accents</small></div></label></div>
+                <div><input type="radio" name="theme" id="theme-lavender" value="lavender" class="theme-option"><label for="theme-lavender" class="theme-label"><div class="theme-swatch"><span style="background:#9B8EC4;"></span><span style="background:#F8F7FC;"></span><span style="background:#B8A8C8;"></span></div><div class="theme-info"><strong>Lavender &amp; Silver</strong><small>Dreamy, soft ✿ floral accents</small></div></label></div>
+            </div>
             </div>
         </div>
 
@@ -396,6 +384,28 @@
             <button class="btn-action btn-sage" onclick="copyWebsite()">&#128203; Copy HTML</button>
             <button class="btn-action btn-secondary" onclick="resetForm()">&#8617; Start Over</button>
         </div>
+
+        <!-- THEME SWITCHER -->
+        <div style="background:white;border-radius:14px;padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);">
+            <div style="font-size:0.78rem;font-weight:600;color:var(--text);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:14px;">🎨 Switch Color Theme</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                ${['blush','navy','sage','ivory','dustyrose','lavender'].map(th => {
+                    const labels = {blush:'Blush & Sage',navy:'Navy & Gold',sage:'Forest & Linen',ivory:'Ivory & Champagne',dustyrose:'Dusty Rose',lavender:'Lavender & Silver'};
+                    return `<button onclick="switchTheme('${th}')" id="themeBtn_${th}" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;" title="Switch to this theme">${labels[th]}</button>`;
+                }).join('')}
+            </div>
+        </div>
+
+        <!-- EDITABLE STORY -->
+        <div style="background:white;border-radius:14px;padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <div style="font-size:0.78rem;font-weight:600;color:var(--text);letter-spacing:0.08em;text-transform:uppercase;">✏️ Edit Your Story</div>
+                <button onclick="applyStoryEdit()" style="padding:7px 18px;background:var(--sage);color:white;border:none;border-radius:20px;cursor:pointer;font-size:0.8rem;font-weight:500;">Apply Changes</button>
+            </div>
+            <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:10px;">The AI wrote your story — tweak any wording here, then click Apply Changes to update your preview.</p>
+            <div id="storyEditor" contenteditable="true" style="border:1.5px solid var(--border);border-radius:8px;padding:14px;min-height:120px;font-size:0.9rem;line-height:1.8;color:var(--text);outline:none;"></div>
+        </div>
+
         <div class="preview-frame-wrap">
             <div class="preview-bar">
                 <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
@@ -426,7 +436,34 @@
 
 <script>
     let generatedHTML = '';
-    let uploadedPhotos = []; // base64 encoded photos
+    let generatedData = null;
+    let generatedStoryCopy = '';
+    let uploadedPhotos = [];
+    let heroPhoto = '';
+
+    function handleHeroPhoto(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_W = 1400, MAX_H = 700;
+                let w = img.width, h = img.height;
+                if (w > MAX_W) { h = h * MAX_W / w; w = MAX_W; }
+                if (h > MAX_H) { w = w * MAX_H / h; h = MAX_H; }
+                canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                heroPhoto = canvas.toDataURL('image/jpeg', 0.82);
+                const preview = document.getElementById('heroPhotoPreview');
+                preview.innerHTML = `<img src="${heroPhoto}" style="width:100%;height:100%;object-fit:cover;">`;
+                document.getElementById('heroRemoveBtn').style.display = 'block';
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    } // base64 encoded photos
 
     // ── PHOTO UPLOAD ─────────────────────────────────────────────────────────
     function handlePhotoUpload(event) {
@@ -611,6 +648,17 @@
 
     renderHotels();
 
+    // ── REGISTRY ─────────────────────────────────────────────────────────────
+    function updateRegStyle(id, checked) {
+        const wrap = document.getElementById('reg-' + id + '-wrap');
+        if (wrap) {
+            wrap.style.borderColor = checked ? 'var(--blush)' : 'var(--border)';
+            wrap.style.background = checked ? 'var(--blush-light, #fdf0f0)' : 'var(--cream)';
+        }
+    }
+    // Init Amazon as checked
+    updateRegStyle('amazon', true);
+
     // ── REGISTRY TOGGLE ───────────────────────────────────────────────────────
     document.getElementById('reg-custom').addEventListener('change', function() {
         document.getElementById('customRegistryFields').style.display = this.checked ? 'block' : 'none';
@@ -619,9 +667,12 @@
     // ── THEME COLORS ──────────────────────────────────────────────────────────
     function getTheme(name) {
         const themes = {
-            blush: { primary:'#D4A5A5', primaryDark:'#B88A8A', accent:'#A8B89C', bg:'#FBF8F5', light:'#F0E8E8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif" },
-            navy:  { primary:'#2C3E5D', primaryDark:'#1E2D45', accent:'#C9A96E', bg:'#F5F0E8', light:'#E8E0D0', text:'#2C3040', headFont:"'Playfair Display', serif", bodyFont:"'Lato', sans-serif" },
-            sage:  { primary:'#7A9E7E', primaryDark:'#5E8563', accent:'#C4A882', bg:'#F7F5F0', light:'#E0EAE0', text:'#3A3830', headFont:"'Cormorant Garamond', serif", bodyFont:"'Raleway', sans-serif" }
+            blush:    { primary:'#D4A5A5', primaryDark:'#B88A8A', accent:'#A8B89C', bg:'#FBF8F5', light:'#F0E8E8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:false },
+            navy:     { primary:'#2C3E5D', primaryDark:'#1E2D45', accent:'#C9A96E', bg:'#F5F0E8', light:'#E8E0D0', text:'#2C3040', headFont:"'Playfair Display', serif", bodyFont:"'Lato', sans-serif", floral:false },
+            sage:     { primary:'#7A9E7E', primaryDark:'#5E8563', accent:'#C4A882', bg:'#F7F5F0', light:'#E0EAE0', text:'#3A3830', headFont:"'Cormorant Garamond', serif", bodyFont:"'Raleway', sans-serif", floral:false },
+            ivory:    { primary:'#B5A898', primaryDark:'#9A8D7E', accent:'#C8B89A', bg:'#FAFAF7', light:'#F0EDE8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:false },
+            dustyrose:{ primary:'#C2848A', primaryDark:'#A96870', accent:'#9B7B8C', bg:'#FDF8F8', light:'#F5E8EC', text:'#4A3840', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:true },
+            lavender: { primary:'#9B8EC4', primaryDark:'#7B6EA4', accent:'#B8A8C8', bg:'#F8F7FC', light:'#EDE8F5', text:'#3A3848', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:true }
         };
         return themes[name] || themes.blush;
     }
@@ -634,12 +685,17 @@
         const fTime = data.ceremonyTime ? new Date('2000-01-01T' + data.ceremonyTime).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'}) : '';
         const reception = (data.receptionLocation && data.receptionLocation.trim()) ? data.receptionLocation : data.ceremonyLocation;
 
+        // Map variables (used in details section)
+        const ceremonyAddr = data.ceremonyAddress || data.ceremonyLocation;
+        const receptionAddr = (data.receptionAddress && data.receptionAddress.trim()) ? data.receptionAddress : (data.receptionLocation && data.receptionLocation !== data.ceremonyLocation ? data.receptionLocation : null);
+        const hasDualMap = ceremonyAddr && receptionAddr;
+
+        // Hotels
+        const validHotels = (data.hotels || []).filter(h => h.name);
+
         // Registry links
         const registryLinks = {
-            amazon: { name: 'Amazon', url: data.amazonUrl || 'https://www.amazon.com/wedding/home?tag=elegantbridec-20', emoji: '&#127873;' },
-            target: { name: 'Target', url: 'https://www.target.com/gift-registry/wedding-registry', emoji: '&#127919;' },
-            walmart: { name: 'Walmart', url: 'https://www.walmart.com/cp/wedding-registry/1229486', emoji: '&#127970;' },
-            ikea: { name: 'IKEA', url: 'https://www.ikea.com/us/en/customer-service/services/wedding-list/', emoji: '&#128065;' },
+            amazon:    { name: 'Amazon Registry', url: 'https://www.amazon.com/wedding/home?tag=elegantbridec-20', emoji: '&#127873;' },
             honeyfund: { name: 'Honeyfund', url: 'https://www.honeyfund.com/', emoji: '&#127965;' },
         };
         if (data.customRegName && data.customRegUrl) registryLinks.custom = { name: data.customRegName, url: data.customRegUrl, emoji: '&#128279;' };
@@ -665,7 +721,7 @@
             <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Photos</div>
             <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:36px;">Our Gallery</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
-              ${data.photos.map(p => `<div style="border-radius:12px;overflow:hidden;aspect-ratio:4/3;"><img src="${p.src}" alt="Wedding photo" style="width:100%;height:100%;object-fit:cover;"></div>`).join('')}
+              ${data.photos.map(p => `<div class="eb-deletable eb-photo-wrap" style="border-radius:12px;overflow:hidden;aspect-ratio:4/3;position:relative;"><img src="${p.src}" class="eb-photo" alt="Wedding photo" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`).join('')}
             </div>
           </div>
         </section>` : '';
@@ -704,11 +760,11 @@
               ${validParty.map(p => `
                 <div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);text-align:center;">
                   ${p.photo
-                    ? `<img src="${p.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid ${t.light};">`
+                    ? `<img src="${p.photo}" class="eb-photo" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid ${t.light};">`
                     : `<div style="width:80px;height:80px;border-radius:50%;background:${t.light};margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;">&#128100;</div>`
                   }
-                  <div style="font-weight:600;color:${t.text};margin-bottom:2px;font-size:1rem;">${p.name}</div>
-                  <div style="font-size:0.72rem;color:${t.primary};font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">${p.role}</div>
+                  <div class="eb-text" style="font-weight:600;color:${t.text};margin-bottom:2px;font-size:1rem;">${p.name}</div>
+                  <div class="eb-text" style="font-size:0.72rem;color:${t.primary};font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">${p.role}</div>
                   ${p.relation ? `<div style="font-size:0.78rem;color:${t.text};opacity:0.45;margin-bottom:10px;">${p.relation}</div>` : '<div style="margin-bottom:10px;"></div>'}
                   ${data.partyBlurbs && data.partyBlurbs[p.name] ? `<div style="font-size:0.85rem;color:${t.text};opacity:0.7;line-height:1.6;font-style:italic;border-top:1px solid rgba(0,0,0,0.06);padding-top:10px;text-align:left;">"${data.partyBlurbs[p.name]}"</div>` : ''}
                 </div>
@@ -717,54 +773,24 @@
           </div>
         </section>` : '';
 
-        // Map + Hotels section
-        const ceremonyAddr = data.ceremonyAddress || data.ceremonyLocation;
-        const receptionAddr = (data.receptionAddress && data.receptionAddress.trim()) ? data.receptionAddress : (data.receptionLocation && data.receptionLocation !== data.ceremonyLocation ? data.receptionLocation : null);
-        const hasDualMap = ceremonyAddr && receptionAddr;
-
-        const validHotels = (data.hotels || []).filter(h => h.name);
-
-        const mapSection = (ceremonyAddr || validHotels.length > 0) ? `
+        // Accommodations section (hotels only — maps moved to details)
+        const mapSection = validHotels.length > 0 ? `
         <section style="padding:80px 20px;background:${t.light};">
           <div style="max-width:860px;margin:0 auto;">
             <div style="text-align:center;margin-bottom:40px;">
-              <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Getting There</div>
-              <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};">Travel &amp; Accommodations</h2>
+              <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Plan Your Stay</div>
+              <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};">Recommended Hotels</h2>
             </div>
-
-            ${ceremonyAddr ? `
-            <div style="${hasDualMap ? 'display:grid;grid-template-columns:1fr 1fr;gap:24px;' : ''}margin-bottom:${validHotels.length > 0 ? '40px' : '0'};">
-              <div>
-                <div style="font-weight:600;color:${t.text};margin-bottom:6px;font-size:0.9rem;">&#128146; Ceremony</div>
-                <div style="font-size:0.85rem;color:${t.text};opacity:0.6;margin-bottom:10px;">${ceremonyAddr}</div>
-                <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-                  <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(ceremonyAddr)}&output=embed&z=15" width="100%" height="280" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
-                </div>
-              </div>
-              ${hasDualMap ? `
-              <div>
-                <div style="font-weight:600;color:${t.text};margin-bottom:6px;font-size:0.9rem;">&#127942; Reception</div>
-                <div style="font-size:0.85rem;color:${t.text};opacity:0.6;margin-bottom:10px;">${receptionAddr}</div>
-                <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-                  <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(receptionAddr)}&output=embed&z=15" width="100%" height="280" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
-                </div>
-              </div>` : ''}
-            </div>` : ''}
-
-            ${validHotels.length > 0 ? `
-            <div>
-              <h3 style="font-family:${t.headFont};font-size:1.4rem;font-weight:400;color:${t.text};margin-bottom:20px;text-align:center;">&#127968; Recommended Hotels</h3>
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
-                ${validHotels.map(h => `
-                <div style="background:white;border-radius:12px;padding:20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-                  <div style="font-weight:600;color:${t.text};font-size:0.95rem;margin-bottom:4px;">${h.name}</div>
-                  ${h.price ? `<div style="font-size:0.78rem;color:${t.primary};font-weight:600;margin-bottom:6px;">${h.price}</div>` : ''}
-                  ${h.address ? `<div style="font-size:0.8rem;color:${t.text};opacity:0.55;margin-bottom:8px;">&#128205; ${h.address}</div>` : ''}
-                  ${h.note ? `<div style="font-size:0.82rem;color:${t.text};opacity:0.7;font-style:italic;margin-bottom:12px;">${h.note}</div>` : ''}
-                  ${h.bookingUrl ? `<a href="${h.bookingUrl}" target="_blank" style="display:inline-block;padding:8px 18px;background:${t.primary};color:white;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:500;">Book Now &rarr;</a>` : ''}
-                </div>`).join('')}
-              </div>
-            </div>` : ''}
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+              ${validHotels.map(h => `
+              <div class="eb-deletable" style="background:white;border-radius:12px;padding:20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+                <div class="eb-text" style="font-weight:600;color:${t.text};font-size:0.95rem;margin-bottom:4px;">${h.name}</div>
+                ${h.price ? `<div class="eb-text" style="font-size:0.78rem;color:${t.primary};font-weight:600;margin-bottom:6px;">${h.price}</div>` : ''}
+                ${h.address ? `<div style="font-size:0.8rem;color:${t.text};opacity:0.55;margin-bottom:8px;">&#128205; ${h.address}</div>` : ''}
+                ${h.note ? `<div class="eb-text" style="font-size:0.82rem;color:${t.text};opacity:0.7;font-style:italic;margin-bottom:12px;">${h.note}</div>` : ''}
+                ${h.bookingUrl ? `<a href="${h.bookingUrl}" target="_blank" style="display:inline-block;padding:8px 18px;background:${t.primary};color:white;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:500;">Book Now &rarr;</a>` : ''}
+              </div>`).join('')}
+            </div>
           </div>
         </section>` : '';
 
@@ -807,28 +833,30 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.96);backdr
 </nav>
 
 <!-- HERO -->
-<section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;background:linear-gradient(160deg,${t.light} 0%,${t.bg} 60%);position:relative;overflow:hidden;">
-  <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,${t.primary} 0%,transparent 70%);opacity:0.06;top:-100px;right:-100px;"></div>
+<section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;${data.heroPhoto ? `background:linear-gradient(rgba(0,0,0,0.38),rgba(0,0,0,0.38)),url('${data.heroPhoto}') center/cover no-repeat; data-herophoto='true'` : `background:linear-gradient(160deg,${t.light} 0%,${t.bg} 60%);`}position:relative;overflow:hidden;">
+  ${!data.heroPhoto ? `<div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,${t.primary} 0%,transparent 70%);opacity:0.06;top:-100px;right:-100px;"></div>` : ''}
+  ${t.floral && !data.heroPhoto ? `<div style="position:absolute;inset:0;opacity:0.04;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><text y=%22.9em%22 font-size=%2280%22>🌸</text></svg>');background-size:120px;pointer-events:none;"></div>` : ''}
   <div style="position:relative;z-index:1;">
-    ${fDate ? `<div style="font-size:0.75rem;letter-spacing:0.25em;text-transform:uppercase;color:${t.accent};font-weight:500;margin-bottom:18px;">${fDate}</div>` : ''}
-    <div style="font-family:${t.headFont};font-size:clamp(3rem,8vw,5.5rem);font-weight:300;line-height:1.05;color:${t.text};margin-bottom:16px;">
-      ${data.name1}<br><span style="font-style:italic;color:${t.primary};font-size:0.65em;">&amp;</span><br>${data.name2}
+    ${fDate ? `<div class="eb-text" style="font-size:0.75rem;letter-spacing:0.25em;text-transform:uppercase;color:${data.heroPhoto ? 'rgba(255,255,255,0.85)' : t.accent};font-weight:500;margin-bottom:18px;">${fDate}</div>` : ''}
+    <div style="font-family:${t.headFont};font-size:clamp(3rem,8vw,5.5rem);font-weight:300;line-height:1.05;color:${data.heroPhoto ? 'white' : t.text};margin-bottom:16px;${data.heroPhoto ? 'text-shadow:0 2px 20px rgba(0,0,0,0.3);' : ''}">
+      <span class="eb-text" data-edit="name1">${data.name1}</span><br><span style="font-style:italic;color:${data.heroPhoto ? 'rgba(255,255,255,0.85)' : t.primary};font-size:0.65em;">&amp;</span><br><span class="eb-text" data-edit="name2">${data.name2}</span>
     </div>
-    ${data.ceremonyLocation ? `<div style="font-size:1rem;color:${t.text};opacity:0.5;letter-spacing:0.06em;margin-bottom:40px;">${data.ceremonyLocation}</div>` : ''}
-    <div style="display:inline-flex;align-items:center;gap:12px;font-size:0.8rem;color:${t.primary};letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">
-      <span style="display:block;width:50px;height:1px;background:${t.primary};opacity:0.4;"></span>
+    ${data.ceremonyLocation ? `<div class="eb-text" style="font-size:1rem;color:${data.heroPhoto ? 'rgba(255,255,255,0.7)' : t.text};opacity:${data.heroPhoto ? '1' : '0.5'};letter-spacing:0.06em;margin-bottom:40px;">${data.ceremonyLocation}</div>` : ''}
+    <div style="display:inline-flex;align-items:center;gap:12px;font-size:0.8rem;color:${data.heroPhoto ? 'rgba(255,255,255,0.75)' : t.primary};letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">
+      <span style="display:block;width:50px;height:1px;background:${data.heroPhoto ? 'rgba(255,255,255,0.5)' : t.primary};opacity:0.4;"></span>
       We&rsquo;re getting married
-      <span style="display:block;width:50px;height:1px;background:${t.primary};opacity:0.4;"></span>
+      <span style="display:block;width:50px;height:1px;background:${data.heroPhoto ? 'rgba(255,255,255,0.5)' : t.primary};opacity:0.4;"></span>
     </div>
   </div>
-  <div style="position:absolute;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:6px;color:${t.text};opacity:0.25;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;animation:floatDown 2.5s ease-in-out infinite;">
+  <div style="position:absolute;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:6px;color:${data.heroPhoto ? 'rgba(255,255,255,0.5)' : t.text};opacity:${data.heroPhoto ? '1' : '0.25'};font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;animation:floatDown 2.5s ease-in-out infinite;">
     <span>&#8595;</span><span>scroll</span>
   </div>
 </section>
 
 <!-- OUR STORY -->
-<section id="story" style="padding:90px 20px;background:${t.bg};">
-  <div style="max-width:700px;margin:0 auto;">
+<section id="story" style="padding:90px 20px;background:${t.bg};position:relative;">
+  ${t.floral ? `<div style="position:absolute;top:20px;right:20px;font-size:4rem;opacity:0.06;pointer-events:none;transform:rotate(15deg);">🌸</div><div style="position:absolute;bottom:20px;left:20px;font-size:3rem;opacity:0.06;pointer-events:none;transform:rotate(-20deg);">🌺</div>` : ''}
+  <div style="max-width:700px;margin:0 auto;position:relative;z-index:1;">
     <div style="text-align:center;">
       <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">How it happened</div>
       <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:40px;line-height:1.2;">Our Story</h2>
@@ -840,17 +868,35 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.96);backdr
 </section>
 
 <!-- DETAILS -->
-<section id="details" style="padding:80px 20px;background:${t.light};">
-  <div style="max-width:750px;margin:0 auto;text-align:center;">
+<section id="details" style="padding:80px 20px;background:${t.light};position:relative;">
+  ${t.floral ? `<div style="position:absolute;top:10px;left:30px;font-size:3rem;opacity:0.07;pointer-events:none;">🌷</div>` : ''}
+  <div style="max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1;">
     <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">The Big Day</div>
     <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:36px;line-height:1.2;">Wedding Details</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;text-align:center;">
-      ${fDate ? `<div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128197;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Date</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${fDate}</div></div>` : ''}
-      <div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128146;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Ceremony</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${data.ceremonyLocation || 'TBA'}${fTime ? '<br>' + fTime : ''}</div></div>
-      <div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#127942;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Reception</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${reception || 'TBA'}</div></div>
-      ${data.dressCode ? `<div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128507;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Dress Code</div><div style="font-size:0.88rem;color:${t.text};line-height:1.5;">${data.dressCode}</div></div>` : ''}
-      
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;text-align:center;margin-bottom:${ceremonyAddr ? '40px' : '0'};">
+      ${fDate ? `<div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128197;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Date</div><div class="eb-text" style="font-size:0.88rem;color:${t.text};line-height:1.5;">${fDate}</div></div>` : ''}
+      <div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128146;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Ceremony</div><div class="eb-text" style="font-size:0.88rem;color:${t.text};line-height:1.5;">${data.ceremonyLocation || 'TBA'}${fTime ? '<br>' + fTime : ''}</div></div>
+      <div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#127942;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Reception</div><div class="eb-text" style="font-size:0.88rem;color:${t.text};line-height:1.5;">${reception || 'TBA'}</div></div>
+      ${data.dressCode ? `<div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128507;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Dress Code</div><div class="eb-text" style="font-size:0.88rem;color:${t.text};line-height:1.5;">${data.dressCode}</div></div>` : ''}
     </div>
+    ${ceremonyAddr ? `
+    <div style="display:grid;grid-template-columns:${hasDualMap ? '1fr 1fr' : '1fr'};gap:24px;text-align:left;">
+      <div>
+        <div style="font-weight:600;color:${t.text};margin-bottom:6px;font-size:0.9rem;">&#128146; Ceremony Location</div>
+        <div style="font-size:0.85rem;color:${t.text};opacity:0.6;margin-bottom:10px;">${ceremonyAddr}</div>
+        <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+          <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(ceremonyAddr)}&output=embed&z=15" width="100%" height="260" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      ${hasDualMap ? `
+      <div>
+        <div style="font-weight:600;color:${t.text};margin-bottom:6px;font-size:0.9rem;">&#127942; Reception Venue</div>
+        <div style="font-size:0.85rem;color:${t.text};opacity:0.6;margin-bottom:10px;">${receptionAddr}</div>
+        <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+          <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(receptionAddr)}&output=embed&z=15" width="100%" height="260" style="border:0;display:block;" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>` : ''}
+    </div>` : ''}
   </div>
 </section>
 
@@ -866,6 +912,136 @@ ${registrySection}
   <div style="font-size:0.72rem;opacity:0.25;letter-spacing:0.08em;">Website created with <a href="https://www.elegantbrideco.com" target="_blank" style="color:white;">Elegant Bride Co.</a></div>
 </footer>
 
+<scr'+'ipt>
+// EDIT MODE - injected by Elegant Bride Co. generator
+(function() {
+  var editMode = false;
+
+  var editBtn = document.createElement('div');
+  editBtn.id = 'editModeBtn';
+  editBtn.innerHTML = '\u270F\uFE0F Edit Website';
+  editBtn.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:#fff;border:2px solid #ccc;border-radius:30px;padding:10px 20px;font-size:0.85rem;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.12);transition:all 0.2s;font-family:sans-serif;';
+  editBtn.onclick = function(){ toggleEditMode(); };
+  document.body.appendChild(editBtn);
+
+  var saveBar = document.createElement('div');
+  saveBar.id = 'editSaveBar';
+  saveBar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10000;background:#4A4540;color:white;padding:12px 24px;display:none;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.2);';
+  saveBar.innerHTML = '<span>\u270F\uFE0F Edit Mode \u2014 click any text to edit, hover photos to replace</span><div style="display:flex;gap:10px;"><button onclick="saveAndDownload()" style="background:#A8B89C;color:white;border:none;padding:8px 20px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.85rem;">\uD83D\uDCBE Save & Download</button><button onclick="toggleEditMode()" style="background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.3);padding:8px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;">Cancel</button></div>';
+  document.body.appendChild(saveBar);
+
+  var style = document.createElement('style');
+  style.textContent = '.eb-editable{outline:2px dashed #D4A5A5 !important;outline-offset:2px;cursor:text !important;border-radius:4px;}.eb-editable:hover{background:rgba(212,165,165,0.08) !important;}.eb-editable:focus{outline:2px solid #D4A5A5 !important;background:rgba(212,165,165,0.06) !important;}.eb-photo-wrap{position:relative !important;}.eb-photo-btn{position:absolute !important;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);color:white;font-size:0.8rem;font-weight:600;font-family:sans-serif;opacity:0;transition:opacity 0.2s;cursor:pointer;border-radius:inherit;z-index:10;}.eb-photo-wrap:hover .eb-photo-btn{opacity:1 !important;}.eb-delete-btn{display:inline-block;margin-left:8px;color:#D4A5A5;background:none;border:none;cursor:pointer;font-size:0.8rem;font-family:sans-serif;text-decoration:underline;vertical-align:middle;}';
+  document.head.appendChild(style);
+
+  function toggleEditMode() {
+    editMode = !editMode;
+    var bar = document.getElementById('editSaveBar');
+    var btn = document.getElementById('editModeBtn');
+    if (editMode) {
+      bar.style.display = 'flex';
+      btn.innerHTML = '\u2715 Exit Edit Mode';
+      btn.style.background = '#fef0f0';
+      btn.style.borderColor = '#D4A5A5';
+      enableEditing();
+    } else {
+      bar.style.display = 'none';
+      btn.innerHTML = '\u270F\uFE0F Edit Website';
+      btn.style.background = '#fff';
+      btn.style.borderColor = '#ccc';
+      disableEditing();
+    }
+  }
+
+  function enableEditing() {
+    document.querySelectorAll('.eb-text').forEach(function(el) {
+      el.contentEditable = 'true';
+      el.classList.add('eb-editable');
+    });
+    document.querySelectorAll('.eb-photo').forEach(function(img) {
+      var wrap = img.parentElement;
+      wrap.classList.add('eb-photo-wrap');
+      if (!wrap.querySelector('.eb-photo-btn')) {
+        var btn = document.createElement('div');
+        btn.className = 'eb-photo-btn';
+        btn.textContent = '\uD83D\uDDBC Replace Photo';
+        btn.onclick = (function(i){ return function(){ triggerPhotoReplace(i); }; })(img);
+        wrap.appendChild(btn);
+      }
+    });
+    document.querySelectorAll('.eb-deletable').forEach(function(el) {
+      if (!el.querySelector('.eb-delete-btn')) {
+        var del = document.createElement('button');
+        del.className = 'eb-delete-btn';
+        del.textContent = '\u2715 Remove';
+        del.onclick = (function(e){ return function(ev){ ev.stopPropagation(); e.remove(); }; })(el);
+        el.appendChild(del);
+      }
+    });
+  }
+
+  function disableEditing() {
+    document.querySelectorAll('.eb-text').forEach(function(el) {
+      el.contentEditable = 'false';
+      el.classList.remove('eb-editable');
+    });
+    document.querySelectorAll('.eb-photo-btn').forEach(function(btn){ btn.remove(); });
+    document.querySelectorAll('.eb-photo-wrap').forEach(function(el){ el.classList.remove('eb-photo-wrap'); });
+    document.querySelectorAll('.eb-delete-btn').forEach(function(btn){ btn.remove(); });
+  }
+
+  function triggerPhotoReplace(imgEl) {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = function(e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var MAX = 1400;
+          var w = img.width, h = img.height;
+          if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          imgEl.src = canvas.toDataURL('image/jpeg', 0.82);
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
+
+  window.saveAndDownload = function() {
+    disableEditing();
+    editMode = false;
+    var clone = document.documentElement.cloneNode(true);
+    ['editModeBtn','editSaveBar'].forEach(function(id) {
+      var el = clone.querySelector('#' + id);
+      if (el) el.remove();
+    });
+    clone.querySelectorAll('[class]').forEach(function(el) {
+      el.className = el.className.replace(/\beb-\w+/g, '').trim();
+      if (!el.className) el.removeAttribute('class');
+    });
+    var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    var blob = new Blob([html], {type:'text/html'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'my-wedding-website.html';
+    a.click();
+    var btn = document.getElementById('editModeBtn');
+    if (btn) { btn.innerHTML = '\u270F\uFE0F Edit Website'; btn.style.background = '#fff'; btn.style.borderColor = '#ccc'; }
+    document.getElementById('editSaveBar').style.display = 'none';
+  };
+
+  window.toggleEditMode = toggleEditMode;
+})();
+</'+'script>
 </body></html>`;
     }
 
@@ -895,6 +1071,7 @@ ${registrySection}
             customRegUrl: document.getElementById('customRegUrl').value.trim(),
             selectedRegistries: Array.from(document.querySelectorAll('input[name="registry"]:checked')).map(cb => cb.value),
             photos: uploadedPhotos,
+            heroPhoto: heroPhoto,
             schedule: scheduleItems,
             partyMembers: partyMembers,
             hotels: hotelItems,
@@ -976,6 +1153,24 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             document.getElementById('step3indicator').classList.add('active');
 
             generatedHTML = buildWebsiteHTML(data, storyCopy);
+            generatedData = data;
+            generatedStoryCopy = storyCopy;
+
+            // Populate story editor with plain text version
+            const storyEditor = document.getElementById('storyEditor');
+            if (storyEditor) {
+                storyEditor.innerHTML = storyCopy;
+            }
+
+            // Set active theme button
+            ['blush','navy','sage','ivory','dustyrose','lavender'].forEach(th => {
+                const btn = document.getElementById('themeBtn_' + th);
+                if (btn) {
+                    btn.style.background = th === data.theme ? 'var(--blush)' : 'white';
+                    btn.style.borderColor = th === data.theme ? 'var(--blush)' : 'var(--border)';
+                    btn.style.color = th === data.theme ? 'white' : 'var(--text)';
+                }
+            });
 
             const iframe = document.getElementById('previewFrame');
             iframe.srcdoc = generatedHTML;
@@ -992,6 +1187,33 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             document.getElementById('loadingState').classList.remove('visible');
             console.error(err);
         }
+    }
+
+    function switchTheme(newTheme) {
+        if (!generatedData) return;
+        generatedData.theme = newTheme;
+        const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+        generatedHTML = html;
+        const iframe = document.getElementById('previewFrame');
+        iframe.srcdoc = html;
+        // Update button styles
+        ['blush','navy','sage','ivory','dustyrose','lavender'].forEach(th => {
+            const btn = document.getElementById('themeBtn_' + th);
+            if (btn) {
+                btn.style.background = th === newTheme ? 'var(--blush)' : 'white';
+                btn.style.borderColor = th === newTheme ? 'var(--blush)' : 'var(--border)';
+                btn.style.color = th === newTheme ? 'white' : 'var(--text)';
+            }
+        });
+    }
+
+    function applyStoryEdit() {
+        if (!generatedData) return;
+        const editor = document.getElementById('storyEditor');
+        generatedStoryCopy = editor.innerHTML;
+        const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+        generatedHTML = html;
+        document.getElementById('previewFrame').srcdoc = html;
     }
 
     function downloadWebsite() {
