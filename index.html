@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Wedding Website Generator — Elegant Bride Co.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --sage: #A8B89C; --sage-dark: #8FA98F;
+            --blush: #D4A5A5; --blush-light: #F0E0E0;
+            --cream: #F8F6F3; --warm-gray: #E8E4DF;
+            --text: #4A4540; --text-light: #8A837C; --border: #D8D0C8;
+        }
+        body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+        .site-header { background: white; border-bottom: 1px solid var(--border); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
+        .site-header .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--blush); letter-spacing: 0.05em; text-decoration: none; }
+        .site-header .tagline { font-size: 0.8rem; color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; }
+
+        .hero { background: white; text-align: center; padding: 60px 20px 50px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -60px; left: -60px; width: 300px; height: 300px; background: radial-gradient(circle, var(--blush-light) 0%, transparent 70%); opacity: 0.5; }
+        .hero::after { content: ''; position: absolute; bottom: -80px; right: -40px; width: 350px; height: 350px; background: radial-gradient(circle, #E8F0E4 0%, transparent 70%); opacity: 0.6; }
+        .hero-inner { position: relative; z-index: 1; }
+        .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 500; margin-bottom: 14px; }
+        .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 300; color: var(--text); line-height: 1.15; margin-bottom: 16px; }
+        .hero h1 em { color: var(--blush); font-style: italic; }
+        .hero p { font-size: 1.05rem; color: var(--text-light); max-width: 520px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+
+        .main-wrap { max-width: 860px; margin: 0 auto; padding: 50px 20px 80px; }
+
+        .steps { display: flex; align-items: center; justify-content: center; margin-bottom: 44px; }
+        .step { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-light); }
+        .step.active { color: var(--blush); }
+        .step.done { color: var(--sage); }
+        .step-num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
+        .step.done .step-num { background: var(--sage); color: white; border-color: var(--sage); }
+        .step.active .step-num { background: var(--blush); color: white; border-color: var(--blush); }
+        .step-line { width: 50px; height: 1px; background: var(--border); margin: 0 8px; }
+
+        .form-card { background: white; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+        .form-section { padding: 36px 40px; border-bottom: 1px solid var(--warm-gray); }
+        .form-section:last-of-type { border-bottom: none; }
+        .section-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: 6px; }
+        .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--text); margin-bottom: 20px; }
+
+        .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .field-grid.full { grid-template-columns: 1fr; }
+        @media (max-width: 600px) { .field-grid { grid-template-columns: 1fr; } .form-section { padding: 24px 20px; } }
+
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field label { font-size: 0.8rem; font-weight: 500; color: var(--text); letter-spacing: 0.02em; }
+        .field label .hint { font-weight: 300; color: var(--text-light); font-size: 0.75rem; }
+        .field input, .field textarea, .field select { border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--text); background: white; transition: border-color 0.2s; width: 100%; }
+        .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--blush); }
+        .field textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+        .tone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 4px; }
+        @media (max-width: 600px) { .tone-grid { grid-template-columns: 1fr 1fr; } }
+        .tone-option { display: none; }
+        .tone-label { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px 14px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; text-align: center; background: var(--cream); }
+        .tone-label:hover { border-color: var(--blush); background: white; }
+        .tone-option:checked + .tone-label { border-color: var(--blush); background: white; box-shadow: 0 0 0 3px var(--blush-light); }
+        .tone-emoji { font-size: 1.6rem; line-height: 1; }
+        .tone-name { font-size: 0.78rem; font-weight: 600; color: var(--text); letter-spacing: 0.03em; }
+        .tone-desc { font-size: 0.7rem; color: var(--text-light); line-height: 1.4; }
+
+        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .theme-option { display: none; }
+        .theme-label { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+        .theme-label:hover { border-color: var(--blush); }
+        .theme-option:checked + .theme-label { border-color: var(--blush); box-shadow: 0 0 0 3px var(--blush-light); }
+        .theme-swatch { height: 50px; display: flex; }
+        .theme-swatch span { flex: 1; }
+        .theme-info { padding: 10px 12px; background: white; }
+        .theme-info strong { font-size: 0.82rem; display: block; color: var(--text); }
+        .theme-info small { font-size: 0.72rem; color: var(--text-light); }
+
+        .generate-wrap { padding: 36px 40px; text-align: center; background: var(--cream); border-top: 1px solid var(--warm-gray); }
+        .btn-generate { background: var(--blush); color: white; border: none; padding: 16px 48px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-generate:hover { background: #C49090; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,165,165,0.4); }
+        .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .generate-note { font-size: 0.8rem; color: var(--text-light); margin-top: 12px; }
+
+        .loading-state { display: none; text-align: center; padding: 60px 40px; }
+        .loading-state.visible { display: block; }
+        .loading-rings { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 24px; }
+        .ring { width: 12px; height: 12px; border-radius: 50%; background: var(--blush); animation: pulse 1.4s ease-in-out infinite; }
+        .ring:nth-child(2) { animation-delay: 0.2s; background: var(--sage); }
+        .ring:nth-child(3) { animation-delay: 0.4s; background: var(--blush); }
+        @keyframes pulse { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+        .loading-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--text); margin-bottom: 8px; }
+        .loading-sub { color: var(--text-light); font-size: 0.9rem; }
+
+        #resultSection { display: none; }
+        #resultSection.visible { display: block; }
+        .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+        .btn-action { padding: 12px 28px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--blush); color: white; border: none; }
+        .btn-primary:hover { background: #C49090; }
+        .btn-secondary { background: white; color: var(--text); border: 2px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--sage); }
+        .btn-sage { background: var(--sage); color: white; border: none; }
+        .btn-sage:hover { background: var(--sage-dark); }
+
+        .preview-frame-wrap { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
+        .preview-bar { background: #F0EDE8; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot-r { background: #FF6058; } .dot-y { background: #FFBD2E; } .dot-g { background: #28C840; }
+        .url-bar { flex: 1; background: white; border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; color: var(--text-light); }
+        iframe#previewFrame { width: 100%; height: 700px; border: none; display: block; }
+
+        .affiliate-banner { margin-top: 40px; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px 36px; }
+        .affiliate-banner h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; margin-bottom: 6px; color: var(--text); }
+        .affiliate-banner p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
+        .affiliate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+        .affiliate-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; text-decoration: none; transition: all 0.2s; background: var(--cream); }
+        .affiliate-card:hover { border-color: var(--blush); background: white; transform: translateY(-2px); }
+        .aff-icon { font-size: 1.6rem; margin-bottom: 6px; }
+        .aff-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+        .aff-desc { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; }
+
+        .site-footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-light); background: white; margin-top: 60px; }
+        .site-footer a { color: var(--blush); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <a href="https://www.elegantbrideco.com" class="brand">Elegant Bride Co.</a>
+    <span class="tagline">Free Wedding Tools</span>
+</header>
+
+<div class="hero">
+    <div class="hero-inner">
+        <div class="hero-eyebrow">&#10022; Free Wedding Tool</div>
+        <h1>Your Wedding Website,<br><em>Written &amp; Built for You</em></h1>
+        <p>Answer a few questions and we'll craft a beautiful, personalized wedding website — with AI-written copy in the tone that matches your love story.</p>
+    </div>
+</div>
+
+<div class="main-wrap">
+
+    <div class="steps">
+        <div class="step active" id="step1indicator"><div class="step-num">1</div><span>Your Details</span></div>
+        <div class="step-line"></div>
+        <div class="step" id="step2indicator"><div class="step-num">2</div><span>Your Story</span></div>
+        <div class="step-line"></div>
+        <div class="step" id="step3indicator"><div class="step-num">3</div><span>Your Website</span></div>
+    </div>
+
+    <div class="form-card" id="formSection">
+
+        <div class="form-section">
+            <div class="section-label">Section 01</div>
+            <div class="section-title">The Happy Couple</div>
+            <div class="field-grid">
+                <div class="field"><label>Your Name <span class="hint">(Partner 1)</span></label><input type="text" id="name1" placeholder="e.g. Sarah"></div>
+                <div class="field"><label>Their Name <span class="hint">(Partner 2)</span></label><input type="text" id="name2" placeholder="e.g. James"></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-label">Section 02</div>
+            <div class="section-title">The Big Day</div>
+            <div class="field-grid">
+                <div class="field"><label>Wedding Date</label><input type="date" id="weddingDate"></div>
+                <div class="field"><label>Ceremony Location <span class="hint">(venue or description)</span></label><input type="text" id="ceremonyLocation" placeholder="e.g. Riverside Gardens, Austin TX"></div>
+                <div class="field"><label>Ceremony Time</label><input type="time" id="ceremonyTime"></div>
+                <div class="field"><label>Reception Location <span class="hint">(leave blank if same)</span></label><input type="text" id="receptionLocation" placeholder="Same as ceremony"></div>
+                <div class="field"><label>Dress Code</label>
+                    <select id="dressCode">
+                        <option value="">Select dress code...</option>
+                        <option>Black Tie</option><option>Formal</option><option>Cocktail Attire</option>
+                        <option>Semi-Formal</option><option>Garden Party</option><option>Casual Chic</option>
+                        <option>Casual</option><option>Outdoor / Come Comfortable</option>
+                    </select>
+                </div>
+                <div class="field"><label>Hotel / Accommodation Info <span class="hint">(optional)</span></label><input type="text" id="hotelInfo" placeholder="e.g. Block of rooms at Marriott Downtown"></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-label">Section 03</div>
+            <div class="section-title">Your Story</div>
+            <div class="field-grid full" style="gap:16px;">
+                <div class="field"><label>How did you meet? <span class="hint">(a sentence or two is fine)</span></label><textarea id="howMet" placeholder="e.g. We met at a mutual friend's birthday party in 2019..."></textarea></div>
+                <div class="field"><label>The Proposal <span class="hint">(how did it happen?)</span></label><textarea id="proposal" placeholder="e.g. He proposed at sunrise on the beach where we had our first date..."></textarea></div>
+                <div class="field"><label>Anything else you'd like guests to know? <span class="hint">(optional)</span></label><textarea id="extraDetails" placeholder="e.g. Our dog Biscuit will be the ring bearer!" style="min-height:70px;"></textarea></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-label">Section 04</div>
+            <div class="section-title">Choose Your Story's Tone</div>
+            <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:18px;line-height:1.6;">How should we write your "Our Story" section? The rest of your website stays clean and professional.</p>
+            <div class="tone-grid">
+                <div><input type="radio" name="tone" id="tone-romantic" value="romantic" class="tone-option" checked><label for="tone-romantic" class="tone-label"><span class="tone-emoji">&#128149;</span><span class="tone-name">Romantic</span><span class="tone-desc">Warm, heartfelt &amp; poetic</span></label></div>
+                <div><input type="radio" name="tone" id="tone-humorous" value="humorous" class="tone-option"><label for="tone-humorous" class="tone-label"><span class="tone-emoji">&#128516;</span><span class="tone-name">Humorous</span><span class="tone-desc">Funny &amp; lighthearted</span></label></div>
+                <div><input type="radio" name="tone" id="tone-modern" value="modern" class="tone-option"><label for="tone-modern" class="tone-label"><span class="tone-emoji">&#10024;</span><span class="tone-name">Modern</span><span class="tone-desc">Clean, simple, no fluff</span></label></div>
+                <div><input type="radio" name="tone" id="tone-whimsical" value="whimsical" class="tone-option"><label for="tone-whimsical" class="tone-label"><span class="tone-emoji">&#127807;</span><span class="tone-name">Whimsical</span><span class="tone-desc">Dreamy &amp; fairytale-ish</span></label></div>
+                <div><input type="radio" name="tone" id="tone-classic" value="classic" class="tone-option"><label for="tone-classic" class="tone-label"><span class="tone-emoji">&#129392;</span><span class="tone-name">Classic</span><span class="tone-desc">Timeless &amp; elegant</span></label></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-label">Section 05</div>
+            <div class="section-title">Website Color Theme</div>
+            <div class="theme-grid">
+                <div><input type="radio" name="theme" id="theme-blush" value="blush" class="theme-option" checked><label for="theme-blush" class="theme-label"><div class="theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="theme-info"><strong>Blush &amp; Sage</strong><small>Soft, romantic, elegant</small></div></label></div>
+                <div><input type="radio" name="theme" id="theme-navy" value="navy" class="theme-option"><label for="theme-navy" class="theme-label"><div class="theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="theme-info"><strong>Navy &amp; Gold</strong><small>Classic, formal, timeless</small></div></label></div>
+                <div><input type="radio" name="theme" id="theme-sage" value="sage" class="theme-option"><label for="theme-sage" class="theme-label"><div class="theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="theme-info"><strong>Forest &amp; Linen</strong><small>Natural, earthy, boho</small></div></label></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-label">Section 06</div>
+            <div class="section-title">Registry Links <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
+            <div class="field-grid">
+                <div class="field"><label>Registry 1 Name</label><input type="text" id="reg1name" placeholder="e.g. Amazon"></div>
+                <div class="field"><label>Registry 1 URL</label><input type="url" id="reg1url" placeholder="https://..."></div>
+                <div class="field"><label>Registry 2 Name <span class="hint">(optional)</span></label><input type="text" id="reg2name" placeholder="e.g. Target"></div>
+                <div class="field"><label>Registry 2 URL <span class="hint">(optional)</span></label><input type="url" id="reg2url" placeholder="https://..."></div>
+            </div>
+        </div>
+
+        <div class="generate-wrap">
+            <button class="btn-generate" onclick="generateWebsite()" id="generateBtn">
+                <span>&#10022;</span> Generate My Wedding Website
+            </button>
+            <div class="generate-note">Takes about 15-20 seconds &middot; Completely free &middot; No account required</div>
+        </div>
+    </div>
+
+    <div class="loading-state" id="loadingState">
+        <div class="loading-rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+        <div class="loading-title">Writing your love story&hellip;</div>
+        <div class="loading-sub" id="loadingMessage">Crafting your personalized copy</div>
+    </div>
+
+    <div id="resultSection">
+        <div class="result-actions">
+            <button class="btn-action btn-primary" onclick="downloadWebsite()">&#8595; Download Website</button>
+            <button class="btn-action btn-sage" onclick="copyWebsite()">&#128203; Copy HTML</button>
+            <button class="btn-action btn-secondary" onclick="resetForm()">&#8617; Start Over</button>
+        </div>
+        <div class="preview-frame-wrap">
+            <div class="preview-bar">
+                <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+                <div class="url-bar">yournames.netlify.app &mdash; preview</div>
+            </div>
+            <iframe id="previewFrame" title="Wedding Website Preview"></iframe>
+        </div>
+
+        <div class="affiliate-banner">
+            <h3>Complete Your Wedding Planning</h3>
+            <p>Everything you need to plan your perfect day &mdash; hand-picked by Elegant Bride Co.</p>
+            <div class="affiliate-grid">
+                <a href="https://www.amazon.com/wedding?tag=elegantbridec-20" target="_blank" class="affiliate-card"><div class="aff-icon">&#127873;</div><div class="aff-name">Amazon Registry</div><div class="aff-desc">Build your registry</div></a>
+                <a href="https://www.elegantbrideco.com/best-wedding-dresses" target="_blank" class="affiliate-card"><div class="aff-icon">&#128507;</div><div class="aff-name">Wedding Dresses</div><div class="aff-desc">Find your dream dress</div></a>
+                <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" class="affiliate-card"><div class="aff-icon">&#9993;&#65039;</div><div class="aff-name">Invitations</div><div class="aff-desc">Beautiful invite sets</div></a>
+                <a href="https://www.elegantbrideco.com/best-wedding-decor" target="_blank" class="affiliate-card"><div class="aff-icon">&#127800;</div><div class="aff-name">D&eacute;cor &amp; Flowers</div><div class="aff-desc">Style your venue</div></a>
+                <a href="https://elegant-bride-planner.netlify.app" target="_blank" class="affiliate-card"><div class="aff-icon">&#128203;</div><div class="aff-name">Free Planner App</div><div class="aff-desc">Plan every detail</div></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer class="site-footer">
+    <p>Made with &hearts; by <a href="https://www.elegantbrideco.com">Elegant Bride Co.</a> &middot; Free wedding planning tools &amp; resources</p>
+    <p style="margin-top:6px;">This site contains affiliate links. We may earn a small commission at no extra cost to you.</p>
+</footer>
+
+<script>
+    let generatedHTML = '';
+    const loadingMessages = ['Crafting your personalized copy...','Writing your love story...','Designing your website...','Adding the finishing touches...','Almost ready...'];
+    let msgInterval;
+
+    function cycleMessages() {
+        let i = 0;
+        msgInterval = setInterval(() => {
+            i = (i + 1) % loadingMessages.length;
+            document.getElementById('loadingMessage').textContent = loadingMessages[i];
+        }, 3000);
+    }
+
+    function getTheme(name) {
+        const themes = {
+            blush: { primary:'#D4A5A5', primaryDark:'#B88A8A', accent:'#A8B89C', bg:'#FBF8F5', light:'#F0E8E8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif" },
+            navy:  { primary:'#2C3E5D', primaryDark:'#1E2D45', accent:'#C9A96E', bg:'#F5F0E8', light:'#E8E0D0', text:'#2C3040', headFont:"'Playfair Display', serif", bodyFont:"'Lato', sans-serif" },
+            sage:  { primary:'#7A9E7E', primaryDark:'#5E8563', accent:'#C4A882', bg:'#F7F5F0', light:'#E0EAE0', text:'#3A3830', headFont:"'Cormorant Garamond', serif", bodyFont:"'Raleway', sans-serif" }
+        };
+        return themes[name] || themes.blush;
+    }
+
+    function buildWebsiteHTML(data, storyCopy) {
+        const t = getTheme(data.theme);
+        const wDate = data.weddingDate ? new Date(data.weddingDate + 'T12:00:00') : null;
+        const fDate = wDate ? wDate.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '';
+        const fTime = data.ceremonyTime ? new Date('2000-01-01T' + data.ceremonyTime).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'}) : '';
+        const reception = (data.receptionLocation && data.receptionLocation.trim()) ? data.receptionLocation : data.ceremonyLocation;
+
+        const registryHTML = (data.reg1name && data.reg1url) ? `
+        <section style="padding:80px 20px; background:${t.light};">
+          <div style="max-width:700px;margin:0 auto;text-align:center;">
+            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Gifts</div>
+            <h2 style="font-family:${t.headFont};font-size:2.4rem;font-weight:300;color:${t.text};margin-bottom:20px;">Registry</h2>
+            <p style="font-size:1rem;line-height:1.8;color:${t.text};opacity:0.75;max-width:500px;margin:0 auto 28px;font-weight:300;">Your presence is the greatest gift. But if you'd like to celebrate us with something special, we're registered at the following:</p>
+            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+              <a href="${data.reg1url}" target="_blank" style="display:inline-block;padding:14px 32px;border-radius:50px;background:${t.primary};color:white;text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;">${data.reg1name} Registry &rarr;</a>
+              ${data.reg2name && data.reg2url ? `<a href="${data.reg2url}" target="_blank" style="display:inline-block;padding:14px 32px;border-radius:50px;background:white;color:${t.primary};border:2px solid ${t.primary};text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;">${data.reg2name} Registry &rarr;</a>` : ''}
+            </div>
+          </div>
+        </section>` : '';
+
+        const hotelCard = data.hotelInfo ? `
+          <div style="background:white;border-radius:14px;padding:24px 20px;text-align:center;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);">
+            <div style="font-size:1.6rem;margin-bottom:10px;">&#127968;</div>
+            <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Accommodations</div>
+            <div style="font-size:0.95rem;color:${t.text};line-height:1.5;">${data.hotelInfo}</div>
+          </div>` : '';
+
+        const dressCard = data.dressCode ? `
+          <div style="background:white;border-radius:14px;padding:24px 20px;text-align:center;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);">
+            <div style="font-size:1.6rem;margin-bottom:10px;">&#128507;</div>
+            <div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Dress Code</div>
+            <div style="font-size:0.95rem;color:${t.text};line-height:1.5;">${data.dressCode}</div>
+          </div>` : '';
+
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${data.name1} &amp; ${data.name2}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:${t.bodyFont};background:${t.bg};color:${t.text};}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);z-index:100;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.nav-names{font-family:${t.headFont};font-size:1.2rem;color:${t.primary};font-weight:400;}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{text-decoration:none;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:${t.text};opacity:0.65;font-weight:500;transition:opacity 0.2s;}
+.nav-links a:hover{opacity:1;color:${t.primary};}
+@keyframes floatDown{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@media(max-width:600px){nav{padding:0 20px;}.nav-links{gap:16px;}.nav-links a{font-size:0.7rem;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-names">${data.name1} &amp; ${data.name2}</div>
+  <div class="nav-links">
+    <a href="#story">Our Story</a>
+    <a href="#details">Details</a>
+    ${data.reg1name && data.reg1url ? '<a href="#registry">Registry</a>' : ''}
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;background:linear-gradient(160deg,${t.light} 0%,${t.bg} 60%);position:relative;overflow:hidden;">
+  <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,${t.primary} 0%,transparent 70%);opacity:0.06;top:-100px;right:-100px;"></div>
+  <div style="position:relative;z-index:1;">
+    ${fDate ? `<div style="font-size:0.75rem;letter-spacing:0.25em;text-transform:uppercase;color:${t.accent};font-weight:500;margin-bottom:18px;">${fDate}</div>` : ''}
+    <div style="font-family:${t.headFont};font-size:clamp(3rem,8vw,5.5rem);font-weight:300;line-height:1.05;color:${t.text};margin-bottom:16px;">
+      ${data.name1}<br><span style="font-style:italic;color:${t.primary};font-size:0.65em;">&amp;</span><br>${data.name2}
+    </div>
+    ${data.ceremonyLocation ? `<div style="font-size:1rem;color:${t.text};opacity:0.5;letter-spacing:0.06em;margin-bottom:40px;">${data.ceremonyLocation}</div>` : ''}
+    <div style="display:inline-flex;align-items:center;gap:12px;font-size:0.8rem;color:${t.primary};letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">
+      <span style="display:block;width:60px;height:1px;background:${t.primary};opacity:0.4;"></span>
+      We&rsquo;re getting married
+      <span style="display:block;width:60px;height:1px;background:${t.primary};opacity:0.4;"></span>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:6px;color:${t.text};opacity:0.25;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;animation:floatDown 2.5s ease-in-out infinite;">
+    <span>&#8595;</span><span>scroll</span>
+  </div>
+</section>
+
+<!-- OUR STORY -->
+<section id="story" style="padding:90px 20px;background:${t.bg};">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="text-align:center;">
+      <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">How it happened</div>
+      <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:40px;line-height:1.2;">Our Story</h2>
+    </div>
+    <div style="font-size:1.05rem;line-height:1.9;color:${t.text};font-weight:300;">
+      ${storyCopy}
+    </div>
+  </div>
+</section>
+
+<!-- DETAILS -->
+<section id="details" style="padding:90px 20px;background:${t.light};">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">The Big Day</div>
+    <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:36px;line-height:1.2;">Wedding Details</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;text-align:center;">
+      ${fDate ? `<div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.6rem;margin-bottom:10px;">&#128197;</div><div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Date</div><div style="font-size:0.9rem;color:${t.text};line-height:1.5;">${fDate}</div></div>` : ''}
+      <div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.6rem;margin-bottom:10px;">&#128146;</div><div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Ceremony</div><div style="font-size:0.9rem;color:${t.text};line-height:1.5;">${data.ceremonyLocation || 'TBA'}${fTime ? '<br>' + fTime : ''}</div></div>
+      <div style="background:white;border-radius:14px;padding:24px 20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.6rem;margin-bottom:10px;">&#127942;</div><div style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:6px;">Reception</div><div style="font-size:0.9rem;color:${t.text};line-height:1.5;">${reception || 'TBA'}</div></div>
+      ${dressCard}
+      ${hotelCard}
+    </div>
+  </div>
+</section>
+
+${registryHTML ? registryHTML.replace('<section ', '<section id="registry" ') : ''}
+
+<footer style="background:${t.text};color:white;text-align:center;padding:50px 20px;">
+  <div style="font-family:${t.headFont};font-size:2rem;font-weight:300;margin-bottom:8px;opacity:0.9;">${data.name1} &amp; ${data.name2}</div>
+  ${fDate ? `<div style="font-size:0.85rem;opacity:0.4;letter-spacing:0.1em;margin-bottom:20px;">${fDate}</div>` : ''}
+  <div style="font-size:0.72rem;opacity:0.25;letter-spacing:0.08em;">Website created with <a href="https://www.elegantbrideco.com" target="_blank" style="color:white;">Elegant Bride Co.</a></div>
+</footer>
+
+
+</body></html>`;
+    }
+
+    async function generateWebsite() {
+        const data = {
+            name1: document.getElementById('name1').value.trim(),
+            name2: document.getElementById('name2').value.trim(),
+            weddingDate: document.getElementById('weddingDate').value,
+            ceremonyLocation: document.getElementById('ceremonyLocation').value.trim(),
+            ceremonyTime: document.getElementById('ceremonyTime').value,
+            receptionLocation: document.getElementById('receptionLocation').value.trim(),
+            dressCode: document.getElementById('dressCode').value,
+            hotelInfo: document.getElementById('hotelInfo').value.trim(),
+            howMet: document.getElementById('howMet').value.trim(),
+            proposal: document.getElementById('proposal').value.trim(),
+            extraDetails: document.getElementById('extraDetails').value.trim(),
+            tone: document.querySelector('input[name="tone"]:checked').value,
+            theme: document.querySelector('input[name="theme"]:checked').value,
+            reg1name: document.getElementById('reg1name').value.trim(),
+            reg1url: document.getElementById('reg1url').value.trim(),
+            reg2name: document.getElementById('reg2name').value.trim(),
+            reg2url: document.getElementById('reg2url').value.trim(),
+        };
+
+        if (!data.name1 || !data.name2) { alert('Please enter both names!'); return; }
+        if (!data.howMet) { alert("Please tell us how you met — that's the heart of your story!"); return; }
+
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('loadingState').classList.add('visible');
+        document.getElementById('resultSection').classList.remove('visible');
+        cycleMessages();
+
+        document.getElementById('step1indicator').classList.remove('active');
+        document.getElementById('step1indicator').classList.add('done');
+        document.getElementById('step2indicator').classList.add('active');
+
+        const toneGuide = {
+            romantic: 'Warm, poetic, deeply heartfelt. Use evocative language and paint a picture of their love.',
+            humorous: 'Funny, lighthearted, witty. Include gentle humor. Make guests laugh while still feeling the love.',
+            modern: 'Clean, direct, confident. No flowery language. Genuine and concise like a couple who knows who they are.',
+            whimsical: 'Dreamy, fairytale-inspired, full of imagery and metaphor. Like the opening of a beautiful storybook.',
+            classic: 'Timeless, elegant, graceful. The kind of story that belongs in a beautifully printed keepsake.'
+        };
+
+        const prompt = `Write the "Our Story" section for ${data.name1} and ${data.name2}'s wedding website.
+
+How they met: ${data.howMet}
+The proposal: ${data.proposal || 'Not provided'}
+Extra details: ${data.extraDetails || 'None'}
+
+Tone: ${toneGuide[data.tone]}
+
+Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped in: <div class="story-pull" style="font-style:italic;text-align:center;padding:28px 0;border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin:32px 0;opacity:0.8;font-size:1.2rem;line-height:1.5;">quote here</div>
+
+Output only the HTML. No headings, no labels, no explanation.`;
+
+        try {
+            const res = await fetch('/.netlify/functions/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+            });
+            const result = await res.json();
+            const storyCopy = result.content?.[0]?.text || '<p>A beautiful love story, written in the stars.</p>';
+
+            clearInterval(msgInterval);
+            document.getElementById('step2indicator').classList.remove('active');
+            document.getElementById('step2indicator').classList.add('done');
+            document.getElementById('step3indicator').classList.add('active');
+
+            generatedHTML = buildWebsiteHTML(data, storyCopy);
+
+            const iframe = document.getElementById('previewFrame');
+            iframe.srcdoc = generatedHTML;
+
+            document.getElementById('loadingState').classList.remove('visible');
+            document.getElementById('resultSection').classList.add('visible');
+            setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+
+        } catch(err) {
+            clearInterval(msgInterval);
+            alert('Something went wrong. Please try again!');
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('loadingState').classList.remove('visible');
+            console.error(err);
+        }
+    }
+
+    function downloadWebsite() {
+        if (!generatedHTML) return;
+        const n1 = document.getElementById('name1').value.trim().toLowerCase().replace(/\s+/g,'-') || 'partner1';
+        const n2 = document.getElementById('name2').value.trim().toLowerCase().replace(/\s+/g,'-') || 'partner2';
+        const blob = new Blob([generatedHTML], { type: 'text/html;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${n1}-and-${n2}-wedding-website.html`;
+        link.click();
+    }
+
+    function copyWebsite() {
+        if (!generatedHTML) return;
+        navigator.clipboard.writeText(generatedHTML).then(() => {
+            const btn = document.querySelector('.btn-sage');
+            const orig = btn.innerHTML;
+            btn.textContent = '&#10003; Copied!';
+            setTimeout(() => btn.innerHTML = orig, 2000);
+        });
+    }
+
+        function resetForm() {
+        generatedHTML = '';
+        document.getElementById('formSection').style.display = 'block';
+        document.getElementById('resultSection').classList.remove('visible');
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active','done'));
+        document.getElementById('step1indicator').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
