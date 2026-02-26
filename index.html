@@ -258,9 +258,9 @@
             <p>Everything you need to plan your perfect day &mdash; hand-picked by Elegant Bride Co.</p>
             <div class="affiliate-grid">
                 <a href="https://www.amazon.com/wedding?tag=elegantbridec-20" target="_blank" class="affiliate-card"><div class="aff-icon">&#127873;</div><div class="aff-name">Amazon Registry</div><div class="aff-desc">Build your registry</div></a>
-                <a href="https://www.elegantbrideco.com/best-wedding-dresses" target="_blank" class="affiliate-card"><div class="aff-icon">&#128507;</div><div class="aff-name">Wedding Dresses</div><div class="aff-desc">Find your dream dress</div></a>
+                <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" class="affiliate-card"><div class="aff-icon">&#128507;</div><div class="aff-name">Wedding Dresses</div><div class="aff-desc">Find your dream dress</div></a>
                 <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" class="affiliate-card"><div class="aff-icon">&#9993;&#65039;</div><div class="aff-name">Invitations</div><div class="aff-desc">Beautiful invite sets</div></a>
-                <a href="https://www.elegantbrideco.com/best-wedding-decor" target="_blank" class="affiliate-card"><div class="aff-icon">&#127800;</div><div class="aff-name">D&eacute;cor &amp; Flowers</div><div class="aff-desc">Style your venue</div></a>
+                <a href="https://www.elegantbrideco.com/decorations" target="_blank" class="affiliate-card"><div class="aff-icon">&#127800;</div><div class="aff-name">Wedding D&eacute;cor</div><div class="aff-desc">Style your venue</div></a>
                 <a href="https://elegant-bride-planner.netlify.app" target="_blank" class="affiliate-card"><div class="aff-icon">&#128203;</div><div class="aff-name">Free Planner App</div><div class="aff-desc">Plan every detail</div></a>
             </div>
         </div>
@@ -353,9 +353,9 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdr
 <nav>
   <div class="nav-names">${data.name1} &amp; ${data.name2}</div>
   <div class="nav-links">
-    <a href="#story">Our Story</a>
-    <a href="#details">Details</a>
-    ${data.reg1name && data.reg1url ? '<a href="#registry">Registry</a>' : ''}
+    <a href="#story" onclick="event.preventDefault();document.getElementById('story').scrollIntoView({behavior:'smooth'});return false;">Our Story</a>
+    <a href="#details" onclick="event.preventDefault();document.getElementById('details').scrollIntoView({behavior:'smooth'});return false;">Details</a>
+    ${data.reg1name && data.reg1url ? '<a href="#registry" onclick="event.preventDefault();document.getElementById(\'registry\').scrollIntoView({behavior:\'smooth\'});return false;">Registry</a>' : ''}
   </div>
 </nav>
 
