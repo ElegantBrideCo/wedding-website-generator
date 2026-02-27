@@ -107,11 +107,11 @@
         /* Theme */
         .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .theme-option { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-        .theme-label { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+        .theme-label { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; display: block; height: 100%; }
         .theme-label:hover { border-color: var(--blush); }
-        .theme-option:checked + .theme-label { border-color: var(--blush); box-shadow: 0 0 0 3px var(--blush-light); }
-        .theme-swatch { height: 50px; display: flex; }
-        .theme-swatch span { flex: 1; }
+        .theme-label:has(.theme-option:checked) { border-color: var(--blush); box-shadow: 0 0 0 3px var(--blush-light); }
+        .theme-swatch { height: 70px; display: flex; }
+        .theme-swatch span { flex: 1; display: block; }
         .theme-info { padding: 10px 12px; background: white; }
         .theme-info strong { font-size: 0.82rem; display: block; color: var(--text); }
         .theme-info small { font-size: 0.72rem; color: var(--text-light); }
@@ -352,13 +352,12 @@
             <div class="section-label">Section 09</div>
             <div class="section-title">Color Theme</div>
             <div class="theme-grid">
-                <div><input type="radio" name="theme" id="theme-blush" value="blush" class="theme-option" checked><label for="theme-blush" class="theme-label"><div class="theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="theme-info"><strong>Blush &amp; Sage</strong><small>Soft, romantic, elegant</small></div></label></div>
-                <div><input type="radio" name="theme" id="theme-navy" value="navy" class="theme-option"><label for="theme-navy" class="theme-label"><div class="theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="theme-info"><strong>Navy &amp; Gold</strong><small>Classic, formal, timeless</small></div></label></div>
-                <div><input type="radio" name="theme" id="theme-sage" value="sage" class="theme-option"><label for="theme-sage" class="theme-label"><div class="theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="theme-info"><strong>Forest &amp; Linen</strong><small>Natural, earthy, serene</small></div></label></div>
-                <div><input type="radio" name="theme" id="theme-ivory" value="ivory" class="theme-option"><label for="theme-ivory" class="theme-label"><div class="theme-swatch"><span style="background:#B5A898;"></span><span style="background:#FAFAF7;"></span><span style="background:#C8B89A;"></span></div><div class="theme-info"><strong>Ivory &amp; Champagne</strong><small>Neutral, clean, timeless</small></div></label></div>
-                <div><input type="radio" name="theme" id="theme-dustyrose" value="dustyrose" class="theme-option"><label for="theme-dustyrose" class="theme-label"><div class="theme-swatch"><span style="background:#C2848A;"></span><span style="background:#FDF8F8;"></span><span style="background:#9B7B8C;"></span></div><div class="theme-info"><strong>Dusty Rose &amp; Mauve</strong><small>Romantic, moody ✿ floral accents</small></div></label></div>
-                <div><input type="radio" name="theme" id="theme-lavender" value="lavender" class="theme-option"><label for="theme-lavender" class="theme-label"><div class="theme-swatch"><span style="background:#9B8EC4;"></span><span style="background:#F8F7FC;"></span><span style="background:#B8A8C8;"></span></div><div class="theme-info"><strong>Lavender &amp; Silver</strong><small>Dreamy, soft ✿ floral accents</small></div></label></div>
-            </div>
+                <label for="theme-blush" class="theme-label"><input type="radio" name="theme" id="theme-blush" value="blush" class="theme-option" checked><div class="theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="theme-info"><strong>Blush &amp; Sage</strong><small>Soft, romantic, elegant</small></div></label>
+                <label for="theme-navy" class="theme-label"><input type="radio" name="theme" id="theme-navy" value="navy" class="theme-option"><div class="theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="theme-info"><strong>Navy &amp; Gold</strong><small>Classic, formal, timeless</small></div></label>
+                <label for="theme-sage" class="theme-label"><input type="radio" name="theme" id="theme-sage" value="sage" class="theme-option"><div class="theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="theme-info"><strong>Forest &amp; Linen</strong><small>Natural, earthy, serene</small></div></label>
+                <label for="theme-ivory" class="theme-label"><input type="radio" name="theme" id="theme-ivory" value="ivory" class="theme-option"><div class="theme-swatch"><span style="background:#B5A898;"></span><span style="background:#FAFAF7;"></span><span style="background:#C8B89A;"></span></div><div class="theme-info"><strong>Ivory &amp; Champagne</strong><small>Neutral, clean, timeless</small></div></label>
+                <label for="theme-dustyrose" class="theme-label"><input type="radio" name="theme" id="theme-dustyrose" value="dustyrose" class="theme-option"><div class="theme-swatch"><span style="background:#C2848A;"></span><span style="background:#FDF8F8;"></span><span style="background:#9B7B8C;"></span></div><div class="theme-info"><strong>Dusty Rose &amp; Mauve</strong><small>Romantic, moody ✿ floral accents</small></div></label>
+                <label for="theme-lavender" class="theme-label"><input type="radio" name="theme" id="theme-lavender" value="lavender" class="theme-option"><div class="theme-swatch"><span style="background:#9B8EC4;"></span><span style="background:#F8F7FC;"></span><span style="background:#B8A8C8;"></span></div><div class="theme-info"><strong>Lavender &amp; Silver</strong><small>Dreamy, soft ✿ floral accents</small></div></label>
             </div>
         </div>
 
@@ -389,10 +388,12 @@
         <div style="background:white;border-radius:14px;padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);">
             <div style="font-size:0.78rem;font-weight:600;color:var(--text);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:14px;">🎨 Switch Color Theme</div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                ${['blush','navy','sage','ivory','dustyrose','lavender'].map(th => {
-                    const labels = {blush:'Blush & Sage',navy:'Navy & Gold',sage:'Forest & Linen',ivory:'Ivory & Champagne',dustyrose:'Dusty Rose',lavender:'Lavender & Silver'};
-                    return `<button onclick="switchTheme('${th}')" id="themeBtn_${th}" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;" title="Switch to this theme">${labels[th]}</button>`;
-                }).join('')}
+                <button onclick="switchTheme('blush')" id="themeBtn_blush" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Blush &amp; Sage</button>
+                <button onclick="switchTheme('navy')" id="themeBtn_navy" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Navy &amp; Gold</button>
+                <button onclick="switchTheme('sage')" id="themeBtn_sage" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Forest &amp; Linen</button>
+                <button onclick="switchTheme('ivory')" id="themeBtn_ivory" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Ivory &amp; Champagne</button>
+                <button onclick="switchTheme('dustyrose')" id="themeBtn_dustyrose" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Dusty Rose</button>
+                <button onclick="switchTheme('lavender')" id="themeBtn_lavender" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Lavender &amp; Silver</button>
             </div>
         </div>
 
