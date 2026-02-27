@@ -106,7 +106,7 @@
 
         /* Theme */
         .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .theme-option { display: none; }
+        .theme-option { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
         .theme-label { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
         .theme-label:hover { border-color: var(--blush); }
         .theme-option:checked + .theme-label { border-color: var(--blush); box-shadow: 0 0 0 3px var(--blush-light); }
@@ -290,7 +290,7 @@
             <p class="section-desc">Which registries would you like to include on your website?</p>
             <div style="display:flex;flex-direction:column;gap:12px;">
                 <label style="display:flex;align-items:center;gap:14px;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);" id="reg-amazon-wrap">
-                    <input type="checkbox" id="reg-amazon" name="registry" value="amazon" checked onchange="updateRegStyle('amazon',this.checked)" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
+                    <input type="checkbox" id="reg-amazon" name="registry" value="amazon" onchange="updateRegStyle('amazon',this.checked)" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
                     <div style="flex:1;">
                         <div style="display:flex;align-items:center;gap:8px;">
                             <span style="font-weight:600;color:var(--text);font-size:0.95rem;">Amazon Registry</span>
@@ -310,7 +310,7 @@
                     <input type="checkbox" id="reg-custom" name="registry" value="custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
                     <div style="flex:1;">
                         <div style="font-weight:600;color:var(--text);font-size:0.95rem;">Other Registry</div>
-                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Target, Walmart, Crate &amp; Barrel, Zola, etc.</div>
+                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Target, Walmart, Crate &amp; Barrel, etc.</div>
                     </div>
                 </label>
             </div>
@@ -656,8 +656,6 @@
             wrap.style.background = checked ? 'var(--blush-light, #fdf0f0)' : 'var(--cream)';
         }
     }
-    // Init Amazon as checked
-    updateRegStyle('amazon', true);
 
     // ── REGISTRY TOGGLE ───────────────────────────────────────────────────────
     document.getElementById('reg-custom').addEventListener('change', function() {
@@ -1066,7 +1064,6 @@ ${registrySection}
             extraDetails: document.getElementById('extraDetails').value.trim(),
             tone: document.querySelector('input[name="tone"]:checked').value,
             theme: document.querySelector('input[name="theme"]:checked').value,
-            amazonUrl: document.getElementById('amazonUrl').value.trim(),
             customRegName: document.getElementById('customRegName').value.trim(),
             customRegUrl: document.getElementById('customRegUrl').value.trim(),
             selectedRegistries: Array.from(document.querySelectorAll('input[name="registry"]:checked')).map(cb => cb.value),
