@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Wedding Website Generator — Elegant Bride Co.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -15,467 +15,689 @@
         }
         body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
 
-        .site-header { background: white; border-bottom: 1px solid var(--border); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
-        .site-header .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--blush); letter-spacing: 0.05em; text-decoration: none; }
-        .site-header .tagline { font-size: 0.8rem; color: var(--text-light); letter-spacing: 0.08em; text-transform: uppercase; }
+        /* ── SITE HEADER ── */
+        .site-header { background: white; border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 200; }
+        .site-header .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--blush); letter-spacing: 0.05em; text-decoration: none; }
+        .header-right { display: flex; align-items: center; gap: 14px; }
+        .user-pill { display: flex; align-items: center; gap: 8px; background: var(--cream); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 0.8rem; color: var(--text-light); }
+        .user-pill strong { color: var(--text); font-weight: 500; }
+        .btn-signout { background: none; border: none; color: var(--text-light); font-size: 0.78rem; cursor: pointer; text-decoration: underline; font-family: 'Jost', sans-serif; }
+        .btn-signout:hover { color: var(--blush); }
 
-        .hero { background: white; text-align: center; padding: 60px 20px 50px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; top: -60px; left: -60px; width: 300px; height: 300px; background: radial-gradient(circle, var(--blush-light) 0%, transparent 70%); opacity: 0.5; }
-        .hero::after { content: ''; position: absolute; bottom: -80px; right: -40px; width: 350px; height: 350px; background: radial-gradient(circle, #E8F0E4 0%, transparent 70%); opacity: 0.6; }
-        .hero-inner { position: relative; z-index: 1; }
-        .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 500; margin-bottom: 14px; }
-        .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 300; color: var(--text); line-height: 1.15; margin-bottom: 16px; }
-        .hero h1 em { color: var(--blush); font-style: italic; }
-        .hero p { font-size: 1.05rem; color: var(--text-light); max-width: 560px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+        /* ── AUTH SCREEN ── */
+        #authScreen { min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+        .auth-card { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 48px 44px; width: 100%; max-width: 440px; box-shadow: 0 8px 40px rgba(0,0,0,0.06); }
+        .auth-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--text); margin-bottom: 6px; }
+        .auth-card p { color: var(--text-light); font-size: 0.88rem; line-height: 1.6; margin-bottom: 28px; }
+        .auth-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 28px; }
+        .auth-tab { flex: 1; padding: 10px; text-align: center; font-size: 0.85rem; font-weight: 500; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+        .auth-tab.active { color: var(--blush); border-bottom-color: var(--blush); }
+        .auth-field { margin-bottom: 16px; }
+        .auth-field label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+        .auth-field input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 14px; font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
+        .auth-field input:focus { outline: none; border-color: var(--blush); }
+        .btn-auth { width: 100%; background: var(--blush); color: white; border: none; padding: 13px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
+        .btn-auth:hover { background: #C49090; }
+        .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; }
+        .auth-error { color: #c0392b; font-size: 0.82rem; margin-top: 10px; display: none; }
+        .auth-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--text-light); font-size: 0.8rem; }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .btn-google { width: 100%; background: white; color: var(--text); border: 1.5px solid var(--border); padding: 12px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-google:hover { border-color: var(--blush); background: var(--cream); }
 
-        .main-wrap { max-width: 900px; margin: 0 auto; padding: 50px 20px 80px; }
+        /* ── MAIN EDITOR LAYOUT ── */
+        #appScreen { display: none; height: calc(100vh - 60px); }
+        #appScreen.visible { display: flex; flex-direction: column; }
+        .app-toolbar { background: white; border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 52px; flex-shrink: 0; gap: 12px; }
+        .toolbar-left { display: flex; align-items: center; gap: 10px; }
+        .toolbar-center { display: flex; gap: 6px; }
+        .toolbar-right { display: flex; align-items: center; gap: 10px; }
+        .preview-toggle { display: flex; border: 1.5px solid var(--border); border-radius: 20px; overflow: hidden; }
+        .preview-toggle button { padding: 5px 14px; background: white; border: none; font-size: 0.78rem; font-weight: 500; cursor: pointer; color: var(--text-light); font-family: 'Jost', sans-serif; transition: all 0.15s; }
+        .preview-toggle button.active { background: var(--blush); color: white; }
+        .btn-generate-sm { background: var(--sage); color: white; border: none; padding: 8px 20px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn-generate-sm:hover { background: var(--sage-dark); }
+        .btn-publish { background: var(--blush); color: white; border: none; padding: 8px 22px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn-publish:hover { background: #C49090; }
+        .btn-publish:disabled { opacity: 0.6; cursor: not-allowed; }
+        .published-chip { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; border-radius: 20px; padding: 5px 12px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 6px; text-decoration: none; }
 
-        .steps { display: flex; align-items: center; justify-content: center; margin-bottom: 44px; }
-        .step { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-light); }
-        .step.active { color: var(--blush); }
-        .step.done { color: var(--sage); }
-        .step-num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
-        .step.done .step-num { background: var(--sage); color: white; border-color: var(--sage); }
-        .step.active .step-num { background: var(--blush); color: white; border-color: var(--blush); }
-        .step-line { width: 40px; height: 1px; background: var(--border); margin: 0 8px; }
+        /* ── TWO-PANEL EDITOR ── */
+        .editor-panels { display: flex; flex: 1; overflow: hidden; }
 
-        .form-card { background: white; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
-        .form-section { padding: 32px 40px; border-bottom: 1px solid var(--warm-gray); }
-        .form-section:last-of-type { border-bottom: none; }
-        .section-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: 6px; }
-        .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--text); margin-bottom: 20px; }
-        .section-desc { color: var(--text-light); font-size: 0.88rem; line-height: 1.6; margin-bottom: 18px; margin-top: -10px; }
+        /* Left panel */
+        .left-panel { width: 340px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+        .left-panel-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); flex-shrink: 0; }
 
-        .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .field-grid.full { grid-template-columns: 1fr; }
-        .field-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
-        @media (max-width: 640px) { .field-grid, .field-grid.thirds { grid-template-columns: 1fr; } .form-section { padding: 24px 20px; } }
+        /* Section nav */
+        .section-nav { display: flex; flex-direction: column; padding: 8px 0; flex-shrink: 0; border-bottom: 1px solid var(--warm-gray); }
+        .section-nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 20px; font-size: 0.83rem; color: var(--text-light); cursor: pointer; transition: all 0.15s; border-left: 3px solid transparent; }
+        .section-nav-item:hover { background: var(--cream); color: var(--text); }
+        .section-nav-item.active { background: var(--cream); color: var(--blush); border-left-color: var(--blush); font-weight: 500; }
+        .section-nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
 
-        .field { display: flex; flex-direction: column; gap: 6px; }
-        .field label { font-size: 0.8rem; font-weight: 500; color: var(--text); letter-spacing: 0.02em; }
-        .field label .hint { font-weight: 300; color: var(--text-light); font-size: 0.75rem; }
-        .field input, .field textarea, .field select { border: 1.5px solid var(--border); border-radius: 8px; padding: 11px 14px; font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--text); background: white; transition: border-color 0.2s; width: 100%; }
-        .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--blush); }
-        .field textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+        /* Edit panels */
+        .edit-panels { flex: 1; overflow-y: auto; }
+        .edit-panel { display: none; padding: 20px; }
+        .edit-panel.active { display: block; }
+        .edit-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--text); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--warm-gray); }
+        .ep-field { margin-bottom: 14px; }
+        .ep-field label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--text); margin-bottom: 5px; }
+        .ep-field input, .ep-field textarea, .ep-field select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; font-family: 'Jost', sans-serif; font-size: 0.88rem; color: var(--text); background: white; transition: border-color 0.2s; }
+        .ep-field input:focus, .ep-field textarea:focus, .ep-field select:focus { outline: none; border-color: var(--blush); }
+        .ep-field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+        .ep-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .ep-hint { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; line-height: 1.4; }
+        .ep-section-divider { border: none; border-top: 1px solid var(--warm-gray); margin: 16px 0; }
+        .ep-add-btn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 9px; background: var(--cream); border: 1.5px dashed var(--border); border-radius: 8px; color: var(--blush); font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
+        .ep-add-btn:hover { border-color: var(--blush); background: white; }
+        .ep-item { background: var(--cream); border-radius: 8px; padding: 12px; margin-bottom: 10px; position: relative; }
+        .ep-item-remove { position: absolute; top: 8px; right: 8px; background: none; border: none; color: var(--text-light); cursor: pointer; font-size: 1rem; line-height: 1; padding: 2px 5px; border-radius: 4px; }
+        .ep-item-remove:hover { background: var(--blush-light); color: var(--blush); }
 
-        /* Photo upload */
-        .photo-upload-area { border: 2px dashed var(--border); border-radius: 12px; padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--cream); position: relative; }
-        .photo-upload-area:hover { border-color: var(--blush); background: white; }
-        .photo-upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-        .photo-upload-area .upload-icon { font-size: 2rem; margin-bottom: 8px; }
-        .photo-upload-area .upload-text { font-size: 0.9rem; color: var(--text-light); }
-        .photo-upload-area .upload-hint { font-size: 0.75rem; color: var(--border); margin-top: 4px; }
-        .photo-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 14px; }
-        .photo-thumb { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; }
-        .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .photo-thumb .remove-photo { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        /* Photo upload in panel */
+        .ep-photo-upload { border: 2px dashed var(--border); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--cream); position: relative; }
+        .ep-photo-upload:hover { border-color: var(--blush); background: white; }
+        .ep-photo-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+        .ep-photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+        .ep-photo-thumb { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; }
+        .ep-photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .ep-photo-thumb button { position: absolute; top: 3px; right: 3px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 0.65rem; cursor: pointer; }
 
-        /* Wedding party */
-        .party-member { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; padding: 12px; background: var(--cream); border-radius: 8px; margin-bottom: 10px; }
-        @media (max-width: 640px) { .party-member { grid-template-columns: 1fr 1fr; } }
-        .add-btn { display: flex; align-items: center; gap: 6px; padding: 10px 16px; background: white; border: 2px dashed var(--border); border-radius: 8px; color: var(--blush); font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; width: 100%; justify-content: center; margin-top: 8px; }
-        .add-btn:hover { border-color: var(--blush); background: var(--blush-light); }
-        .remove-btn { background: none; border: none; color: var(--text-light); cursor: pointer; font-size: 1.1rem; padding: 8px; transition: color 0.2s; }
-        .remove-btn:hover { color: var(--blush); }
+        /* Tone picker in panel */
+        .ep-tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .ep-tone-opt { display: none; }
+        .ep-tone-label { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.15s; background: var(--cream); font-size: 0.82rem; }
+        .ep-tone-label:hover { border-color: var(--blush); background: white; }
+        .ep-tone-opt:checked + .ep-tone-label { border-color: var(--blush); background: white; box-shadow: 0 0 0 2px var(--blush-light); font-weight: 500; }
 
-        /* Schedule */
-        .schedule-item { display: grid; grid-template-columns: 120px 1fr auto; gap: 10px; align-items: end; padding: 12px; background: var(--cream); border-radius: 8px; margin-bottom: 10px; }
-        @media (max-width: 640px) { .schedule-item { grid-template-columns: 1fr 1fr; } }
+        /* Theme picker in panel */
+        .ep-theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .ep-theme-opt { display: none; }
+        .ep-theme-label { border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.15s; }
+        .ep-theme-label:hover { border-color: var(--blush); }
+        .ep-theme-label:has(.ep-theme-opt:checked) { border-color: var(--blush); box-shadow: 0 0 0 2px var(--blush-light); }
+        .ep-theme-swatch { height: 40px; display: flex; }
+        .ep-theme-swatch span { flex: 1; }
+        .ep-theme-name { padding: 6px 8px; background: white; font-size: 0.72rem; font-weight: 600; color: var(--text); }
 
-        /* Registry */
-        .registry-preset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
-        .registry-preset { display: none; }
-        .registry-preset-label { border: 2px solid var(--border); border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--cream); }
-        .registry-preset-label:hover { border-color: var(--blush); background: white; }
-        .registry-preset:checked + .registry-preset-label { border-color: var(--sage); background: white; box-shadow: 0 0 0 3px rgba(168,184,156,0.2); }
-        .registry-preset-label .reg-icon { font-size: 1.4rem; margin-bottom: 6px; }
-        .registry-preset-label .reg-name { font-size: 0.78rem; font-weight: 600; color: var(--text); display: block; }
-        .registry-preset-label .reg-badge { font-size: 0.65rem; color: var(--sage); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-top: 2px; }
-        .custom-registry { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        /* Story panel */
+        .story-ai-note { background: linear-gradient(135deg, #f9f5ff, #fff5f5); border: 1px solid var(--blush-light); border-radius: 8px; padding: 12px 14px; font-size: 0.78rem; color: var(--text-light); line-height: 1.5; margin-bottom: 14px; }
+        .story-ai-note strong { color: var(--blush); }
+        #storyEditor { border: 1.5px solid var(--border); border-radius: 8px; padding: 12px; min-height: 200px; font-size: 0.88rem; line-height: 1.8; color: var(--text); outline: none; }
+        #storyEditor:focus { border-color: var(--blush); }
+        .btn-apply { background: var(--sage); color: white; border: none; padding: 8px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; margin-top: 10px; }
 
-        /* Tone picker */
-        .tone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 4px; }
-        @media (max-width: 600px) { .tone-grid { grid-template-columns: 1fr 1fr; } }
-        .tone-option { display: none; }
-        .tone-label { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px 14px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; text-align: center; background: var(--cream); }
-        .tone-label:hover { border-color: var(--blush); background: white; }
-        .tone-option:checked + .tone-label { border-color: var(--blush); background: white; box-shadow: 0 0 0 3px var(--blush-light); }
-        .tone-emoji { font-size: 1.6rem; line-height: 1; }
-        .tone-name { font-size: 0.78rem; font-weight: 600; color: var(--text); letter-spacing: 0.03em; }
-        .tone-desc { font-size: 0.7rem; color: var(--text-light); line-height: 1.4; }
-
-        /* Theme */
-        .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .theme-option { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-        .theme-label { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; display: block; height: 100%; }
-        .theme-label:hover { border-color: var(--blush); }
-        .theme-label:has(.theme-option:checked) { border-color: var(--blush); box-shadow: 0 0 0 3px var(--blush-light); }
-        .theme-swatch { height: 70px; display: flex; }
-        .theme-swatch span { flex: 1; display: block; }
-        .theme-info { padding: 10px 12px; background: white; }
-        .theme-info strong { font-size: 0.82rem; display: block; color: var(--text); }
-        .theme-info small { font-size: 0.72rem; color: var(--text-light); }
-
-        /* Generate */
-        .generate-wrap { padding: 36px 40px; text-align: center; background: var(--cream); border-top: 1px solid var(--warm-gray); }
-        .btn-generate { background: var(--blush); color: white; border: none; padding: 16px 48px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-generate:hover { background: #C49090; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,165,165,0.4); }
-        .generate-note { font-size: 0.8rem; color: var(--text-light); margin-top: 12px; }
-
-        /* Loading */
-        .loading-state { display: none; text-align: center; padding: 60px 40px; }
-        .loading-state.visible { display: block; }
-        .loading-rings { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 24px; }
-        .ring { width: 12px; height: 12px; border-radius: 50%; background: var(--blush); animation: pulse 1.4s ease-in-out infinite; }
-        .ring:nth-child(2) { animation-delay: 0.2s; background: var(--sage); }
-        .ring:nth-child(3) { animation-delay: 0.4s; background: var(--blush); }
-        @keyframes pulse { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
-        .loading-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--text); margin-bottom: 8px; }
-        .loading-sub { color: var(--text-light); font-size: 0.9rem; }
-
-        /* Result */
-        #resultSection { display: none; }
-        #resultSection.visible { display: block; }
-        .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
-        .btn-action { padding: 12px 28px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-primary { background: var(--blush); color: white; border: none; }
-        .btn-primary:hover { background: #C49090; }
-        .btn-secondary { background: white; color: var(--text); border: 2px solid var(--border); }
-        .btn-secondary:hover { border-color: var(--sage); }
-        .btn-sage { background: var(--sage); color: white; border: none; }
-        .btn-sage:hover { background: var(--sage-dark); }
-
-        .preview-frame-wrap { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
-        .preview-bar { background: #F0EDE8; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        /* Right panel */
+        .right-panel { flex: 1; background: #E8E4DF; display: flex; flex-direction: column; overflow: hidden; }
+        .preview-bar { background: white; border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
         .dot-r { background: #FF6058; } .dot-y { background: #FFBD2E; } .dot-g { background: #28C840; }
-        .url-bar { flex: 1; background: white; border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; color: var(--text-light); }
-        iframe#previewFrame { border: none; display: block; }
+        .url-bar { flex: 1; background: var(--cream); border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; color: var(--text-light); }
+        .preview-wrap { flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 0; transition: all 0.3s; }
+        .preview-wrap.mobile { padding: 20px; }
+        #previewFrame { width: 100%; height: 100%; border: none; flex-shrink: 0; transition: all 0.3s; }
+        .preview-wrap.mobile #previewFrame { width: 390px; height: 844px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 
-        /* Affiliate banner */
-        .affiliate-banner { margin-top: 40px; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px 36px; }
-        .affiliate-banner h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; margin-bottom: 6px; color: var(--text); }
-        .affiliate-banner p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
-        .affiliate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-        .affiliate-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; text-decoration: none; transition: all 0.2s; background: var(--cream); }
-        .affiliate-card:hover { border-color: var(--blush); background: white; transform: translateY(-2px); }
-        .affiliate-card.featured { border-color: var(--sage); background: white; position: relative; }
-        .affiliate-card.featured::before { content: '★ Top Pick'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--sage); color: white; font-size: 0.65rem; font-weight: 600; padding: 2px 10px; border-radius: 20px; letter-spacing: 0.05em; white-space: nowrap; }
-        .aff-icon { font-size: 1.6rem; margin-bottom: 6px; }
-        .aff-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
-        .aff-desc { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; }
+        /* Loading overlay */
+        #generatingOverlay { display: none; position: fixed; inset: 0; background: rgba(248,246,243,0.95); z-index: 500; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+        #generatingOverlay.visible { display: flex; }
+        .gen-rings { display: flex; gap: 6px; }
+        .gen-ring { width: 12px; height: 12px; border-radius: 50%; background: var(--blush); animation: pulse 1.4s ease-in-out infinite; }
+        .gen-ring:nth-child(2) { animation-delay: 0.2s; background: var(--sage); }
+        .gen-ring:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse { 0%,80%,100%{transform:scale(0.6);opacity:0.4;}40%{transform:scale(1);opacity:1;} }
+        .gen-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--text); }
+        .gen-sub { color: var(--text-light); font-size: 0.9rem; }
 
-        .site-footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-light); background: white; margin-top: 60px; }
-        .site-footer a { color: var(--blush); text-decoration: none; }
+        /* Published banner in left panel */
+        .published-banner { background: linear-gradient(135deg, #A8B89C, #8FA98F); color: white; border-radius: 10px; padding: 14px 16px; margin: 14px; font-size: 0.8rem; }
+        .published-banner a { color: white; font-weight: 600; word-break: break-all; display: block; margin: 6px 0; }
+        .published-banner-btns { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+        .published-banner-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.75rem; font-family: 'Jost', sans-serif; }
+
+        /* Toast */
+        #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: #4A4540; color: white; padding: 10px 22px; border-radius: 20px; font-size: 0.85rem; opacity: 0; transition: all 0.3s; z-index: 9999; pointer-events: none; white-space: nowrap; }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Steps indicator */
+        .steps-mini { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; }
+        .step-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 600; color: var(--text-light); flex-shrink: 0; }
+        .step-dot.done { background: var(--sage); border-color: var(--sage); color: white; }
+        .step-dot.active { background: var(--blush); border-color: var(--blush); color: white; }
+        .step-line-mini { width: 20px; height: 1px; background: var(--border); }
+
+        @media (max-width: 768px) {
+            .left-panel { width: 280px; }
+        }
     </style>
 </head>
 <body>
 
+<!-- SITE HEADER -->
 <header class="site-header">
     <a href="https://www.elegantbrideco.com" class="brand">Elegant Bride Co.</a>
-    <span class="tagline">Free Wedding Tools</span>
+    <div class="header-right">
+        <div id="userPill" class="user-pill" style="display:none;">
+            Logged in as <strong id="userEmail">—</strong>
+        </div>
+        <button class="btn-signout" id="signOutBtn" style="display:none;" onclick="signOut()">Sign out</button>
+    </div>
 </header>
 
-<div class="hero">
-    <div class="hero-inner">
-        <div class="hero-eyebrow">&#10022; Free Wedding Tool</div>
-        <h1>Your Wedding Website,<br><em>Written &amp; Built for You</em></h1>
-        <p>Fill in the details, choose your style, and we'll create a beautiful personalized wedding website — complete with AI-written copy, photo gallery, schedule, registry &amp; more.</p>
+<!-- AUTH SCREEN -->
+<div id="authScreen">
+    <div class="auth-card">
+        <h2>Your Free Wedding Website</h2>
+        <p>Create a beautiful, personalized wedding website in minutes — free forever. Sign in to save your site and edit it from any device.</p>
+        <div class="auth-tabs">
+            <div class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Sign In</div>
+            <div class="auth-tab" id="signupTab" onclick="switchAuthTab('signup')">Create Account</div>
+        </div>
+        <div id="loginForm">
+            <div class="auth-field"><label>Email address</label><input type="email" id="loginEmail" placeholder="you@email.com"></div>
+            <div class="auth-field"><label>Password</label><input type="password" id="loginPassword" placeholder="Your password"></div>
+            <button class="btn-auth" onclick="handleLogin()" id="loginBtn">Sign In</button>
+            <div class="auth-error" id="loginError"></div>
+        </div>
+        <div id="signupForm" style="display:none;">
+            <div class="auth-field"><label>Email address</label><input type="email" id="signupEmail" placeholder="you@email.com"></div>
+            <div class="auth-field"><label>Create a password</label><input type="password" id="signupPassword" placeholder="At least 6 characters"></div>
+            <div class="auth-field"><label>Confirm password</label><input type="password" id="signupPassword2" placeholder="Repeat your password"></div>
+            <button class="btn-auth" onclick="handleSignup()" id="signupBtn">Create Account</button>
+            <div class="auth-error" id="signupError"></div>
+        </div>
+        <div class="auth-divider">or</div>
+        <button class="btn-google" onclick="handleGoogleSignIn()">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+        </button>
     </div>
 </div>
 
-<div class="main-wrap">
+<!-- APP SCREEN (two-panel editor) -->
+<div id="appScreen">
 
-    <div class="steps">
-        <div class="step active" id="step1indicator"><div class="step-num">1</div><span>Details</span></div>
-        <div class="step-line"></div>
-        <div class="step" id="step2indicator"><div class="step-num">2</div><span>Story &amp; Style</span></div>
-        <div class="step-line"></div>
-        <div class="step" id="step3indicator"><div class="step-num">3</div><span>Your Website</span></div>
-    </div>
-
-    <div class="form-card" id="formSection">
-
-        <!-- SECTION 1: THE COUPLE -->
-        <div class="form-section">
-            <div class="section-label">Section 01</div>
-            <div class="section-title">The Happy Couple</div>
-            <div class="field-grid">
-                <div class="field"><label>Your Name <span class="hint">(Partner 1)</span></label><input type="text" id="name1" placeholder="e.g. Sarah"></div>
-                <div class="field"><label>Their Name <span class="hint">(Partner 2)</span></label><input type="text" id="name2" placeholder="e.g. James"></div>
+    <!-- TOOLBAR -->
+    <div class="app-toolbar">
+        <div class="toolbar-left">
+            <div class="steps-mini">
+                <div class="step-dot active" id="sd1">1</div>
+                <div class="step-line-mini"></div>
+                <div class="step-dot" id="sd2">2</div>
+                <div class="step-line-mini"></div>
+                <div class="step-dot" id="sd3">3</div>
             </div>
-            <div style="margin-top:16px;">
-                <label style="font-size:0.82rem;font-weight:500;color:var(--text);display:block;margin-bottom:8px;">Couple Photo <span style="font-weight:300;color:var(--text-light);">(optional — displays as a banner at the top of your website)</span></label>
-                <div style="display:flex;align-items:center;gap:16px;">
-                    <div id="heroPhotoPreview" style="width:90px;height:90px;border-radius:12px;border:2px dashed var(--border);overflow:hidden;cursor:pointer;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;flex-shrink:0;" onclick="document.getElementById('heroPhotoInput').click()">
-                        <span style="font-size:1.6rem;">📷</span>
-                        <span style="font-size:0.62rem;color:var(--text-light);text-align:center;line-height:1.3;">Add<br>Photo</span>
-                    </div>
-                    <div style="font-size:0.8rem;color:var(--text-light);line-height:1.6;">A beautiful photo of you two will appear as a full-width banner behind your names. Landscape photos work best.</div>
-                </div>
-                <input type="file" id="heroPhotoInput" accept="image/*" style="display:none" onchange="handleHeroPhoto(event)">
-                <div id="heroRemoveBtn" style="display:none;margin-top:8px;"><button onclick="heroPhoto='';document.getElementById('heroPhotoPreview').innerHTML='<span style=\\'font-size:1.6rem;\\'>📷</span><span style=\\'font-size:0.62rem;color:var(--text-light);text-align:center;\\'>Add Photo</span>';document.getElementById('heroRemoveBtn').style.display='none';" style="font-size:0.75rem;color:var(--text-light);background:none;border:none;cursor:pointer;text-decoration:underline;">✕ Remove photo</button></div>
+            <span style="font-size:0.75rem;color:var(--text-light);margin-left:4px;" id="toolbarStatus">Fill in your details, then generate</span>
+        </div>
+        <div class="toolbar-center">
+            <div class="preview-toggle">
+                <button class="active" id="deskBtn" onclick="setPreviewMode('desktop')">🖥 Desktop</button>
+                <button id="mobileBtn" onclick="setPreviewMode('mobile')">📱 Mobile</button>
             </div>
         </div>
-
-        <!-- SECTION 2: PHOTOS -->
-        <div class="form-section">
-            <div class="section-label">Section 02</div>
-            <div class="section-title">Your Photos <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
-            <p class="section-desc">Add photos of you two — engagement photos, proposal moment, or just your favorites. They'll appear in a beautiful gallery on your website.</p>
-            <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('photoInput').click()">
-                <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
-                <div class="upload-icon">&#128247;</div>
-                <div class="upload-text">Click to upload photos</div>
-                <div class="upload-hint">JPG, PNG · Up to 5 photos · Max 5MB each</div>
-            </div>
-            <div class="photo-preview-grid" id="photoPreviewGrid"></div>
-        </div>
-
-        <!-- SECTION 3: THE BIG DAY -->
-        <div class="form-section">
-            <div class="section-label">Section 03</div>
-            <div class="section-title">The Big Day</div>
-            <div class="field-grid">
-                <div class="field"><label>Wedding Date</label><input type="date" id="weddingDate"></div>
-                <div class="field"><label>Ceremony Venue <span class="hint">(name &amp; city)</span></label><input type="text" id="ceremonyLocation" placeholder="e.g. Riverside Gardens, Austin TX"></div>
-                <div class="field"><label>Ceremony Time</label><input type="time" id="ceremonyTime"></div>
-                <div class="field"><label>Ceremony Address <span class="hint">(for map)</span></label><input type="text" id="ceremonyAddress" placeholder="e.g. 123 River Rd, Austin TX 78701"></div>
-                <div class="field"><label>Reception Venue <span class="hint">(leave blank if same)</span></label><input type="text" id="receptionLocation" placeholder="Same as ceremony"></div>
-                <div class="field"><label>Reception Address <span class="hint">(if different)</span></label><input type="text" id="receptionAddress" placeholder="Leave blank if same as ceremony"></div>
-                <div class="field"><label>Dress Code</label>
-                    <select id="dressCode">
-                        <option value="">Select dress code...</option>
-                        <option>Black Tie</option><option>Formal</option><option>Cocktail Attire</option>
-                        <option>Semi-Formal</option><option>Garden Party</option><option>Casual Chic</option>
-                        <option>Casual</option><option>Outdoor / Come Comfortable</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- SECTION 3b: ACCOMMODATIONS -->
-        <div class="form-section">
-            <div class="section-label">Section 03b</div>
-            <div class="section-title">Accommodations <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
-            <p class="section-desc">Add recommended hotels or lodging options for guests. Include a booking link so they can reserve easily.</p>
-            <div id="hotelItems"></div>
-            <button class="add-btn" onclick="addHotel()">+ Add Hotel</button>
-            <div style="display:none">
-            </div>
-        </div>
-
-        <!-- SECTION 4: SCHEDULE -->
-        <div class="form-section">
-            <div class="section-label">Section 04</div>
-            <div class="section-title">Day-of Schedule <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
-            <p class="section-desc">Give guests a timeline for the day so they know what to expect.</p>
-            <div id="scheduleItems"></div>
-            <button class="add-btn" onclick="addScheduleItem()">+ Add Event</button>
-        </div>
-
-        <!-- SECTION 5: WEDDING PARTY -->
-        <div class="form-section">
-            <div class="section-label">Section 05</div>
-            <div class="section-title">Wedding Party <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
-            <p class="section-desc">Introduce your wedding party! Add a note about each person and choose a tone — our AI will write them a fun personalized blurb.</p>
-            <div id="partyMembers"></div>
-            <button class="add-btn" onclick="addPartyMember()">+ Add Member</button>
-        </div>
-
-        <!-- SECTION 6: REGISTRY -->
-        <div class="form-section">
-            <div class="section-label">Section 06</div>
-            <div class="section-title">Registry <span style="font-family:'Jost',sans-serif;font-size:0.9rem;font-weight:300;color:var(--text-light);">(optional)</span></div>
-            <p class="section-desc">Which registries would you like to include on your website?</p>
-            <div style="display:flex;flex-direction:column;gap:12px;">
-                <label style="display:flex;align-items:center;gap:14px;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);" id="reg-amazon-wrap">
-                    <input type="checkbox" id="reg-amazon" name="registry" value="amazon" onchange="updateRegStyle('amazon',this.checked)" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
-                    <div style="flex:1;">
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <span style="font-weight:600;color:var(--text);font-size:0.95rem;">Amazon Registry</span>
-                            <span style="background:var(--sage);color:white;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase;">★ Recommended</span>
-                        </div>
-                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Largest selection, easy for guests, fast shipping</div>
-                    </div>
-                </label>
-                <label style="display:flex;align-items:center;gap:14px;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);" id="reg-honeyfund-wrap">
-                    <input type="checkbox" id="reg-honeyfund" name="registry" value="honeyfund" onchange="updateRegStyle('honeyfund',this.checked)" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
-                    <div style="flex:1;">
-                        <div style="font-weight:600;color:var(--text);font-size:0.95rem;">Honeyfund</div>
-                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Let guests contribute to your honeymoon or experiences</div>
-                    </div>
-                </label>
-                <label style="display:flex;align-items:center;gap:14px;padding:16px 20px;border:2px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);" id="reg-custom-wrap">
-                    <input type="checkbox" id="reg-custom" name="registry" value="custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';" style="width:18px;height:18px;accent-color:var(--sage);cursor:pointer;flex-shrink:0;">
-                    <div style="flex:1;">
-                        <div style="font-weight:600;color:var(--text);font-size:0.95rem;">Other Registry</div>
-                        <div style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">Target, Walmart, Crate &amp; Barrel, etc.</div>
-                    </div>
-                </label>
-            </div>
-            <div id="customRegistryFields" style="display:none;margin-top:14px;">
-                <div class="field-grid">
-                    <div class="field"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Target"></div>
-                    <div class="field"><label>Registry URL</label><input type="url" id="customRegUrl" placeholder="https://..."></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SECTION 7: YOUR STORY -->
-        <div class="form-section">
-            <div class="section-label">Section 07</div>
-            <div class="section-title">Your Story</div>
-            <div class="field-grid full" style="gap:16px;">
-                <div class="field"><label>How did you meet? <span class="hint">(a sentence or two is fine)</span></label><textarea id="howMet" placeholder="e.g. We met at a mutual friend's birthday party in 2019..."></textarea></div>
-                <div class="field"><label>The Proposal <span class="hint">(how did it happen?)</span></label><textarea id="proposal" placeholder="e.g. He proposed at sunrise on the beach..."></textarea></div>
-                <div class="field"><label>Anything else you'd like guests to know? <span class="hint">(optional)</span></label><textarea id="extraDetails" placeholder="e.g. Our dog Biscuit will be the ring bearer!" style="min-height:70px;"></textarea></div>
-            </div>
-        </div>
-
-        <!-- SECTION 8: TONE -->
-        <div class="form-section">
-            <div class="section-label">Section 08</div>
-            <div class="section-title">Story Tone</div>
-            <p class="section-desc">How should we write your "Our Story" section?</p>
-            <div class="tone-grid">
-                <div><input type="radio" name="tone" id="tone-romantic" value="romantic" class="tone-option" checked><label for="tone-romantic" class="tone-label"><span class="tone-emoji">&#128149;</span><span class="tone-name">Romantic</span><span class="tone-desc">Warm, heartfelt &amp; poetic</span></label></div>
-                <div><input type="radio" name="tone" id="tone-humorous" value="humorous" class="tone-option"><label for="tone-humorous" class="tone-label"><span class="tone-emoji">&#128516;</span><span class="tone-name">Humorous</span><span class="tone-desc">Funny &amp; lighthearted</span></label></div>
-                <div><input type="radio" name="tone" id="tone-modern" value="modern" class="tone-option"><label for="tone-modern" class="tone-label"><span class="tone-emoji">&#10024;</span><span class="tone-name">Modern</span><span class="tone-desc">Clean, simple, no fluff</span></label></div>
-                <div><input type="radio" name="tone" id="tone-whimsical" value="whimsical" class="tone-option"><label for="tone-whimsical" class="tone-label"><span class="tone-emoji">&#127807;</span><span class="tone-name">Whimsical</span><span class="tone-desc">Dreamy &amp; fairytale-ish</span></label></div>
-                <div><input type="radio" name="tone" id="tone-classic" value="classic" class="tone-option"><label for="tone-classic" class="tone-label"><span class="tone-emoji">&#129392;</span><span class="tone-name">Classic</span><span class="tone-desc">Timeless &amp; elegant</span></label></div>
-            </div>
-        </div>
-
-        <!-- SECTION 9: THEME -->
-        <div class="form-section">
-            <div class="section-label">Section 09</div>
-            <div class="section-title">Color Theme</div>
-            <div class="theme-grid">
-                <label for="theme-blush" class="theme-label"><input type="radio" name="theme" id="theme-blush" value="blush" class="theme-option" checked><div class="theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="theme-info"><strong>Blush &amp; Sage</strong><small>Soft, romantic, elegant</small></div></label>
-                <label for="theme-navy" class="theme-label"><input type="radio" name="theme" id="theme-navy" value="navy" class="theme-option"><div class="theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="theme-info"><strong>Navy &amp; Gold</strong><small>Classic, formal, timeless</small></div></label>
-                <label for="theme-sage" class="theme-label"><input type="radio" name="theme" id="theme-sage" value="sage" class="theme-option"><div class="theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="theme-info"><strong>Forest &amp; Linen</strong><small>Natural, earthy, serene</small></div></label>
-                <label for="theme-ivory" class="theme-label"><input type="radio" name="theme" id="theme-ivory" value="ivory" class="theme-option"><div class="theme-swatch"><span style="background:#B5A898;"></span><span style="background:#FAFAF7;"></span><span style="background:#C8B89A;"></span></div><div class="theme-info"><strong>Ivory &amp; Champagne</strong><small>Neutral, clean, timeless</small></div></label>
-                <label for="theme-dustyrose" class="theme-label"><input type="radio" name="theme" id="theme-dustyrose" value="dustyrose" class="theme-option"><div class="theme-swatch"><span style="background:#C2848A;"></span><span style="background:#FDF8F8;"></span><span style="background:#9B7B8C;"></span></div><div class="theme-info"><strong>Dusty Rose &amp; Mauve</strong><small>Romantic, moody ✿ floral accents</small></div></label>
-                <label for="theme-lavender" class="theme-label"><input type="radio" name="theme" id="theme-lavender" value="lavender" class="theme-option"><div class="theme-swatch"><span style="background:#9B8EC4;"></span><span style="background:#F8F7FC;"></span><span style="background:#B8A8C8;"></span></div><div class="theme-info"><strong>Lavender &amp; Silver</strong><small>Dreamy, soft ✿ floral accents</small></div></label>
-            </div>
-        </div>
-
-        <div style="text-align:center;padding:0 40px 10px;font-size:0.8rem;color:var(--text-light);">
-            Have a saved session? <label style="color:var(--blush);cursor:pointer;font-weight:500;text-decoration:underline;">Load Progress <input type="file" accept=".json" style="display:none;" onchange="loadProgress(event)"></label>
-        </div>
-        <div class="generate-wrap">
-            <button class="btn-generate" onclick="generateWebsite()" id="generateBtn">
-                <span>&#10022;</span> Generate My Wedding Website
-            </button>
-            <div class="generate-note">Takes about 20 seconds &middot; Completely free &middot; No account required</div>
+        <div class="toolbar-right">
+            <button class="btn-generate-sm" onclick="generateWebsite()" id="generateBtn">✦ Generate Website</button>
+            <button class="btn-publish" onclick="publishWebsite()" id="publishBtn" style="display:none;">🌐 Publish</button>
+            <a id="publishedChip" class="published-chip" href="#" target="_blank" style="display:none;">✓ Live</a>
         </div>
     </div>
 
-    <!-- LOADING -->
-    <div class="loading-state" id="loadingState">
-        <div class="loading-rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
-        <div class="loading-title">Creating your wedding website&hellip;</div>
-        <div class="loading-sub" id="loadingMessage">Writing your love story</div>
-    </div>
+    <!-- PANELS -->
+    <div class="editor-panels">
 
-    <!-- RESULT -->
-    <div id="resultSection">
-        <!-- Published URL banner (hidden until published) -->
-        <div id="publishedBanner" style="display:none;background:linear-gradient(135deg,#A8B89C,#8FA98F);color:white;border-radius:14px;padding:20px 24px;margin-bottom:20px;text-align:center;">
-            <div style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;opacity:0.85;margin-bottom:8px;">🎉 Your wedding website is live!</div>
-            <a id="publishedUrl" href="#" target="_blank" style="color:white;font-size:1.1rem;font-weight:600;word-break:break-all;"></a>
-            <div style="margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                <button onclick="copyPublishedUrl()" style="background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.4);padding:7px 16px;border-radius:20px;cursor:pointer;font-size:0.8rem;font-weight:500;">📋 Copy Link</button>
-                <button onclick="republish()" style="background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.4);padding:7px 16px;border-radius:20px;cursor:pointer;font-size:0.8rem;font-weight:500;">🔄 Update Site</button>
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="left-panel-header">Your Wedding Details</div>
+
+            <!-- Published banner (hidden until live) -->
+            <div id="publishedBanner" class="published-banner" style="display:none;">
+                🎉 Your site is live!
+                <a id="publishedUrl" href="#" target="_blank"></a>
+                <div class="published-banner-btns">
+                    <button class="published-banner-btn" onclick="copyPublishedUrl()">📋 Copy Link</button>
+                    <button class="published-banner-btn" onclick="publishWebsite()">🔄 Update Site</button>
+                </div>
             </div>
-        </div>
 
-        <div class="result-actions">
-            <button class="btn-action btn-primary" onclick="publishWebsite()" id="publishBtn">&#127760; Publish My Website</button>
-            <button class="btn-action btn-sage" onclick="saveProgress()" title="Save your form to come back later">&#128190; Save Progress</button>
-            <button class="btn-action btn-secondary" onclick="downloadWebsite()">&#8595; Download</button>
-            <button class="btn-action btn-secondary" onclick="resetForm()">&#8617; Start Over</button>
-        </div>
-
-        <!-- THEME SWITCHER -->
-        <div style="background:white;border-radius:14px;padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);">
-            <div style="font-size:0.78rem;font-weight:600;color:var(--text);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:14px;">🎨 Switch Color Theme</div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                <button onclick="switchTheme('blush')" id="themeBtn_blush" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Blush &amp; Sage</button>
-                <button onclick="switchTheme('navy')" id="themeBtn_navy" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Navy &amp; Gold</button>
-                <button onclick="switchTheme('sage')" id="themeBtn_sage" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Forest &amp; Linen</button>
-                <button onclick="switchTheme('ivory')" id="themeBtn_ivory" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Ivory &amp; Champagne</button>
-                <button onclick="switchTheme('dustyrose')" id="themeBtn_dustyrose" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Dusty Rose</button>
-                <button onclick="switchTheme('lavender')" id="themeBtn_lavender" style="padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:white;cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--text);transition:all 0.15s;">Lavender &amp; Silver</button>
+            <!-- Section nav -->
+            <div class="section-nav">
+                <div class="section-nav-item active" onclick="showSection('names')" id="nav-names"><span class="nav-icon">💑</span> Names & Date</div>
+                <div class="section-nav-item" onclick="showSection('photo')" id="nav-photo"><span class="nav-icon">📷</span> Couple Photo</div>
+                <div class="section-nav-item" onclick="showSection('story')" id="nav-story"><span class="nav-icon">✨</span> Your Story</div>
+                <div class="section-nav-item" onclick="showSection('details')" id="nav-details"><span class="nav-icon">📍</span> Wedding Details</div>
+                <div class="section-nav-item" onclick="showSection('schedule')" id="nav-schedule"><span class="nav-icon">🕐</span> Schedule</div>
+                <div class="section-nav-item" onclick="showSection('party')" id="nav-party"><span class="nav-icon">🥂</span> Wedding Party</div>
+                <div class="section-nav-item" onclick="showSection('gallery')" id="nav-gallery"><span class="nav-icon">🖼</span> Gallery Photos</div>
+                <div class="section-nav-item" onclick="showSection('hotels')" id="nav-hotels"><span class="nav-icon">🏨</span> Hotels</div>
+                <div class="section-nav-item" onclick="showSection('registry')" id="nav-registry"><span class="nav-icon">🎁</span> Registry</div>
+                <div class="section-nav-item" onclick="showSection('theme')" id="nav-theme"><span class="nav-icon">🎨</span> Color Theme & Tone</div>
             </div>
-        </div>
 
-        <!-- EDITABLE STORY -->
-        <div style="background:white;border-radius:14px;padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                <div style="font-size:0.78rem;font-weight:600;color:var(--text);letter-spacing:0.08em;text-transform:uppercase;">✏️ Edit Your Story</div>
-                <button onclick="applyStoryEdit()" style="padding:7px 18px;background:var(--sage);color:white;border:none;border-radius:20px;cursor:pointer;font-size:0.8rem;font-weight:500;">Apply Changes</button>
-            </div>
-            <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:10px;">The AI wrote your story — tweak any wording here, then click Apply Changes to update your preview.</p>
-            <div id="storyEditor" contenteditable="true" style="border:1.5px solid var(--border);border-radius:8px;padding:14px;min-height:120px;font-size:0.9rem;line-height:1.8;color:var(--text);outline:none;"></div>
-        </div>
+            <!-- Edit panels -->
+            <div class="edit-panels">
 
-        <!-- PREVIEW HEADER -->
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
-            <div>
-                <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);">&#128065; Live Preview</span>
-                <span style="font-size:0.75rem;color:var(--text-light);margin-left:8px;">&#8212; this is exactly what your guests will see</span>
-            </div>
-            <div style="display:flex;gap:6px;">
-                <button id="previewDesktopBtn" onclick="setPreviewMode('desktop')" style="padding:7px 14px;border-radius:20px;border:2px solid var(--blush);background:var(--blush);color:white;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;">
-                    &#128421; Desktop
-                </button>
-                <button id="previewMobileBtn" onclick="setPreviewMode('mobile')" style="padding:7px 14px;border-radius:20px;border:2px solid var(--border);background:white;color:var(--text);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;">
-                    &#128241; Mobile
-                </button>
-            </div>
-        </div>
+                <!-- NAMES & DATE -->
+                <div class="edit-panel active" id="panel-names">
+                    <h3>Names & Date</h3>
+                    <div class="ep-field-row">
+                        <div class="ep-field"><label>Your Name</label><input type="text" id="name1" placeholder="e.g. Sarah" oninput="liveUpdate()"></div>
+                        <div class="ep-field"><label>Partner's Name</label><input type="text" id="name2" placeholder="e.g. James" oninput="liveUpdate()"></div>
+                    </div>
+                    <div class="ep-field"><label>Wedding Date</label><input type="date" id="weddingDate" onchange="liveUpdate()"></div>
+                </div>
 
-        <div class="preview-frame-wrap" id="previewFrameWrap">
+                <!-- COUPLE PHOTO -->
+                <div class="edit-panel" id="panel-photo">
+                    <h3>Couple Photo</h3>
+                    <p class="ep-hint" style="margin-bottom:14px;">This appears as a full-width banner at the top of your website. Landscape photos work best.</p>
+                    <div class="ep-photo-upload" onclick="document.getElementById('heroPhotoInput').click()">
+                        <input type="file" id="heroPhotoInput" accept="image/*" style="display:none" onchange="handleHeroPhoto(event)">
+                        <div id="heroPreviewPanel" style="font-size:1.8rem;margin-bottom:6px;">📷</div>
+                        <div style="font-size:0.82rem;color:var(--text-light);">Click to upload photo</div>
+                        <div style="font-size:0.72rem;color:var(--border);margin-top:4px;">Landscape · JPG or PNG</div>
+                    </div>
+                    <button id="heroRemoveBtn" style="display:none;margin-top:10px;background:none;border:none;color:var(--text-light);font-size:0.78rem;cursor:pointer;text-decoration:underline;font-family:'Jost',sans-serif;" onclick="removeHeroPhoto()">✕ Remove photo</button>
+                </div>
+
+                <!-- YOUR STORY -->
+                <div class="edit-panel" id="panel-story">
+                    <h3>Your Story</h3>
+                    <div class="story-ai-note">
+                        <strong>✦ AI-written for you.</strong> Fill in your details and click Generate — we'll write your story. You can edit the text below anytime.
+                    </div>
+                    <div class="ep-field"><label>How did you meet?</label><textarea id="howMet" placeholder="Tell us how your story began..." oninput="autoSave()"></textarea></div>
+                    <div class="ep-field"><label>The proposal <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><textarea id="proposal" placeholder="How did it happen?" oninput="autoSave()"></textarea></div>
+                    <div class="ep-field"><label>Anything else to share? <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><textarea id="extraDetails" placeholder="Funny moments, meaningful details..." oninput="autoSave()"></textarea></div>
+                    <hr class="ep-section-divider">
+                    <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:8px;">Story text (edit after generating)</div>
+                    <div id="storyEditor" contenteditable="false" style="border:1.5px solid var(--border);border-radius:8px;padding:12px;min-height:120px;font-size:0.85rem;line-height:1.8;color:var(--text);outline:none;background:var(--cream);color:var(--text-light);" placeholder="Generate your website first to see your story here.">Generate your website first to see your story here.</div>
+                    <button class="btn-apply" onclick="applyStoryEdit()" id="applyStoryBtn" style="display:none;">Apply Changes →</button>
+                </div>
+
+                <!-- WEDDING DETAILS -->
+                <div class="edit-panel" id="panel-details">
+                    <h3>Wedding Details</h3>
+                    <div class="ep-field"><label>Ceremony Venue</label><input type="text" id="ceremonyLocation" placeholder="e.g. Riverside Gardens, Austin TX" oninput="liveUpdate()"></div>
+                    <div class="ep-field"><label>Ceremony Time</label><input type="time" id="ceremonyTime" onchange="liveUpdate()"></div>
+                    <div class="ep-field"><label>Ceremony Address <span style="font-weight:300;color:var(--text-light);">(for map)</span></label><input type="text" id="ceremonyAddress" placeholder="e.g. 123 River Rd, Austin TX" oninput="liveUpdate()"></div>
+                    <div class="ep-field"><label>Reception Venue <span style="font-weight:300;color:var(--text-light);">(leave blank if same)</span></label><input type="text" id="receptionLocation" placeholder="Same as ceremony" oninput="liveUpdate()"></div>
+                    <div class="ep-field"><label>Reception Address <span style="font-weight:300;color:var(--text-light);">(if different)</span></label><input type="text" id="receptionAddress" placeholder="Leave blank if same" oninput="liveUpdate()"></div>
+                    <div class="ep-field"><label>Dress Code</label>
+                        <select id="dressCode" onchange="liveUpdate()">
+                            <option value="">Select dress code...</option>
+                            <option>Black Tie</option><option>Formal</option><option>Cocktail Attire</option>
+                            <option>Semi-Formal</option><option>Garden Party</option><option>Casual Chic</option>
+                            <option>Casual</option><option>Outdoor / Come Comfortable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SCHEDULE -->
+                <div class="edit-panel" id="panel-schedule">
+                    <h3>Day-of Schedule</h3>
+                    <p class="ep-hint" style="margin-bottom:14px;">Add a timeline so guests know what to expect.</p>
+                    <div id="scheduleItems"></div>
+                    <button class="ep-add-btn" onclick="addScheduleItem()">+ Add Event</button>
+                </div>
+
+                <!-- WEDDING PARTY -->
+                <div class="edit-panel" id="panel-party">
+                    <h3>Wedding Party</h3>
+                    <p class="ep-hint" style="margin-bottom:14px;">Add your bridesmaids, groomsmen, flower girls, and more.</p>
+                    <div id="partyItems"></div>
+                    <button class="ep-add-btn" onclick="addPartyMember()">+ Add Person</button>
+                </div>
+
+                <!-- GALLERY -->
+                <div class="edit-panel" id="panel-gallery">
+                    <h3>Gallery Photos</h3>
+                    <p class="ep-hint" style="margin-bottom:14px;">Add engagement photos or your favorite pictures together.</p>
+                    <div class="ep-photo-upload" onclick="document.getElementById('galleryPhotoInput').click()">
+                        <input type="file" id="galleryPhotoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
+                        <div style="font-size:1.6rem;margin-bottom:6px;">📸</div>
+                        <div style="font-size:0.82rem;color:var(--text-light);">Click to upload photos</div>
+                        <div style="font-size:0.72rem;color:var(--border);margin-top:4px;">Up to 5 photos · JPG or PNG</div>
+                    </div>
+                    <div class="ep-photo-grid" id="photoPreviewGrid"></div>
+                </div>
+
+                <!-- HOTELS -->
+                <div class="edit-panel" id="panel-hotels">
+                    <h3>Recommended Hotels</h3>
+                    <p class="ep-hint" style="margin-bottom:14px;">Help guests find a place to stay.</p>
+                    <div id="hotelItems"></div>
+                    <button class="ep-add-btn" onclick="addHotel()">+ Add Hotel</button>
+                </div>
+
+                <!-- REGISTRY -->
+                <div class="edit-panel" id="panel-registry">
+                    <h3>Registry</h3>
+                    <p class="ep-hint" style="margin-bottom:14px;">Select where you're registered. Links will appear on your website.</p>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.15s;" id="reg-amazon-wrap">
+                            <input type="checkbox" name="registry" value="amazon" id="reg-amazon" onchange="updateRegStyle('amazon',this.checked);liveUpdate()"> 🎁 Amazon Registry
+                        </label>
+                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.15s;" id="reg-honeyfund-wrap">
+                            <input type="checkbox" name="registry" value="honeyfund" id="reg-honeyfund" onchange="updateRegStyle('honeyfund',this.checked);liveUpdate()"> 🏝 Honeyfund
+                        </label>
+                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.15s;" id="reg-custom-wrap">
+                            <input type="checkbox" name="registry" value="custom" id="reg-custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';liveUpdate()"> 🔗 Other Registry
+                        </label>
+                    </div>
+                    <div id="customRegistryFields" style="display:none;">
+                        <div class="ep-field"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Crate & Barrel" oninput="liveUpdate()"></div>
+                        <div class="ep-field"><label>Registry URL</label><input type="text" id="customRegUrl" placeholder="https://..." oninput="liveUpdate()"></div>
+                    </div>
+                </div>
+
+                <!-- THEME & TONE -->
+                <div class="edit-panel" id="panel-theme">
+                    <h3>Color Theme & Tone</h3>
+                    <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Color Theme</div>
+                    <div class="ep-theme-grid">
+                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="blush" class="ep-theme-opt" checked onchange="switchTheme('blush')"><div class="ep-theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="ep-theme-name">Blush & Sage</div></label>
+                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="navy" class="ep-theme-opt" onchange="switchTheme('navy')"><div class="ep-theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="ep-theme-name">Navy & Gold</div></label>
+                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="sage" class="ep-theme-opt" onchange="switchTheme('sage')"><div class="ep-theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="ep-theme-name">Forest & Linen</div></label>
+                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="ivory" class="ep-theme-opt" onchange="switchTheme('ivory')"><div class="ep-theme-swatch"><span style="background:#B5A898;"></span><span style="background:#FAFAF7;"></span><span style="background:#C8B89A;"></span></div><div class="ep-theme-name">Ivory & Champagne</div></label>
+                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="dustyrose" class="ep-theme-opt" onchange="switchTheme('dustyrose')"><div class="ep-theme-swatch"><span style="background:#C2848A;"></span><span style="background:#FDF8F8;"></span><span style="background:#9B7B8C;"></span></div><div class="ep-theme-name">Dusty Rose ✿</div></label>
+                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="lavender" class="ep-theme-opt" onchange="switchTheme('lavender')"><div class="ep-theme-swatch"><span style="background:#9B8EC4;"></span><span style="background:#F8F7FC;"></span><span style="background:#B8A8C8;"></span></div><div class="ep-theme-name">Lavender ✿</div></label>
+                    </div>
+                    <hr class="ep-section-divider">
+                    <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Story Writing Tone</div>
+                    <div class="ep-tone-grid">
+                        <input type="radio" name="tone" value="romantic" id="tone-romantic" class="ep-tone-opt" checked>
+                        <label for="tone-romantic" class="ep-tone-label">💕 Romantic</label>
+                        <input type="radio" name="tone" value="humorous" id="tone-humorous" class="ep-tone-opt">
+                        <label for="tone-humorous" class="ep-tone-label">😄 Humorous</label>
+                        <input type="radio" name="tone" value="modern" id="tone-modern" class="ep-tone-opt">
+                        <label for="tone-modern" class="ep-tone-label">✨ Modern</label>
+                        <input type="radio" name="tone" value="whimsical" id="tone-whimsical" class="ep-tone-opt">
+                        <label for="tone-whimsical" class="ep-tone-label">🌙 Whimsical</label>
+                        <input type="radio" name="tone" value="classic" id="tone-classic" class="ep-tone-opt">
+                        <label for="tone-classic" class="ep-tone-label">📜 Classic</label>
+                    </div>
+                    <p class="ep-hint" style="margin-top:8px;">Tone affects how your AI-written story sounds.</p>
+                </div>
+
+            </div><!-- end edit-panels -->
+        </div><!-- end left-panel -->
+
+        <!-- RIGHT PANEL (live preview) -->
+        <div class="right-panel">
             <div class="preview-bar">
                 <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-                <div class="url-bar" id="previewUrl">yournames.netlify.app &mdash; preview</div>
+                <div class="url-bar" id="previewUrl">yournames.netlify.app — preview</div>
             </div>
-            <div style="background:#E8E4DF;display:flex;justify-content:center;align-items:flex-start;" id="previewContainer">
-                <iframe id="previewFrame" title="Wedding Website Preview" style="width:100%;height:750px;border:none;display:block;transition:width 0.4s ease;"></iframe>
+            <div class="preview-wrap" id="previewWrap">
+                <iframe id="previewFrame" title="Live Preview"></iframe>
             </div>
         </div>
 
-        <div class="affiliate-banner">
-            <h3>Complete Your Wedding Planning</h3>
-            <p>Everything you need — hand-picked by Elegant Bride Co.</p>
-            <div class="affiliate-grid">
-                <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" class="affiliate-card featured"><div class="aff-icon">&#127873;</div><div class="aff-name">Amazon Registry</div><div class="aff-desc">Build your registry</div></a>
-                <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" class="affiliate-card"><div class="aff-icon">&#128507;</div><div class="aff-name">Wedding Dresses</div><div class="aff-desc">Find your dream dress</div></a>
-                <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" class="affiliate-card"><div class="aff-icon">&#9993;&#65039;</div><div class="aff-name">Invitations</div><div class="aff-desc">Beautiful invite sets</div></a>
-                <a href="https://www.elegantbrideco.com/decorations" target="_blank" class="affiliate-card"><div class="aff-icon">&#127800;</div><div class="aff-name">Wedding D&eacute;cor</div><div class="aff-desc">Style your venue</div></a>
-                <a href="https://elegant-bride-planner.netlify.app" target="_blank" class="affiliate-card"><div class="aff-icon">&#128203;</div><div class="aff-name">Free Planner App</div><div class="aff-desc">Plan every detail</div></a>
-            </div>
-        </div>
-    </div>
+    </div><!-- end editor-panels -->
+</div><!-- end appScreen -->
 
+<!-- GENERATING OVERLAY -->
+<div id="generatingOverlay">
+    <div class="gen-rings"><div class="gen-ring"></div><div class="gen-ring"></div><div class="gen-ring"></div></div>
+    <div class="gen-title">Creating your wedding website…</div>
+    <div class="gen-sub" id="genMessage">Writing your love story</div>
 </div>
 
-<footer class="site-footer">
-    <p>Made with &hearts; by <a href="https://www.elegantbrideco.com">Elegant Bride Co.</a> &middot; Free wedding planning tools &amp; resources</p>
-    <p style="margin-top:6px;">This site contains affiliate links. We may earn a small commission at no extra cost to you.</p>
-</footer>
+<!-- TOAST -->
+<div id="toast"></div>
 
 <script>
+    // ── STATE ─────────────────────────────────────────────────────────────────
     let generatedHTML = '';
     let generatedData = null;
     let generatedStoryCopy = '';
     let publishedSiteId = null;
     let publishedSiteUrl = null;
+    let currentUser = null;
+    let authToken = null;
     let uploadedPhotos = [];
     let heroPhoto = '';
+    let scheduleItems = [{ time: '', event: '', note: '' }];
+    let partyMembers = [];
+    let hotelItems = [];
+    let autoSaveTimer = null;
+    let liveUpdateTimer = null;
+    let msgInterval = null;
 
+    const genMessages = ['Writing your love story...','Designing your website...','Building your gallery...','Adding the finishing touches...','Almost ready...'];
+
+    // ── AUTH ──────────────────────────────────────────────────────────────────
+    function switchAuthTab(tab) {
+        document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+        document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+        document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+        document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+    }
+
+    async function handleLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const errEl = document.getElementById('loginError');
+        const btn = document.getElementById('loginBtn');
+        errEl.style.display = 'none';
+        if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
+        btn.textContent = 'Signing in...'; btn.disabled = true;
+        try {
+            const res = await fetch('/.netlify/functions/auth', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'login', email, password })
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            await loginSuccess(data.user, data.session);
+        } catch (err) {
+            errEl.textContent = err.message.includes('Invalid') ? 'Incorrect email or password.' : err.message;
+            errEl.style.display = 'block';
+            btn.textContent = 'Sign In'; btn.disabled = false;
+        }
+    }
+
+    async function handleSignup() {
+        const email = document.getElementById('signupEmail').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const password2 = document.getElementById('signupPassword2').value;
+        const errEl = document.getElementById('signupError');
+        const btn = document.getElementById('signupBtn');
+        errEl.style.display = 'none';
+        if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+        if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
+        if (password !== password2) { errEl.textContent = 'Passwords don't match.'; errEl.style.display = 'block'; return; }
+        btn.textContent = 'Creating account...'; btn.disabled = true;
+        try {
+            const res = await fetch('/.netlify/functions/auth', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'signup', email, password })
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            await loginSuccess(data.user, data.session);
+        } catch (err) {
+            errEl.textContent = err.message;
+            errEl.style.display = 'block';
+            btn.textContent = 'Create Account'; btn.disabled = false;
+        }
+    }
+
+    function handleGoogleSignIn() {
+        showToast('Google sign-in coming soon! Please use email & password for now.');
+    }
+
+    async function loginSuccess(user, session) {
+        currentUser = user;
+        authToken = session?.access_token || null;
+        document.getElementById('userEmail').textContent = user.email;
+        document.getElementById('userPill').style.display = 'flex';
+        document.getElementById('signOutBtn').style.display = 'block';
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('appScreen').classList.add('visible');
+        renderSchedule(); renderParty(); renderHotels();
+        // Try to load saved data
+        await loadUserData();
+    }
+
+    function signOut() {
+        currentUser = null; authToken = null;
+        document.getElementById('userPill').style.display = 'none';
+        document.getElementById('signOutBtn').style.display = 'none';
+        document.getElementById('appScreen').classList.remove('visible');
+        document.getElementById('authScreen').style.display = 'flex';
+    }
+
+    // ── LOAD / SAVE ───────────────────────────────────────────────────────────
+    async function loadUserData() {
+        if (!authToken) return;
+        try {
+            const res = await fetch('/.netlify/functions/auth', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'load', token: authToken })
+            });
+            const data = await res.json();
+            if (data.site && data.site.form_data) {
+                restoreFormData(data.site.form_data);
+                if (data.site.generated_html) {
+                    generatedHTML = data.site.generated_html;
+                    generatedStoryCopy = data.site.story_copy || '';
+                    generatedData = data.site.form_data;
+                    publishedSiteId = data.site.site_id;
+                    publishedSiteUrl = data.site.site_url;
+                    document.getElementById('previewFrame').srcdoc = generatedHTML;
+                    document.getElementById('previewUrl').textContent = (data.site.form_data.name1 || 'your') + '-and-' + (data.site.form_data.name2 || 'names') + '.netlify.app';
+                    enableStoryEditor();
+                    document.getElementById('publishBtn').style.display = 'flex';
+                    setStepDone(1); setStepDone(2); setStepActive(3);
+                    document.getElementById('toolbarStatus').textContent = 'Looking good! Edit anything and republish.';
+                    if (publishedSiteUrl) showPublishedBanner(publishedSiteUrl);
+                }
+                showToast('Welcome back! Your progress has been loaded.');
+            }
+        } catch(e) { console.warn('Could not load saved data', e); }
+    }
+
+    function restoreFormData(d) {
+        if (d.name1) document.getElementById('name1').value = d.name1;
+        if (d.name2) document.getElementById('name2').value = d.name2;
+        if (d.weddingDate) document.getElementById('weddingDate').value = d.weddingDate;
+        if (d.ceremonyLocation) document.getElementById('ceremonyLocation').value = d.ceremonyLocation;
+        if (d.ceremonyAddress) document.getElementById('ceremonyAddress').value = d.ceremonyAddress;
+        if (d.ceremonyTime) document.getElementById('ceremonyTime').value = d.ceremonyTime;
+        if (d.receptionLocation) document.getElementById('receptionLocation').value = d.receptionLocation;
+        if (d.receptionAddress) document.getElementById('receptionAddress').value = d.receptionAddress;
+        if (d.dressCode) document.getElementById('dressCode').value = d.dressCode;
+        if (d.howMet) document.getElementById('howMet').value = d.howMet;
+        if (d.proposal) document.getElementById('proposal').value = d.proposal;
+        if (d.extraDetails) document.getElementById('extraDetails').value = d.extraDetails;
+        if (d.theme) { const t = document.querySelector('input[name="eptheme"][value="' + d.theme + '"]'); if (t) t.checked = true; }
+        if (d.tone) { const t = document.querySelector('input[name="tone"][value="' + d.tone + '"]'); if (t) t.checked = true; }
+        if (d.schedule) { scheduleItems = d.schedule; renderSchedule(); }
+        if (d.partyMembers) { partyMembers = d.partyMembers; renderParty(); }
+        if (d.hotels) { hotelItems = d.hotels; renderHotels(); }
+        if (d.photos) { uploadedPhotos = d.photos; renderPhotoThumbs(); }
+        if (d.heroPhoto) {
+            heroPhoto = d.heroPhoto;
+            document.getElementById('heroPreviewPanel').innerHTML = '<img src="' + d.heroPhoto + '" style="width:100%;border-radius:8px;display:block;">';
+            document.getElementById('heroRemoveBtn').style.display = 'block';
+        }
+        if (d.selectedRegistries) {
+            d.selectedRegistries.forEach(v => {
+                const cb = document.querySelector('input[name="registry"][value="' + v + '"]');
+                if (cb) { cb.checked = true; updateRegStyle(v, true); }
+            });
+            if (d.selectedRegistries.includes('custom')) document.getElementById('customRegistryFields').style.display = 'block';
+        }
+        if (d.customRegName) document.getElementById('customRegName').value = d.customRegName;
+        if (d.customRegUrl) document.getElementById('customRegUrl').value = d.customRegUrl;
+    }
+
+    function collectFormData() {
+        return {
+            name1: document.getElementById('name1').value.trim(),
+            name2: document.getElementById('name2').value.trim(),
+            weddingDate: document.getElementById('weddingDate').value,
+            ceremonyLocation: document.getElementById('ceremonyLocation').value.trim(),
+            ceremonyAddress: document.getElementById('ceremonyAddress').value.trim(),
+            ceremonyTime: document.getElementById('ceremonyTime').value,
+            receptionLocation: document.getElementById('receptionLocation').value.trim(),
+            receptionAddress: document.getElementById('receptionAddress').value.trim(),
+            dressCode: document.getElementById('dressCode').value,
+            howMet: document.getElementById('howMet').value.trim(),
+            proposal: document.getElementById('proposal').value.trim(),
+            extraDetails: document.getElementById('extraDetails').value.trim(),
+            tone: (document.querySelector('input[name="tone"]:checked') || {}).value || 'romantic',
+            theme: (document.querySelector('input[name="eptheme"]:checked') || {}).value || 'blush',
+            customRegName: document.getElementById('customRegName').value.trim(),
+            customRegUrl: document.getElementById('customRegUrl').value.trim(),
+            selectedRegistries: Array.from(document.querySelectorAll('input[name="registry"]:checked')).map(cb => cb.value),
+            photos: uploadedPhotos,
+            heroPhoto: heroPhoto,
+            schedule: scheduleItems,
+            partyMembers: partyMembers,
+            hotels: hotelItems,
+        };
+    }
+
+    function autoSave() {
+        clearTimeout(autoSaveTimer);
+        autoSaveTimer = setTimeout(async () => {
+            if (!authToken || !generatedHTML) return;
+            try {
+                await fetch('/.netlify/functions/auth', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'save', token: authToken,
+                        formData: collectFormData(),
+                        generatedHtml: generatedHTML,
+                        storyCopy: generatedStoryCopy,
+                        siteId: publishedSiteId,
+                        siteUrl: publishedSiteUrl
+                    })
+                });
+            } catch(e) { console.warn('Auto-save failed', e); }
+        }, 2000);
+    }
+
+    // ── SECTION NAV ───────────────────────────────────────────────────────────
+    function showSection(name) {
+        document.querySelectorAll('.section-nav-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.edit-panel').forEach(el => el.classList.remove('active'));
+        document.getElementById('nav-' + name).classList.add('active');
+        document.getElementById('panel-' + name).classList.add('active');
+    }
+
+    // ── PREVIEW MODE ──────────────────────────────────────────────────────────
+    function setPreviewMode(mode) {
+        const wrap = document.getElementById('previewWrap');
+        const dBtn = document.getElementById('deskBtn');
+        const mBtn = document.getElementById('mobileBtn');
+        wrap.className = 'preview-wrap' + (mode === 'mobile' ? ' mobile' : '');
+        dBtn.classList.toggle('active', mode === 'desktop');
+        mBtn.classList.toggle('active', mode === 'mobile');
+    }
+
+    // ── LIVE UPDATE (rebuilds preview without AI) ─────────────────────────────
+    function liveUpdate() {
+        if (!generatedHTML || !generatedData) return;
+        clearTimeout(liveUpdateTimer);
+        liveUpdateTimer = setTimeout(() => {
+            const d = collectFormData();
+            generatedData = { ...generatedData, ...d };
+            const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+            generatedHTML = html;
+            document.getElementById('previewFrame').srcdoc = html;
+            autoSave();
+        }, 600);
+    }
+
+    // ── STEPS ─────────────────────────────────────────────────────────────────
+    function setStepDone(n) { const el = document.getElementById('sd'+n); if(el){el.classList.add('done');el.classList.remove('active');el.textContent='✓';} }
+    function setStepActive(n) { const el = document.getElementById('sd'+n); if(el){el.classList.add('active');el.classList.remove('done');} }
+
+    // ── HERO PHOTO ────────────────────────────────────────────────────────────
     function handleHeroPhoto(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -491,213 +713,288 @@
                 canvas.width = w; canvas.height = h;
                 canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                 heroPhoto = canvas.toDataURL('image/jpeg', 0.82);
-                const preview = document.getElementById('heroPhotoPreview');
-                preview.innerHTML = `<img src="${heroPhoto}" style="width:100%;height:100%;object-fit:cover;">`;
+                document.getElementById('heroPreviewPanel').innerHTML = '<img src="' + heroPhoto + '" style="width:100%;border-radius:8px;display:block;">';
                 document.getElementById('heroRemoveBtn').style.display = 'block';
+                liveUpdate();
             };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
-    } // base64 encoded photos
+    }
 
-    // ── PHOTO UPLOAD ─────────────────────────────────────────────────────────
+    function removeHeroPhoto() {
+        heroPhoto = '';
+        document.getElementById('heroPreviewPanel').innerHTML = '<div style="font-size:1.8rem;margin-bottom:6px;">📷</div>';
+        document.getElementById('heroRemoveBtn').style.display = 'none';
+        liveUpdate();
+    }
+
+    // ── GALLERY PHOTOS ────────────────────────────────────────────────────────
     function handlePhotoUpload(event) {
         const files = Array.from(event.target.files);
         const remaining = 5 - uploadedPhotos.length;
-        const toProcess = files.slice(0, remaining);
-
-        toProcess.forEach(file => {
-            if (file.size > 5 * 1024 * 1024) { alert(`${file.name} is too large. Max 5MB per photo.`); return; }
+        files.slice(0, remaining).forEach(file => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 uploadedPhotos.push({ src: e.target.result, name: file.name });
                 renderPhotoThumbs();
+                liveUpdate();
             };
             reader.readAsDataURL(file);
         });
     }
 
     function renderPhotoThumbs() {
-        const grid = document.getElementById('photoPreviewGrid');
-        grid.innerHTML = uploadedPhotos.map((p, i) => `
-            <div class="photo-thumb">
+        document.getElementById('photoPreviewGrid').innerHTML = uploadedPhotos.map((p, i) => `
+            <div class="ep-photo-thumb">
                 <img src="${p.src}" alt="Photo ${i+1}">
-                <button class="remove-photo" onclick="removePhoto(${i})">&#10005;</button>
+                <button onclick="removePhoto(${i})">✕</button>
             </div>
         `).join('');
     }
 
-    function removePhoto(index) {
-        uploadedPhotos.splice(index, 1);
-        renderPhotoThumbs();
-    }
+    function removePhoto(i) { uploadedPhotos.splice(i, 1); renderPhotoThumbs(); liveUpdate(); }
 
-    // ── SCHEDULE ─────────────────────────────────────────────────────────────
-    let scheduleItems = [
-        { time: '', event: '', note: '' }
-    ];
-
+    // ── SCHEDULE ──────────────────────────────────────────────────────────────
     function renderSchedule() {
         document.getElementById('scheduleItems').innerHTML = scheduleItems.map((item, i) => `
-            <div class="schedule-item">
-                <div class="field"><label>Time</label><input type="time" value="${item.time}" onchange="scheduleItems[${i}].time=this.value"></div>
-                <div class="field"><label>Event</label><input type="text" value="${item.event}" placeholder="e.g. Ceremony begins" onchange="scheduleItems[${i}].event=this.value"></div>
-                <div class="field"><label>Note <span class="hint">(optional)</span></label><input type="text" value="${item.note}" placeholder="e.g. Please be seated by 3:45" onchange="scheduleItems[${i}].note=this.value"></div>
-                <button class="remove-btn" onclick="removeScheduleItem(${i})" title="Remove">&#10005;</button>
+            <div class="ep-item">
+                <button class="ep-item-remove" onclick="removeScheduleItem(${i})">✕</button>
+                <div class="ep-field-row">
+                    <div class="ep-field"><label>Time</label><input type="time" value="${item.time}" onchange="scheduleItems[${i}].time=this.value;liveUpdate()"></div>
+                    <div class="ep-field"><label>Event</label><input type="text" value="${item.event}" placeholder="e.g. Ceremony" onchange="scheduleItems[${i}].event=this.value;liveUpdate()"></div>
+                </div>
+                <div class="ep-field"><label>Note <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${item.note||''}" placeholder="e.g. Black tie optional" onchange="scheduleItems[${i}].note=this.value;liveUpdate()"></div>
             </div>
         `).join('');
     }
 
-    function addScheduleItem() {
-        scheduleItems.push({ time: '', event: '', note: '' });
-        renderSchedule();
-    }
-
-    function removeScheduleItem(index) {
-        scheduleItems.splice(index, 1);
-        renderSchedule();
-    }
-
-    renderSchedule();
+    function addScheduleItem() { scheduleItems.push({ time: '', event: '', note: '' }); renderSchedule(); }
+    function removeScheduleItem(i) { scheduleItems.splice(i, 1); renderSchedule(); liveUpdate(); }
 
     // ── WEDDING PARTY ─────────────────────────────────────────────────────────
-    let partyMembers = [];
-
     function renderParty() {
-        document.getElementById('partyMembers').innerHTML = partyMembers.map((m, i) => `
-            <div style="background:var(--cream);border-radius:10px;padding:16px;margin-bottom:12px;border:1px solid var(--border);">
-                <div style="display:grid;grid-template-columns:80px 1fr;gap:16px;align-items:start;margin-bottom:12px;">
-                    <!-- Photo upload -->
-                    <div>
-                        <div style="width:80px;height:80px;border-radius:50%;border:2px dashed var(--border);overflow:hidden;cursor:pointer;position:relative;background:white;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;"
-                             onclick="document.getElementById('partyPhoto_${i}').click()">
-                            ${m.photo
-                                ? `<img src="${m.photo}" style="width:100%;height:100%;object-fit:cover;">`
-                                : `<span style="font-size:1.4rem;">&#128100;</span><span style="font-size:0.6rem;color:var(--text-light);text-align:center;line-height:1.2;">Add<br>Photo</span>`
-                            }
-                        </div>
-                        <input type="file" id="partyPhoto_${i}" accept="image/*" style="display:none" onchange="handlePartyPhoto(${i}, event)">
-                        ${m.photo ? `<button onclick="partyMembers[${i}].photo='';renderParty();" style="display:block;width:80px;margin-top:4px;font-size:0.65rem;color:var(--text-light);background:none;border:none;cursor:pointer;text-align:center;">Remove</button>` : ''}
-                    </div>
-                    <!-- Fields -->
-                    <div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-                            <div class="field"><label>Name</label><input type="text" value="${m.name}" placeholder="e.g. Emily Johnson" onchange="partyMembers[${i}].name=this.value"></div>
-                            <div class="field"><label>Role</label><input type="text" value="${m.role}" placeholder="e.g. Maid of Honor" onchange="partyMembers[${i}].role=this.value"></div>
-                            <div class="field"><label>Relation <span class="hint">(optional)</span></label><input type="text" value="${m.relation}" placeholder="e.g. Sister of the bride" onchange="partyMembers[${i}].relation=this.value"></div>
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;">
-                            <div class="field"><label>Tell us about them <span class="hint">(personality, fun facts, how you know them)</span></label><input type="text" value="${m.note}" placeholder="e.g. My college roommate who convinced me to swipe right" onchange="partyMembers[${i}].note=this.value"></div>
-                            <button class="remove-btn" onclick="removePartyMember(${i})" title="Remove" style="margin-bottom:2px;">&#10005;</button>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <label style="font-size:0.78rem;font-weight:500;color:var(--text);display:block;margin-bottom:8px;">Blurb tone for ${m.name || 'this person'}:</label>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        ${['Sweet','Funny','Roast','Heartfelt','Professional'].map(tone => `
-                        <label style="display:flex;align-items:center;gap:4px;padding:6px 12px;border:1.5px solid ${m.tone===tone?'var(--blush)':'var(--border)'};border-radius:20px;cursor:pointer;font-size:0.78rem;font-weight:500;background:${m.tone===tone?'var(--blush-light)':'white'};transition:all 0.15s;">
-                            <input type="radio" name="partytone_${i}" value="${tone}" ${m.tone===tone?'checked':''} onchange="partyMembers[${i}].tone=this.value;renderParty();" style="display:none;">
-                            ${tone}
-                        </label>`).join('')}
-                    </div>
+        document.getElementById('partyItems').innerHTML = partyMembers.map((p, i) => `
+            <div class="ep-item">
+                <button class="ep-item-remove" onclick="removePartyMember(${i})">✕</button>
+                <div class="ep-field"><label>Name</label><input type="text" value="${p.name||''}" placeholder="Full name" onchange="partyMembers[${i}].name=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Role</label><input type="text" value="${p.role||''}" placeholder="e.g. Maid of Honor" onchange="partyMembers[${i}].role=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Relation <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${p.relation||''}" placeholder="e.g. Best Friend" onchange="partyMembers[${i}].relation=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Note for AI blurb <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${p.note||''}" placeholder="Fun fact or personality" onchange="partyMembers[${i}].note=this.value"></div>
+                <div class="ep-field"><label>Tone</label>
+                    <select onchange="partyMembers[${i}].tone=this.value">
+                        <option value="sweet" ${(p.tone||'sweet')==='sweet'?'selected':''}>Sweet</option>
+                        <option value="funny" ${p.tone==='funny'?'selected':''}>Funny</option>
+                        <option value="heartfelt" ${p.tone==='heartfelt'?'selected':''}>Heartfelt</option>
+                        <option value="classic" ${p.tone==='classic'?'selected':''}>Classic</option>
+                    </select>
                 </div>
             </div>
         `).join('');
     }
 
-    function handlePartyPhoto(index, event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        if (file.size > 5 * 1024 * 1024) { alert('Photo too large. Max 5MB.'); return; }
-        // Compress to ~200x200 circle
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const SIZE = 300;
-                canvas.width = SIZE; canvas.height = SIZE;
-                const ctx = canvas.getContext('2d');
-                // Crop to square from center
-                const min = Math.min(img.width, img.height);
-                const sx = (img.width - min) / 2;
-                const sy = (img.height - min) / 2;
-                ctx.drawImage(img, sx, sy, min, min, 0, 0, SIZE, SIZE);
-                partyMembers[index].photo = canvas.toDataURL('image/jpeg', 0.75);
-                renderParty();
-            };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
+    function addPartyMember() { partyMembers.push({ name: '', role: '', relation: '', note: '', tone: 'sweet' }); renderParty(); }
+    function removePartyMember(i) { partyMembers.splice(i, 1); renderParty(); liveUpdate(); }
 
-    function addPartyMember() {
-        partyMembers.push({ name: '', role: '', relation: '', note: '', tone: 'Sweet', photo: '' });
-        renderParty();
-    }
-
-    function removePartyMember(index) {
-        partyMembers.splice(index, 1);
-        renderParty();
-    }
-
-    // ── HOTELS ───────────────────────────────────────────────────────────────
-    let hotelItems = [];
-
+    // ── HOTELS ────────────────────────────────────────────────────────────────
     function renderHotels() {
         document.getElementById('hotelItems').innerHTML = hotelItems.map((h, i) => `
-            <div style="background:var(--cream);border-radius:10px;padding:16px;margin-bottom:12px;border:1px solid var(--border);">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-                    <div class="field"><label>Hotel Name</label><input type="text" value="${h.name}" placeholder="e.g. Marriott Downtown" onchange="hotelItems[${i}].name=this.value"></div>
-                    <div class="field"><label>Price Range <span class="hint">(per night)</span></label>
-                        <select onchange="hotelItems[${i}].price=this.value">
-                            <option value="" ${h.price===''?'selected':''}>Select range...</option>
-                            <option value="Under $100/night" ${h.price==='Under $100/night'?'selected':''}>Under $100/night</option>
-                            <option value="$100–$150/night" ${h.price==='$100–$150/night'?'selected':''}>$100–$150/night</option>
-                            <option value="$150–$200/night" ${h.price==='$150–$200/night'?'selected':''}>$150–$200/night</option>
-                            <option value="$200–$300/night" ${h.price==='$200–$300/night'?'selected':''}>$200–$300/night</option>
-                            <option value="$300+/night" ${h.price==='$300+/night'?'selected':''}>$300+/night</option>
-                        </select>
-                    </div>
-                    <div class="field"><label>Address <span class="hint">(optional)</span></label><input type="text" value="${h.address}" placeholder="e.g. 123 Main St, Austin TX" onchange="hotelItems[${i}].address=this.value"></div>
-                    <div class="field"><label>Booking Link <span class="hint">(optional)</span></label><input type="url" value="${h.bookingUrl}" placeholder="https://..." onchange="hotelItems[${i}].bookingUrl=this.value"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                    <div class="field" style="flex:1;margin-right:10px;"><label>Note <span class="hint">(e.g. "We have a room block — mention our wedding")</span></label><input type="text" value="${h.note}" placeholder="e.g. Ask for the Anderson wedding block rate" onchange="hotelItems[${i}].note=this.value"></div>
-                    <button class="remove-btn" onclick="removeHotel(${i})" title="Remove">&#10005;</button>
-                </div>
+            <div class="ep-item">
+                <button class="ep-item-remove" onclick="removeHotel(${i})">✕</button>
+                <div class="ep-field"><label>Hotel Name</label><input type="text" value="${h.name||''}" placeholder="e.g. The Grand Hotel" onchange="hotelItems[${i}].name=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Price Range</label><input type="text" value="${h.price||''}" placeholder="e.g. $120–$180/night" onchange="hotelItems[${i}].price=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Address</label><input type="text" value="${h.address||''}" placeholder="City or full address" onchange="hotelItems[${i}].address=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Note <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${h.note||''}" placeholder="e.g. Ask for the wedding rate" onchange="hotelItems[${i}].note=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Booking URL <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${h.bookingUrl||''}" placeholder="https://..." onchange="hotelItems[${i}].bookingUrl=this.value;liveUpdate()"></div>
             </div>
         `).join('');
     }
 
-    function addHotel() {
-        hotelItems.push({ name: '', address: '', price: '', bookingUrl: '', note: '' });
-        renderHotels();
-    }
+    function addHotel() { hotelItems.push({ name: '', price: '', address: '', note: '', bookingUrl: '' }); renderHotels(); }
+    function removeHotel(i) { hotelItems.splice(i, 1); renderHotels(); liveUpdate(); }
 
-    function removeHotel(index) {
-        hotelItems.splice(index, 1);
-        renderHotels();
-    }
-
-    renderHotels();
-
-    // ── REGISTRY ─────────────────────────────────────────────────────────────
+    // ── REGISTRY ──────────────────────────────────────────────────────────────
     function updateRegStyle(id, checked) {
         const wrap = document.getElementById('reg-' + id + '-wrap');
         if (wrap) {
             wrap.style.borderColor = checked ? 'var(--blush)' : 'var(--border)';
-            wrap.style.background = checked ? 'var(--blush-light, #fdf0f0)' : 'var(--cream)';
+            wrap.style.background = checked ? 'var(--blush-light, #fdf0f0)' : 'white';
         }
     }
 
-    // ── REGISTRY TOGGLE ───────────────────────────────────────────────────────
-    document.getElementById('reg-custom').addEventListener('change', function() {
-        document.getElementById('customRegistryFields').style.display = this.checked ? 'block' : 'none';
-    });
+    // ── STORY EDITOR ──────────────────────────────────────────────────────────
+    function enableStoryEditor() {
+        const editor = document.getElementById('storyEditor');
+        editor.contentEditable = 'true';
+        editor.style.background = 'white';
+        editor.style.color = 'var(--text)';
+        document.getElementById('applyStoryBtn').style.display = 'block';
+        if (generatedStoryCopy) editor.innerHTML = generatedStoryCopy;
+    }
 
-    // ── THEME COLORS ──────────────────────────────────────────────────────────
+    function applyStoryEdit() {
+        generatedStoryCopy = document.getElementById('storyEditor').innerHTML;
+        const d = collectFormData();
+        generatedData = { ...generatedData, ...d };
+        const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+        generatedHTML = html;
+        document.getElementById('previewFrame').srcdoc = html;
+        showToast('Story updated!');
+        autoSave();
+    }
+
+    // ── THEME SWITCH ──────────────────────────────────────────────────────────
+    function switchTheme(newTheme) {
+        if (!generatedData) return;
+        generatedData.theme = newTheme;
+        const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+        generatedHTML = html;
+        document.getElementById('previewFrame').srcdoc = html;
+        autoSave();
+    }
+
+    // ── PUBLISHED BANNER ──────────────────────────────────────────────────────
+    function showPublishedBanner(url) {
+        const banner = document.getElementById('publishedBanner');
+        const urlEl = document.getElementById('publishedUrl');
+        urlEl.href = url; urlEl.textContent = url;
+        banner.style.display = 'block';
+        const chip = document.getElementById('publishedChip');
+        chip.href = url; chip.style.display = 'flex';
+        document.getElementById('previewUrl').textContent = url.replace('https://', '');
+    }
+
+    function copyPublishedUrl() {
+        if (!publishedSiteUrl) return;
+        navigator.clipboard.writeText(publishedSiteUrl).then(() => showToast('Link copied!'));
+    }
+
+    // ── TOAST ─────────────────────────────────────────────────────────────────
+    function showToast(msg, dur = 3000) {
+        const t = document.getElementById('toast');
+        t.textContent = msg; t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), dur);
+    }
+
+    // ── GENERATE ──────────────────────────────────────────────────────────────
+    async function generateWebsite() {
+        const data = collectFormData();
+        if (!data.name1 || !data.name2) { showSection('names'); showToast('Please enter both names first!'); return; }
+        if (!data.howMet) { showSection('story'); showToast('Please tell us how you met!'); return; }
+
+        document.getElementById('generatingOverlay').classList.add('visible');
+        let mi = 0;
+        msgInterval = setInterval(() => {
+            mi = (mi + 1) % genMessages.length;
+            document.getElementById('genMessage').textContent = genMessages[mi];
+        }, 3000);
+
+        setStepDone(1); setStepActive(2);
+
+        const toneGuide = {
+            romantic: 'Warm, poetic, deeply heartfelt.',
+            humorous: 'Funny, lighthearted, witty.',
+            modern: 'Clean, direct, confident. No flowery language.',
+            whimsical: 'Dreamy, fairytale-inspired.',
+            classic: 'Timeless, elegant, graceful.'
+        };
+
+        const partyWithNotes = data.partyMembers.filter(p => p.name && p.role);
+        const partyInstruction = partyWithNotes.length > 0 ? `
+
+Also write a short 2-3 sentence blurb for each wedding party member. After the story HTML, output:
+PARTY_BLURBS_START
+[{"name":"...","blurb":"..."}]
+PARTY_BLURBS_END
+
+Wedding party:
+${partyWithNotes.map(p => `- ${p.name} (${p.role}${p.relation ? ', ' + p.relation : ''}): Tone: ${p.tone || 'Sweet'}. About them: ${p.note || 'No info provided'}`).join('\n')}` : '';
+
+        const prompt = `Write the "Our Story" section for ${data.name1} and ${data.name2}'s wedding website.
+
+How they met: ${data.howMet}
+The proposal: ${data.proposal || 'Not provided'}
+Extra details: ${data.extraDetails || 'None'}
+
+Tone: ${toneGuide[data.tone]}
+
+Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped in: <div class="story-pull" style="font-style:italic;text-align:center;padding:28px 0;border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin:32px 0;opacity:0.8;font-size:1.15rem;line-height:1.5;font-family:Georgia,serif;">quote here</div>${partyInstruction}
+
+Output the story HTML first. Nothing else unless party blurbs were requested.`;
+
+        try {
+            const res = await fetch('/.netlify/functions/generate', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+            });
+            const result = await res.json();
+            const rawText = result.content?.[0]?.text || '<p>A beautiful love story.</p>';
+            let storyCopy = rawText;
+            let partyBlurbs = {};
+            if (rawText.includes('PARTY_BLURBS_START')) {
+                const parts = rawText.split('PARTY_BLURBS_START');
+                storyCopy = parts[0].trim();
+                try { const blurbArr = JSON.parse(parts[1].split('PARTY_BLURBS_END')[0].trim()); blurbArr.forEach(b => { partyBlurbs[b.name] = b.blurb; }); } catch(e) {}
+            }
+            data.partyBlurbs = partyBlurbs;
+
+            clearInterval(msgInterval);
+            generatedStoryCopy = storyCopy;
+            generatedData = data;
+            generatedHTML = buildWebsiteHTML(data, storyCopy);
+
+            document.getElementById('previewFrame').srcdoc = generatedHTML;
+            document.getElementById('previewUrl').textContent = (data.name1 + '-and-' + data.name2).toLowerCase().replace(/\s+/g, '-') + '.netlify.app';
+            document.getElementById('generatingOverlay').classList.remove('visible');
+            document.getElementById('publishBtn').style.display = 'flex';
+            setStepDone(2); setStepActive(3);
+            document.getElementById('toolbarStatus').textContent = 'Looking great! Publish when ready.';
+
+            enableStoryEditor();
+            showSection('story');
+            showToast('Your website is ready! Review it and publish when you\'re happy.');
+            autoSave();
+
+        } catch(err) {
+            clearInterval(msgInterval);
+            document.getElementById('generatingOverlay').classList.remove('visible');
+            showToast('Something went wrong. Please try again.');
+            console.error(err);
+        }
+    }
+
+    // ── PUBLISH ───────────────────────────────────────────────────────────────
+    async function publishWebsite() {
+        if (!generatedHTML) { showToast('Generate your website first!'); return; }
+        const btn = document.getElementById('publishBtn');
+        const origHTML = btn.innerHTML;
+        btn.innerHTML = '⏳ Publishing...'; btn.disabled = true;
+
+        const d = collectFormData();
+        const siteName = (d.name1 + '-and-' + d.name2).toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
+        try {
+            const res = await fetch('/.netlify/functions/deploy-site', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ html: generatedHTML, siteName, siteId: publishedSiteId })
+            });
+            const result = await res.json();
+            if (result.error) throw new Error(result.error);
+
+            publishedSiteId = result.siteId;
+            publishedSiteUrl = result.url;
+            showPublishedBanner(publishedSiteUrl);
+            btn.innerHTML = '✓ Published!';
+            setTimeout(() => { btn.innerHTML = '🔄 Update Site'; btn.disabled = false; }, 3000);
+            showToast('🎉 Your wedding website is live!', 5000);
+            autoSave();
+
+        } catch(err) {
+            btn.innerHTML = origHTML; btn.disabled = false;
+            showToast('Publishing failed: ' + err.message);
+        }
+    }
+
     function getTheme(name) {
         const themes = {
             blush:    { primary:'#D4A5A5', primaryDark:'#B88A8A', accent:'#A8B89C', bg:'#FBF8F5', light:'#F0E8E8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:false },
@@ -708,14 +1005,8 @@
             lavender: { primary:'#9B8EC4', primaryDark:'#7B6EA4', accent:'#B8A8C8', bg:'#F8F7FC', light:'#EDE8F5', text:'#3A3848', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:true }
         };
         return themes[name] || themes.blush;
-    }
+    
 
-
-    // ── EDIT MODE SCRIPT (injected into generated HTML) ─────────────────────
-    const EDIT_JS_CODE = '(function(){\nvar em=false;\nvar btn=document.createElement(\'button\');\nbtn.id=\'eb-btn\';\nbtn.textContent=\'\\u270F\\uFE0F Edit Website\';\nbtn.style.cssText=\'position:fixed;bottom:24px;right:24px;z-index:9999;background:#fff;border:2px solid #D4A5A5;border-radius:30px;padding:10px 22px;font-size:0.85rem;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-family:sans-serif;transition:all 0.2s;\';\nbtn.onclick=toggle;document.body.appendChild(btn);\nvar bar=document.createElement(\'div\');bar.id=\'eb-bar\';\nbar.style.cssText=\'position:fixed;top:0;left:0;right:0;z-index:10000;background:#4A4540;color:white;padding:10px 20px;display:none;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.82rem;\';\nbar.innerHTML=\'<span style=\\"opacity:0.8\\">\\u270F\\uFE0F Click any text to edit &bull; Hover photos to swap</span><div style=\\"display:flex;gap:8px;\\"><button id=\\"eb-save\\" style=\\"background:#A8B89C;color:white;border:none;padding:7px 18px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.8rem;\\">\\uD83D\\uDCBE Save & Download</button><button id=\\"eb-done\\" style=\\"background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.3);padding:7px 14px;border-radius:20px;cursor:pointer;font-size:0.8rem;\\">Done</button></div>\';\ndocument.body.appendChild(bar);\nvar sty=document.createElement(\'style\');\nsty.textContent=\'.eb-on{outline:2px dashed #D4A5A5!important;cursor:text!important;border-radius:3px;min-height:1em;}.eb-wrap{position:relative!important;}.eb-ov{position:absolute;inset:0;background:rgba(0,0,0,0.42);color:white;display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:600;font-family:sans-serif;cursor:pointer;border-radius:inherit;opacity:0;transition:opacity 0.18s;}.eb-wrap:hover .eb-ov{opacity:1;}.eb-x{position:absolute;top:5px;right:5px;background:rgba(212,165,165,0.95);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:10;line-height:1;}.eb-deletable:hover .eb-x,.eb-deletable:focus-within .eb-x{display:flex;}\';\ndocument.head.appendChild(sty);\nfunction toggle(){em=!em;bar.style.display=em?\'flex\':\'none\';btn.textContent=em?\'\\u2715 Stop Editing\':\'\\u270F\\uFE0F Edit Website\';btn.style.background=em?\'#fef0f0\':\'#fff\';em?enable():disable();}\ndocument.addEventListener(\'DOMContentLoaded\',function(){\n  document.getElementById(\'eb-save\').addEventListener(\'click\',save);\n  document.getElementById(\'eb-done\').addEventListener(\'click\',toggle);\n});\nfunction enable(){\n  document.querySelectorAll(\'.eb-text\').forEach(function(el){el.contentEditable=\'true\';el.classList.add(\'eb-on\');});\n  document.querySelectorAll(\'.eb-photo\').forEach(function(img){\n    var w=img.parentElement;w.classList.add(\'eb-wrap\');\n    if(!w.querySelector(\'.eb-ov\')){var ov=document.createElement(\'div\');ov.className=\'eb-ov\';ov.innerHTML=\'\\uD83D\\uDDBC&nbsp;Replace Photo\';ov.onclick=function(){swap(img);};w.appendChild(ov);}\n  });\n  document.querySelectorAll(\'.eb-deletable\').forEach(function(el){\n    el.style.position=\'relative\';\n    if(!el.querySelector(\'.eb-x\')){var d=document.createElement(\'button\');d.className=\'eb-x\';d.innerHTML=\'&times;\';d.title=\'Remove\';d.onclick=function(e){e.stopPropagation();el.style.opacity=\'0\';el.style.transition=\'opacity 0.3s\';setTimeout(function(){el.remove();},300);};el.appendChild(d);}\n  });\n}\nfunction disable(){\n  document.querySelectorAll(\'.eb-text\').forEach(function(el){el.contentEditable=\'false\';el.classList.remove(\'eb-on\');});\n  document.querySelectorAll(\'.eb-ov,.eb-x\').forEach(function(el){el.remove();});\n  document.querySelectorAll(\'.eb-wrap\').forEach(function(el){el.classList.remove(\'eb-wrap\');});\n}\nfunction swap(img){var inp=document.createElement(\'input\');inp.type=\'file\';inp.accept=\'image/*\';inp.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){var i=new Image();i.onload=function(){var c=document.createElement(\'canvas\');var mw=1400,w=i.width,h=i.height;if(w>mw){h=Math.round(h*mw/w);w=mw;}c.width=w;c.height=h;c.getContext(\'2d\').drawImage(i,0,0,w,h);img.src=c.toDataURL(\'image/jpeg\',0.82);};i.src=ev.target.result;};r.readAsDataURL(f);};inp.click();}\nfunction save(){\n  disable();em=false;bar.style.display=\'none\';btn.textContent=\'\\u270F\\uFE0F Edit Website\';btn.style.background=\'#fff\';\n  var cl=document.documentElement.cloneNode(true);\n  [\'eb-btn\',\'eb-bar\'].forEach(function(id){var el=cl.querySelector(\'#\'+id);if(el)el.remove();});\n  cl.querySelectorAll(\'style\').forEach(function(s){if(s.textContent.indexOf(\'.eb-on\')>-1)s.remove();});\n  var h=\'<!DOCTYPE html>\\n\'+cl.outerHTML;\n  var b=new Blob([h],{type:\'text/html\'});var a=document.createElement(\'a\');a.href=URL.createObjectURL(b);a.download=\'my-wedding-website.html\';a.click();\n}\n})();';
-    const EDIT_SCRIPT_TAG = String.fromCharCode(60) + 'script>' + EDIT_JS_CODE + String.fromCharCode(60) + '/script>';
-
-        // ── BUILD WEBSITE HTML ────────────────────────────────────────────────────
     function buildWebsiteHTML(data, storyCopy) {
         const t = getTheme(data.theme);
         const wDate = data.weddingDate ? new Date(data.weddingDate + 'T12:00:00') : null;
@@ -985,410 +1276,7 @@ ${registrySection}
 
 ${EDIT_SCRIPT_TAG}
 </body></html>`;
-    }
 
-    // ── GENERATE ──────────────────────────────────────────────────────────────
-    const loadingMessages = ['Writing your love story...','Designing your website...','Building your gallery...','Adding the finishing touches...','Almost ready...'];
-    let msgInterval;
-
-    async function generateWebsite() {
-        const data = {
-            name1: document.getElementById('name1').value.trim(),
-            name2: document.getElementById('name2').value.trim(),
-            weddingDate: document.getElementById('weddingDate').value,
-            ceremonyLocation: document.getElementById('ceremonyLocation').value.trim(),
-            ceremonyAddress: document.getElementById('ceremonyAddress').value.trim(),
-            ceremonyTime: document.getElementById('ceremonyTime').value,
-            receptionLocation: document.getElementById('receptionLocation').value.trim(),
-            receptionAddress: document.getElementById('receptionAddress').value.trim(),
-            dressCode: document.getElementById('dressCode').value,
-            hotelInfo: '',
-            howMet: document.getElementById('howMet').value.trim(),
-            proposal: document.getElementById('proposal').value.trim(),
-            extraDetails: document.getElementById('extraDetails').value.trim(),
-            tone: document.querySelector('input[name="tone"]:checked').value,
-            theme: document.querySelector('input[name="theme"]:checked').value,
-            customRegName: document.getElementById('customRegName').value.trim(),
-            customRegUrl: document.getElementById('customRegUrl').value.trim(),
-            selectedRegistries: Array.from(document.querySelectorAll('input[name="registry"]:checked')).map(cb => cb.value),
-            photos: uploadedPhotos,
-            heroPhoto: heroPhoto,
-            schedule: scheduleItems,
-            partyMembers: partyMembers,
-            hotels: hotelItems,
-        };
-
-        if (!data.name1 || !data.name2) { alert('Please enter both names!'); return; }
-        if (!data.howMet) { alert("Please tell us how you met — that's the heart of your story!"); return; }
-
-        document.getElementById('formSection').style.display = 'none';
-        document.getElementById('loadingState').classList.add('visible');
-        document.getElementById('resultSection').classList.remove('visible');
-
-        let mi = 0;
-        msgInterval = setInterval(() => {
-            mi = (mi + 1) % loadingMessages.length;
-            document.getElementById('loadingMessage').textContent = loadingMessages[mi];
-        }, 3000);
-
-        document.getElementById('step1indicator').classList.remove('active');
-        document.getElementById('step1indicator').classList.add('done');
-        document.getElementById('step2indicator').classList.add('active');
-
-        const toneGuide = {
-            romantic: 'Warm, poetic, deeply heartfelt. Use evocative language and paint a picture of their love.',
-            humorous: 'Funny, lighthearted, witty. Include gentle humor. Make guests laugh while still feeling the love.',
-            modern: 'Clean, direct, confident. No flowery language. Genuine and concise.',
-            whimsical: 'Dreamy, fairytale-inspired, full of imagery and metaphor.',
-            classic: 'Timeless, elegant, graceful. Like a story in a beautifully printed keepsake.'
-        };
-
-        // Build party blurb instructions
-        const partyWithNotes = data.partyMembers.filter(p => p.name && p.role);
-        const partyInstruction = partyWithNotes.length > 0 ? `
-
-Also write a short 2-3 sentence blurb for each wedding party member below. Match the tone specified for each person. After the story HTML, output the blurbs in this exact format:
-PARTY_BLURBS_START
-[{"name":"...","blurb":"..."}]
-PARTY_BLURBS_END
-
-Wedding party:
-${partyWithNotes.map(p => `- ${p.name} (${p.role}${p.relation ? ', ' + p.relation : ''}): Tone: ${p.tone || 'Sweet'}. About them: ${p.note || 'No info provided'}`).join('\n')}` : '';
-
-        const prompt = `Write the "Our Story" section for ${data.name1} and ${data.name2}'s wedding website.
-
-How they met: ${data.howMet}
-The proposal: ${data.proposal || 'Not provided'}
-Extra details: ${data.extraDetails || 'None'}
-
-Tone: ${toneGuide[data.tone]}
-
-Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped in: <div class="story-pull" style="font-style:italic;text-align:center;padding:28px 0;border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin:32px 0;opacity:0.8;font-size:1.15rem;line-height:1.5;font-family:Georgia,serif;">quote here</div>${partyInstruction}
-
-Output the story HTML first. Nothing else unless party blurbs were requested.`;
-
-        try {
-            const res = await fetch('/.netlify/functions/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
-            });
-            const result = await res.json();
-            const rawText = result.content?.[0]?.text || '<p>A beautiful love story, written in the stars.</p>';
-            let storyCopy = rawText;
-            let partyBlurbs = {};
-            if (rawText.includes('PARTY_BLURBS_START')) {
-                const parts = rawText.split('PARTY_BLURBS_START');
-                storyCopy = parts[0].trim();
-                try {
-                    const jsonPart = parts[1].split('PARTY_BLURBS_END')[0].trim();
-                    const blurbArr = JSON.parse(jsonPart);
-                    blurbArr.forEach(b => { partyBlurbs[b.name] = b.blurb; });
-                } catch(e) { console.warn('Could not parse party blurbs', e); }
-            }
-            data.partyBlurbs = partyBlurbs;
-
-            clearInterval(msgInterval);
-            document.getElementById('step2indicator').classList.remove('active');
-            document.getElementById('step2indicator').classList.add('done');
-            document.getElementById('step3indicator').classList.add('active');
-
-            generatedHTML = buildWebsiteHTML(data, storyCopy);
-            generatedData = data;
-            generatedStoryCopy = storyCopy;
-
-            // Populate story editor with plain text version
-            const storyEditor = document.getElementById('storyEditor');
-            if (storyEditor) {
-                storyEditor.innerHTML = storyCopy;
-            }
-
-            // Set active theme button
-            ['blush','navy','sage','ivory','dustyrose','lavender'].forEach(th => {
-                const btn = document.getElementById('themeBtn_' + th);
-                if (btn) {
-                    btn.style.background = th === data.theme ? 'var(--blush)' : 'white';
-                    btn.style.borderColor = th === data.theme ? 'var(--blush)' : 'var(--border)';
-                    btn.style.color = th === data.theme ? 'white' : 'var(--text)';
-                }
-            });
-
-            const iframe = document.getElementById('previewFrame');
-            iframe.srcdoc = generatedHTML;
-            document.getElementById('previewUrl').textContent = `${data.name1.toLowerCase()}-${data.name2.toLowerCase()}.netlify.app — preview`;
-
-            document.getElementById('loadingState').classList.remove('visible');
-            document.getElementById('resultSection').classList.add('visible');
-            setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-
-        } catch(err) {
-            clearInterval(msgInterval);
-            alert('Something went wrong. Please try again!');
-            document.getElementById('formSection').style.display = 'block';
-            document.getElementById('loadingState').classList.remove('visible');
-            console.error(err);
-        }
-    }
-
-    function setPreviewMode(mode) {
-        const iframe = document.getElementById('previewFrame');
-        const container = document.getElementById('previewContainer');
-        const dBtn = document.getElementById('previewDesktopBtn');
-        const mBtn = document.getElementById('previewMobileBtn');
-        if (mode === 'mobile') {
-            iframe.style.width = '390px';
-            iframe.style.height = '844px';
-            container.style.padding = '20px';
-            container.style.background = '#E8E4DF';
-            iframe.style.borderRadius = '20px';
-            iframe.style.boxShadow = '0 20px 60px rgba(0,0,0,0.3)';
-            dBtn.style.background = 'white';
-            dBtn.style.borderColor = 'var(--border)';
-            dBtn.style.color = 'var(--text)';
-            mBtn.style.background = 'var(--blush)';
-            mBtn.style.borderColor = 'var(--blush)';
-            mBtn.style.color = 'white';
-        } else {
-            iframe.style.width = '100%';
-            iframe.style.height = '750px';
-            container.style.padding = '0';
-            container.style.background = 'transparent';
-            iframe.style.borderRadius = '0';
-            iframe.style.boxShadow = 'none';
-            dBtn.style.background = 'var(--blush)';
-            dBtn.style.borderColor = 'var(--blush)';
-            dBtn.style.color = 'white';
-            mBtn.style.background = 'white';
-            mBtn.style.borderColor = 'var(--border)';
-            mBtn.style.color = 'var(--text)';
-        }
-    }
-
-    function switchTheme(newTheme) {
-        if (!generatedData) return;
-        generatedData.theme = newTheme;
-        const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
-        generatedHTML = html;
-        const iframe = document.getElementById('previewFrame');
-        iframe.srcdoc = html;
-        // Update button styles
-        ['blush','navy','sage','ivory','dustyrose','lavender'].forEach(th => {
-            const btn = document.getElementById('themeBtn_' + th);
-            if (btn) {
-                btn.style.background = th === newTheme ? 'var(--blush)' : 'white';
-                btn.style.borderColor = th === newTheme ? 'var(--blush)' : 'var(--border)';
-                btn.style.color = th === newTheme ? 'white' : 'var(--text)';
-            }
-        });
-    }
-
-    function applyStoryEdit() {
-        if (!generatedData) return;
-        const editor = document.getElementById('storyEditor');
-        generatedStoryCopy = editor.innerHTML;
-        const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
-        generatedHTML = html;
-        document.getElementById('previewFrame').srcdoc = html;
-    }
-
-    async function publishWebsite() {
-        if (!generatedHTML) return;
-        const btn = document.getElementById('publishBtn');
-        const origText = btn.innerHTML;
-        btn.innerHTML = '⏳ Publishing...';
-        btn.disabled = true;
-
-        const n1 = (generatedData.name1 || 'partner1').toLowerCase().replace(/\s+/g, '-');
-        const n2 = (generatedData.name2 || 'partner2').toLowerCase().replace(/\s+/g, '-');
-        const siteName = n1 + '-and-' + n2;
-
-        try {
-            const res = await fetch('/.netlify/functions/deploy-site', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    html: generatedHTML,
-                    siteName,
-                    siteId: publishedSiteId
-                })
-            });
-            const result = await res.json();
-            if (result.error) throw new Error(result.error);
-
-            publishedSiteId = result.siteId;
-            publishedSiteUrl = result.url;
-
-            // Show the published banner
-            const banner = document.getElementById('publishedBanner');
-            const urlLink = document.getElementById('publishedUrl');
-            urlLink.href = publishedSiteUrl;
-            urlLink.textContent = publishedSiteUrl;
-            banner.style.display = 'block';
-            banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-            btn.innerHTML = '✓ Published!';
-            btn.style.background = 'var(--sage)';
-            setTimeout(() => {
-                btn.innerHTML = '🔄 Update Website';
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 3000);
-
-        } catch (err) {
-            alert('Publishing failed: ' + err.message + '\n\nPlease try again or use the Download button.');
-            btn.innerHTML = origText;
-            btn.disabled = false;
-        }
-    }
-
-    function republish() {
-        publishWebsite();
-    }
-
-    function copyPublishedUrl() {
-        if (!publishedSiteUrl) return;
-        navigator.clipboard.writeText(publishedSiteUrl).then(() => {
-            const btns = document.querySelectorAll('#publishedBanner button');
-            btns[0].textContent = 'Copied!';
-            setTimeout(() => btns[0].textContent = '📋 Copy Link', 2000);
-        });
-    }
-
-    function saveProgress() {
-        if (!generatedData) return;
-        const save = {
-            data: generatedData,
-            story: generatedStoryCopy,
-            html: generatedHTML,
-            siteId: publishedSiteId,
-            siteUrl: publishedSiteUrl,
-            savedAt: new Date().toLocaleString()
-        };
-        const blob = new Blob([JSON.stringify(save)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'wedding-website-progress.json';
-        a.click();
-        const btn = event.target;
-        const orig = btn.innerHTML;
-        btn.textContent = 'Saved!';
-        setTimeout(() => btn.innerHTML = orig, 2000);
-    }
-
-    function downloadWebsite() {
-        if (!generatedHTML) return;
-        const n1 = document.getElementById('name1').value.trim().toLowerCase().replace(/\s+/g,'-') || 'partner1';
-        const n2 = document.getElementById('name2').value.trim().toLowerCase().replace(/\s+/g,'-') || 'partner2';
-        const blob = new Blob([generatedHTML], { type: 'text/html;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `${n1}-and-${n2}-wedding-website.html`;
-        link.click();
-    }
-
-    function copyWebsite() {
-        if (!generatedHTML) return;
-        navigator.clipboard.writeText(generatedHTML).then(() => {
-            const btn = document.querySelector('.btn-sage');
-            const orig = btn.innerHTML;
-            btn.textContent = 'Copied!';
-            setTimeout(() => btn.innerHTML = orig, 2000);
-        });
-    }
-
-    function loadProgress(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const save = JSON.parse(e.target.result);
-                const d = save.data;
-                // Restore form fields
-                if (d.name1) document.getElementById('name1').value = d.name1;
-                if (d.name2) document.getElementById('name2').value = d.name2;
-                if (d.weddingDate) document.getElementById('weddingDate').value = d.weddingDate;
-                if (d.ceremonyLocation) document.getElementById('ceremonyLocation').value = d.ceremonyLocation;
-                if (d.ceremonyAddress) document.getElementById('ceremonyAddress').value = d.ceremonyAddress;
-                if (d.ceremonyTime) document.getElementById('ceremonyTime').value = d.ceremonyTime;
-                if (d.receptionLocation) document.getElementById('receptionLocation').value = d.receptionLocation;
-                if (d.receptionAddress) document.getElementById('receptionAddress').value = d.receptionAddress;
-                if (d.dressCode) document.getElementById('dressCode').value = d.dressCode;
-                if (d.howMet) document.getElementById('howMet').value = d.howMet;
-                if (d.proposal) document.getElementById('proposal').value = d.proposal;
-                if (d.extraDetails) document.getElementById('extraDetails').value = d.extraDetails;
-                // Restore theme & tone
-                if (d.theme) { const t = document.getElementById('theme-' + d.theme); if (t) t.checked = true; }
-                if (d.tone) { const t = document.querySelector('input[name="tone"][value="' + d.tone + '"]'); if (t) t.checked = true; }
-                // Restore schedule, party, hotels
-                if (d.schedule) { scheduleItems = d.schedule; renderSchedule(); }
-                if (d.partyMembers) { partyMembers = d.partyMembers; renderParty(); }
-                if (d.hotels) { hotelItems = d.hotels; renderHotels(); }
-                // Restore photos
-                if (d.photos) { uploadedPhotos = d.photos; renderPhotoThumbs(); }
-                if (d.heroPhoto) { heroPhoto = d.heroPhoto; document.getElementById('heroPhotoPreview').innerHTML = '<img src="' + d.heroPhoto + '" style="width:100%;height:100%;object-fit:cover;">'; document.getElementById('heroRemoveBtn').style.display = 'block'; }
-                // Restore registry
-                if (d.selectedRegistries) {
-                    d.selectedRegistries.forEach(v => {
-                        const cb = document.querySelector('input[name="registry"][value="' + v + '"]');
-                        if (cb) { cb.checked = true; updateRegStyle(v, true); }
-                    });
-                }
-                // If we have saved HTML, show the result
-                publishedSiteId = save.siteId || null;
-                publishedSiteUrl = save.siteUrl || null;
-                if (save.siteUrl) {
-                    const banner = document.getElementById('publishedBanner');
-                    const urlLink = document.getElementById('publishedUrl');
-                    urlLink.href = save.siteUrl;
-                    urlLink.textContent = save.siteUrl;
-                    banner.style.display = 'block';
-                    document.getElementById('publishBtn').innerHTML = '🔄 Update Website';
-                }
-                if (save.html) {
-                    generatedHTML = save.html;
-                    generatedData = d;
-                    generatedStoryCopy = save.story;
-                    document.getElementById('storyEditor').innerHTML = save.story;
-                    document.getElementById('previewFrame').srcdoc = save.html;
-                    document.getElementById('previewUrl').textContent = d.name1.toLowerCase() + '-' + d.name2.toLowerCase() + '.netlify.app — preview';
-                    document.getElementById('formSection').style.display = 'none';
-                    document.getElementById('resultSection').classList.add('visible');
-                    ['blush','navy','sage','ivory','dustyrose','lavender'].forEach(th => {
-                        const btn = document.getElementById('themeBtn_' + th);
-                        if (btn) { btn.style.background = th === d.theme ? 'var(--blush)' : 'white'; btn.style.borderColor = th === d.theme ? 'var(--blush)' : 'var(--border)'; btn.style.color = th === d.theme ? 'white' : 'var(--text)'; }
-                    });
-                    document.getElementById('step1indicator').classList.add('done');
-                    document.getElementById('step2indicator').classList.add('done');
-                    document.getElementById('step3indicator').classList.add('active');
-                    setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' }), 100);
-                    alert('Progress loaded! Your saved website is ready. (' + save.savedAt + ')');
-                } else {
-                    alert('Form data loaded! Review your details and click Generate.');
-                }
-            } catch(err) {
-                alert('Could not load progress file. Please make sure it\'s the correct file.');
-            }
-        };
-        reader.readAsText(file);
-    }
-
-    function resetForm() {
-        generatedHTML = '';
-        uploadedPhotos = [];
-        scheduleItems = [{ time: '', event: '', note: '' }];
-        partyMembers = [];
-        hotelItems = [];
-        renderSchedule();
-        renderParty();
-        renderHotels();
-        renderPhotoThumbs();
-        document.getElementById('formSection').style.display = 'block';
-        document.getElementById('resultSection').classList.remove('visible');
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active','done'));
-        document.getElementById('step1indicator').classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 </script>
 </body>
 </html>
