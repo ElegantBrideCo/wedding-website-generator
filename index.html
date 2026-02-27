@@ -361,6 +361,9 @@
             </div>
         </div>
 
+        <div style="text-align:center;padding:0 40px 10px;font-size:0.8rem;color:var(--text-light);">
+            Have a saved session? <label style="color:var(--blush);cursor:pointer;font-weight:500;text-decoration:underline;">Load Progress <input type="file" accept=".json" style="display:none;" onchange="loadProgress(event)"></label>
+        </div>
         <div class="generate-wrap">
             <button class="btn-generate" onclick="generateWebsite()" id="generateBtn">
                 <span>&#10022;</span> Generate My Wedding Website
@@ -381,6 +384,7 @@
         <div class="result-actions">
             <button class="btn-action btn-primary" onclick="downloadWebsite()">&#8595; Download Website</button>
             <button class="btn-action btn-sage" onclick="copyWebsite()">&#128203; Copy HTML</button>
+            <button class="btn-action btn-secondary" onclick="saveProgress()" title="Save your form answers to come back later">&#128190; Save Progress</button>
             <button class="btn-action btn-secondary" onclick="resetForm()">&#8617; Start Over</button>
         </div>
 
@@ -676,7 +680,12 @@
         return themes[name] || themes.blush;
     }
 
-    // ── BUILD WEBSITE HTML ────────────────────────────────────────────────────
+
+    // ── EDIT MODE SCRIPT (injected into generated HTML) ─────────────────────
+    const EDIT_JS_CODE = '(function(){\nvar em=false;\nvar btn=document.createElement(\'button\');\nbtn.id=\'eb-btn\';\nbtn.textContent=\'\\u270F\\uFE0F Edit Website\';\nbtn.style.cssText=\'position:fixed;bottom:24px;right:24px;z-index:9999;background:#fff;border:2px solid #D4A5A5;border-radius:30px;padding:10px 22px;font-size:0.85rem;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-family:sans-serif;transition:all 0.2s;\';\nbtn.onclick=toggle;document.body.appendChild(btn);\nvar bar=document.createElement(\'div\');bar.id=\'eb-bar\';\nbar.style.cssText=\'position:fixed;top:0;left:0;right:0;z-index:10000;background:#4A4540;color:white;padding:10px 20px;display:none;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.82rem;\';\nbar.innerHTML=\'<span style=\\"opacity:0.8\\">\\u270F\\uFE0F Click any text to edit &bull; Hover photos to swap</span><div style=\\"display:flex;gap:8px;\\"><button id=\\"eb-save\\" style=\\"background:#A8B89C;color:white;border:none;padding:7px 18px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.8rem;\\">\\uD83D\\uDCBE Save & Download</button><button id=\\"eb-done\\" style=\\"background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.3);padding:7px 14px;border-radius:20px;cursor:pointer;font-size:0.8rem;\\">Done</button></div>\';\ndocument.body.appendChild(bar);\nvar sty=document.createElement(\'style\');\nsty.textContent=\'.eb-on{outline:2px dashed #D4A5A5!important;cursor:text!important;border-radius:3px;min-height:1em;}.eb-wrap{position:relative!important;}.eb-ov{position:absolute;inset:0;background:rgba(0,0,0,0.42);color:white;display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:600;font-family:sans-serif;cursor:pointer;border-radius:inherit;opacity:0;transition:opacity 0.18s;}.eb-wrap:hover .eb-ov{opacity:1;}.eb-x{position:absolute;top:5px;right:5px;background:rgba(212,165,165,0.95);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:10;line-height:1;}.eb-deletable:hover .eb-x,.eb-deletable:focus-within .eb-x{display:flex;}\';\ndocument.head.appendChild(sty);\nfunction toggle(){em=!em;bar.style.display=em?\'flex\':\'none\';btn.textContent=em?\'\\u2715 Stop Editing\':\'\\u270F\\uFE0F Edit Website\';btn.style.background=em?\'#fef0f0\':\'#fff\';em?enable():disable();}\ndocument.addEventListener(\'DOMContentLoaded\',function(){\n  document.getElementById(\'eb-save\').addEventListener(\'click\',save);\n  document.getElementById(\'eb-done\').addEventListener(\'click\',toggle);\n});\nfunction enable(){\n  document.querySelectorAll(\'.eb-text\').forEach(function(el){el.contentEditable=\'true\';el.classList.add(\'eb-on\');});\n  document.querySelectorAll(\'.eb-photo\').forEach(function(img){\n    var w=img.parentElement;w.classList.add(\'eb-wrap\');\n    if(!w.querySelector(\'.eb-ov\')){var ov=document.createElement(\'div\');ov.className=\'eb-ov\';ov.innerHTML=\'\\uD83D\\uDDBC&nbsp;Replace Photo\';ov.onclick=function(){swap(img);};w.appendChild(ov);}\n  });\n  document.querySelectorAll(\'.eb-deletable\').forEach(function(el){\n    el.style.position=\'relative\';\n    if(!el.querySelector(\'.eb-x\')){var d=document.createElement(\'button\');d.className=\'eb-x\';d.innerHTML=\'&times;\';d.title=\'Remove\';d.onclick=function(e){e.stopPropagation();el.style.opacity=\'0\';el.style.transition=\'opacity 0.3s\';setTimeout(function(){el.remove();},300);};el.appendChild(d);}\n  });\n}\nfunction disable(){\n  document.querySelectorAll(\'.eb-text\').forEach(function(el){el.contentEditable=\'false\';el.classList.remove(\'eb-on\');});\n  document.querySelectorAll(\'.eb-ov,.eb-x\').forEach(function(el){el.remove();});\n  document.querySelectorAll(\'.eb-wrap\').forEach(function(el){el.classList.remove(\'eb-wrap\');});\n}\nfunction swap(img){var inp=document.createElement(\'input\');inp.type=\'file\';inp.accept=\'image/*\';inp.onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){var i=new Image();i.onload=function(){var c=document.createElement(\'canvas\');var mw=1400,w=i.width,h=i.height;if(w>mw){h=Math.round(h*mw/w);w=mw;}c.width=w;c.height=h;c.getContext(\'2d\').drawImage(i,0,0,w,h);img.src=c.toDataURL(\'image/jpeg\',0.82);};i.src=ev.target.result;};r.readAsDataURL(f);};inp.click();}\nfunction save(){\n  disable();em=false;bar.style.display=\'none\';btn.textContent=\'\\u270F\\uFE0F Edit Website\';btn.style.background=\'#fff\';\n  var cl=document.documentElement.cloneNode(true);\n  [\'eb-btn\',\'eb-bar\'].forEach(function(id){var el=cl.querySelector(\'#\'+id);if(el)el.remove();});\n  cl.querySelectorAll(\'style\').forEach(function(s){if(s.textContent.indexOf(\'.eb-on\')>-1)s.remove();});\n  var h=\'<!DOCTYPE html>\\n\'+cl.outerHTML;\n  var b=new Blob([h],{type:\'text/html\'});var a=document.createElement(\'a\');a.href=URL.createObjectURL(b);a.download=\'my-wedding-website.html\';a.click();\n}\n})();';
+    const EDIT_SCRIPT_TAG = String.fromCharCode(60) + 'script>' + EDIT_JS_CODE + String.fromCharCode(60) + '/script>';
+
+        // ── BUILD WEBSITE HTML ────────────────────────────────────────────────────
     function buildWebsiteHTML(data, storyCopy) {
         const t = getTheme(data.theme);
         const wDate = data.weddingDate ? new Date(data.weddingDate + 'T12:00:00') : null;
@@ -704,7 +713,7 @@
         const registrySection = selectedRegistries.length > 0 ? `
         <section id="registry" style="padding:80px 20px;background:${t.light};">
           <div style="max-width:700px;margin:0 auto;text-align:center;">
-            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Gifts</div>
+            
             <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:16px;">Registry</h2>
             <p style="font-size:1rem;line-height:1.8;color:${t.text};opacity:0.75;max-width:500px;margin:0 auto 28px;font-weight:300;">Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:</p>
             <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
@@ -717,7 +726,7 @@
         const gallerySection = data.photos && data.photos.length > 0 ? `
         <section id="gallery" style="padding:80px 20px;background:${t.bg};">
           <div style="max-width:800px;margin:0 auto;text-align:center;">
-            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Photos</div>
+            
             <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:36px;">Our Gallery</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
               ${data.photos.map(p => `<div class="eb-deletable eb-photo-wrap" style="border-radius:12px;overflow:hidden;aspect-ratio:4/3;position:relative;"><img src="${p.src}" class="eb-photo" alt="Wedding photo" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`).join('')}
@@ -730,7 +739,7 @@
         const scheduleSection = validSchedule.length > 0 ? `
         <section id="schedule" style="padding:80px 20px;background:${t.light};">
           <div style="max-width:600px;margin:0 auto;text-align:center;">
-            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">When &amp; What</div>
+            
             <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:36px;">Day-of Schedule</h2>
             <div style="text-align:left;">
               ${validSchedule.map(s => {
@@ -753,7 +762,7 @@
         const partySection = validParty.length > 0 ? `
         <section id="party" style="padding:80px 20px;background:${t.bg};">
           <div style="max-width:860px;margin:0 auto;text-align:center;">
-            <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">The People</div>
+            
             <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:36px;">Wedding Party</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;text-align:left;">
               ${validParty.map(p => `
@@ -777,7 +786,7 @@
         <section style="padding:80px 20px;background:${t.light};">
           <div style="max-width:860px;margin:0 auto;">
             <div style="text-align:center;margin-bottom:40px;">
-              <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">Plan Your Stay</div>
+              
               <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};">Recommended Hotels</h2>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
@@ -831,34 +840,67 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.96);backdr
   </div>
 </nav>
 
-<!-- HERO -->
-<section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;${data.heroPhoto ? `background:linear-gradient(rgba(0,0,0,0.38),rgba(0,0,0,0.38)),url('${data.heroPhoto}') center/cover no-repeat; data-herophoto='true'` : `background:linear-gradient(160deg,${t.light} 0%,${t.bg} 60%);`}position:relative;overflow:hidden;">
-  ${!data.heroPhoto ? `<div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,${t.primary} 0%,transparent 70%);opacity:0.06;top:-100px;right:-100px;"></div>` : ''}
-  ${t.floral && !data.heroPhoto ? `<div style="position:absolute;inset:0;opacity:0.04;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><text y=%22.9em%22 font-size=%2280%22>🌸</text></svg>');background-size:120px;pointer-events:none;"></div>` : ''}
+<!-- HERO PHOTO BANNER -->
+${data.heroPhoto ? `<div style="width:100%;height:55vh;min-height:300px;max-height:500px;overflow:hidden;position:relative;margin-top:58px;">
+  <img src="${data.heroPhoto}" class="eb-photo" style="width:100%;height:100%;object-fit:cover;display:block;">
+</div>` : ''}
+
+<!-- NAMES & DATE -->
+<section style="padding:${data.heroPhoto ? '60px' : '110px'} 30px 65px;background:${t.bg};text-align:center;position:relative;overflow:hidden;${!data.heroPhoto ? 'margin-top:58px;' : ''}">
+  ${t.floral ? `
+  <svg xmlns='http://www.w3.org/2000/svg' width='130' height='230' viewBox='0 0 130 230' style='position:absolute;left:0;bottom:0;opacity:0.14;pointer-events:none;' aria-hidden='true'>
+    <g fill='${t.primary}'>
+      <ellipse cx='38' cy='188' rx='22' ry='10' transform='rotate(-30 38 188)'/>
+      <ellipse cx='22' cy='162' rx='17' ry='8' transform='rotate(-50 22 162)'/>
+      <ellipse cx='58' cy='175' rx='19' ry='9' transform='rotate(-10 58 175)'/>
+      <ellipse cx='28' cy='138' rx='14' ry='6' transform='rotate(-40 28 138)'/>
+      <ellipse cx='62' cy='152' rx='16' ry='7' transform='rotate(10 62 152)'/>
+      <ellipse cx='12' cy='115' rx='11' ry='5' transform='rotate(-60 12 115)'/>
+      <circle cx='40' cy='194' r='6' fill='${t.accent}' opacity='0.8'/>
+      <circle cx='24' cy='168' r='5' fill='${t.accent}' opacity='0.7'/>
+      <circle cx='60' cy='181' r='5' fill='${t.accent}' opacity='0.7'/>
+      <line x1='40' y1='198' x2='40' y2='95' stroke='${t.primary}' stroke-width='1.5' opacity='0.3'/>
+      <line x1='40' y1='162' x2='22' y2='144' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
+      <line x1='40' y1='175' x2='60' y2='157' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
+      <line x1='40' y1='142' x2='12' y2='122' stroke='${t.primary}' stroke-width='1' opacity='0.2'/>
+    </g>
+  </svg>
+  <svg xmlns='http://www.w3.org/2000/svg' width='130' height='230' viewBox='0 0 130 230' style='position:absolute;right:0;bottom:0;opacity:0.14;pointer-events:none;transform:scaleX(-1);' aria-hidden='true'>
+    <g fill='${t.primary}'>
+      <ellipse cx='38' cy='188' rx='22' ry='10' transform='rotate(-30 38 188)'/>
+      <ellipse cx='22' cy='162' rx='17' ry='8' transform='rotate(-50 22 162)'/>
+      <ellipse cx='58' cy='175' rx='19' ry='9' transform='rotate(-10 58 175)'/>
+      <ellipse cx='28' cy='138' rx='14' ry='6' transform='rotate(-40 28 138)'/>
+      <ellipse cx='62' cy='152' rx='16' ry='7' transform='rotate(10 62 152)'/>
+      <ellipse cx='12' cy='115' rx='11' ry='5' transform='rotate(-60 12 115)'/>
+      <circle cx='40' cy='194' r='6' fill='${t.accent}' opacity='0.8'/>
+      <circle cx='24' cy='168' r='5' fill='${t.accent}' opacity='0.7'/>
+      <circle cx='60' cy='181' r='5' fill='${t.accent}' opacity='0.7'/>
+      <line x1='40' y1='198' x2='40' y2='95' stroke='${t.primary}' stroke-width='1.5' opacity='0.3'/>
+      <line x1='40' y1='162' x2='22' y2='144' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
+      <line x1='40' y1='175' x2='60' y2='157' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
+      <line x1='40' y1='142' x2='12' y2='122' stroke='${t.primary}' stroke-width='1' opacity='0.2'/>
+    </g>
+  </svg>` : ''}
   <div style="position:relative;z-index:1;">
-    ${fDate ? `<div class="eb-text" style="font-size:0.75rem;letter-spacing:0.25em;text-transform:uppercase;color:${data.heroPhoto ? 'rgba(255,255,255,0.85)' : t.accent};font-weight:500;margin-bottom:18px;">${fDate}</div>` : ''}
-    <div style="font-family:${t.headFont};font-size:clamp(3rem,8vw,5.5rem);font-weight:300;line-height:1.05;color:${data.heroPhoto ? 'white' : t.text};margin-bottom:16px;${data.heroPhoto ? 'text-shadow:0 2px 20px rgba(0,0,0,0.3);' : ''}">
-      <span class="eb-text" data-edit="name1">${data.name1}</span><br><span style="font-style:italic;color:${data.heroPhoto ? 'rgba(255,255,255,0.85)' : t.primary};font-size:0.65em;">&amp;</span><br><span class="eb-text" data-edit="name2">${data.name2}</span>
+    <div style="font-family:${t.headFont};font-size:clamp(2.6rem,6vw,4.8rem);font-weight:300;line-height:1.1;color:${t.text};margin-bottom:22px;letter-spacing:0.02em;">
+      <span class="eb-text">${data.name1}</span>
+      <div style="font-family:${t.headFont};font-style:italic;color:${t.primary};font-size:0.42em;margin:10px 0;letter-spacing:0.12em;font-weight:300;">and</div>
+      <span class="eb-text">${data.name2}</span>
     </div>
-    ${data.ceremonyLocation ? `<div class="eb-text" style="font-size:1rem;color:${data.heroPhoto ? 'rgba(255,255,255,0.7)' : t.text};opacity:${data.heroPhoto ? '1' : '0.5'};letter-spacing:0.06em;margin-bottom:40px;">${data.ceremonyLocation}</div>` : ''}
-    <div style="display:inline-flex;align-items:center;gap:12px;font-size:0.8rem;color:${data.heroPhoto ? 'rgba(255,255,255,0.75)' : t.primary};letter-spacing:0.15em;text-transform:uppercase;font-weight:500;">
-      <span style="display:block;width:50px;height:1px;background:${data.heroPhoto ? 'rgba(255,255,255,0.5)' : t.primary};opacity:0.4;"></span>
-      We&rsquo;re getting married
-      <span style="display:block;width:50px;height:1px;background:${data.heroPhoto ? 'rgba(255,255,255,0.5)' : t.primary};opacity:0.4;"></span>
-    </div>
-  </div>
-  <div style="position:absolute;bottom:30px;display:flex;flex-direction:column;align-items:center;gap:6px;color:${data.heroPhoto ? 'rgba(255,255,255,0.5)' : t.text};opacity:${data.heroPhoto ? '1' : '0.25'};font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;animation:floatDown 2.5s ease-in-out infinite;">
-    <span>&#8595;</span><span>scroll</span>
+    ${fDate ? `<div style="display:flex;align-items:center;justify-content:center;gap:14px;">
+      <span style="display:block;width:36px;height:1px;background:${t.primary};opacity:0.35;"></span>
+      <div class="eb-text" style="font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;color:${t.text};opacity:0.55;font-weight:400;">${fDate}</div>
+      <span style="display:block;width:36px;height:1px;background:${t.primary};opacity:0.35;"></span>
+    </div>` : ''}
   </div>
 </section>
 
 <!-- OUR STORY -->
-<section id="story" style="padding:90px 20px;background:${t.bg};position:relative;">
-  ${t.floral ? `<div style="position:absolute;top:20px;right:20px;font-size:4rem;opacity:0.06;pointer-events:none;transform:rotate(15deg);">🌸</div><div style="position:absolute;bottom:20px;left:20px;font-size:3rem;opacity:0.06;pointer-events:none;transform:rotate(-20deg);">🌺</div>` : ''}
-  <div style="max-width:700px;margin:0 auto;position:relative;z-index:1;">
-    <div style="text-align:center;">
-      <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">How it happened</div>
-      <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:40px;line-height:1.2;">Our Story</h2>
+<section id="story" style="padding:80px 20px;background:${t.light};">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};line-height:1.2;">Our Story</h2>
     </div>
     <div style="font-size:1.05rem;line-height:1.9;color:${t.text};font-weight:300;">
       ${storyCopy}
@@ -870,7 +912,7 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.96);backdr
 <section id="details" style="padding:80px 20px;background:${t.light};position:relative;">
   ${t.floral ? `<div style="position:absolute;top:10px;left:30px;font-size:3rem;opacity:0.07;pointer-events:none;">🌷</div>` : ''}
   <div style="max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1;">
-    <div style="font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:10px;">The Big Day</div>
+    
     <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:36px;line-height:1.2;">Wedding Details</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;text-align:center;margin-bottom:${ceremonyAddr ? '40px' : '0'};">
       ${fDate ? `<div style="background:white;border-radius:14px;padding:22px 16px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.04);"><div style="font-size:1.5rem;margin-bottom:8px;">&#128197;</div><div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:5px;">Date</div><div class="eb-text" style="font-size:0.88rem;color:${t.text};line-height:1.5;">${fDate}</div></div>` : ''}
@@ -911,136 +953,7 @@ ${registrySection}
   <div style="font-size:0.72rem;opacity:0.25;letter-spacing:0.08em;">Website created with <a href="https://www.elegantbrideco.com" target="_blank" style="color:white;">Elegant Bride Co.</a></div>
 </footer>
 
-<scr'+'ipt>
-// EDIT MODE - injected by Elegant Bride Co. generator
-(function() {
-  var editMode = false;
-
-  var editBtn = document.createElement('div');
-  editBtn.id = 'editModeBtn';
-  editBtn.innerHTML = '\u270F\uFE0F Edit Website';
-  editBtn.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;background:#fff;border:2px solid #ccc;border-radius:30px;padding:10px 20px;font-size:0.85rem;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.12);transition:all 0.2s;font-family:sans-serif;';
-  editBtn.onclick = function(){ toggleEditMode(); };
-  document.body.appendChild(editBtn);
-
-  var saveBar = document.createElement('div');
-  saveBar.id = 'editSaveBar';
-  saveBar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:10000;background:#4A4540;color:white;padding:12px 24px;display:none;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.2);';
-  saveBar.innerHTML = '<span>\u270F\uFE0F Edit Mode \u2014 click any text to edit, hover photos to replace</span><div style="display:flex;gap:10px;"><button onclick="saveAndDownload()" style="background:#A8B89C;color:white;border:none;padding:8px 20px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.85rem;">\uD83D\uDCBE Save & Download</button><button onclick="toggleEditMode()" style="background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.3);padding:8px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;">Cancel</button></div>';
-  document.body.appendChild(saveBar);
-
-  var style = document.createElement('style');
-  style.textContent = '.eb-editable{outline:2px dashed #D4A5A5 !important;outline-offset:2px;cursor:text !important;border-radius:4px;}.eb-editable:hover{background:rgba(212,165,165,0.08) !important;}.eb-editable:focus{outline:2px solid #D4A5A5 !important;background:rgba(212,165,165,0.06) !important;}.eb-photo-wrap{position:relative !important;}.eb-photo-btn{position:absolute !important;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);color:white;font-size:0.8rem;font-weight:600;font-family:sans-serif;opacity:0;transition:opacity 0.2s;cursor:pointer;border-radius:inherit;z-index:10;}.eb-photo-wrap:hover .eb-photo-btn{opacity:1 !important;}.eb-delete-btn{display:inline-block;margin-left:8px;color:#D4A5A5;background:none;border:none;cursor:pointer;font-size:0.8rem;font-family:sans-serif;text-decoration:underline;vertical-align:middle;}';
-  document.head.appendChild(style);
-
-  function toggleEditMode() {
-    editMode = !editMode;
-    var bar = document.getElementById('editSaveBar');
-    var btn = document.getElementById('editModeBtn');
-    if (editMode) {
-      bar.style.display = 'flex';
-      btn.innerHTML = '\u2715 Exit Edit Mode';
-      btn.style.background = '#fef0f0';
-      btn.style.borderColor = '#D4A5A5';
-      enableEditing();
-    } else {
-      bar.style.display = 'none';
-      btn.innerHTML = '\u270F\uFE0F Edit Website';
-      btn.style.background = '#fff';
-      btn.style.borderColor = '#ccc';
-      disableEditing();
-    }
-  }
-
-  function enableEditing() {
-    document.querySelectorAll('.eb-text').forEach(function(el) {
-      el.contentEditable = 'true';
-      el.classList.add('eb-editable');
-    });
-    document.querySelectorAll('.eb-photo').forEach(function(img) {
-      var wrap = img.parentElement;
-      wrap.classList.add('eb-photo-wrap');
-      if (!wrap.querySelector('.eb-photo-btn')) {
-        var btn = document.createElement('div');
-        btn.className = 'eb-photo-btn';
-        btn.textContent = '\uD83D\uDDBC Replace Photo';
-        btn.onclick = (function(i){ return function(){ triggerPhotoReplace(i); }; })(img);
-        wrap.appendChild(btn);
-      }
-    });
-    document.querySelectorAll('.eb-deletable').forEach(function(el) {
-      if (!el.querySelector('.eb-delete-btn')) {
-        var del = document.createElement('button');
-        del.className = 'eb-delete-btn';
-        del.textContent = '\u2715 Remove';
-        del.onclick = (function(e){ return function(ev){ ev.stopPropagation(); e.remove(); }; })(el);
-        el.appendChild(del);
-      }
-    });
-  }
-
-  function disableEditing() {
-    document.querySelectorAll('.eb-text').forEach(function(el) {
-      el.contentEditable = 'false';
-      el.classList.remove('eb-editable');
-    });
-    document.querySelectorAll('.eb-photo-btn').forEach(function(btn){ btn.remove(); });
-    document.querySelectorAll('.eb-photo-wrap').forEach(function(el){ el.classList.remove('eb-photo-wrap'); });
-    document.querySelectorAll('.eb-delete-btn').forEach(function(btn){ btn.remove(); });
-  }
-
-  function triggerPhotoReplace(imgEl) {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = function(e) {
-      var file = e.target.files[0];
-      if (!file) return;
-      var reader = new FileReader();
-      reader.onload = function(ev) {
-        var img = new Image();
-        img.onload = function() {
-          var canvas = document.createElement('canvas');
-          var MAX = 1400;
-          var w = img.width, h = img.height;
-          if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
-          canvas.width = w; canvas.height = h;
-          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          imgEl.src = canvas.toDataURL('image/jpeg', 0.82);
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  }
-
-  window.saveAndDownload = function() {
-    disableEditing();
-    editMode = false;
-    var clone = document.documentElement.cloneNode(true);
-    ['editModeBtn','editSaveBar'].forEach(function(id) {
-      var el = clone.querySelector('#' + id);
-      if (el) el.remove();
-    });
-    clone.querySelectorAll('[class]').forEach(function(el) {
-      el.className = el.className.replace(/\beb-\w+/g, '').trim();
-      if (!el.className) el.removeAttribute('class');
-    });
-    var html = '<!DOCTYPE html>\n' + clone.outerHTML;
-    var blob = new Blob([html], {type:'text/html'});
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'my-wedding-website.html';
-    a.click();
-    var btn = document.getElementById('editModeBtn');
-    if (btn) { btn.innerHTML = '\u270F\uFE0F Edit Website'; btn.style.background = '#fff'; btn.style.borderColor = '#ccc'; }
-    document.getElementById('editSaveBar').style.display = 'none';
-  };
-
-  window.toggleEditMode = toggleEditMode;
-})();
-</'+'script>
+${EDIT_SCRIPT_TAG}
 </body></html>`;
     }
 
@@ -1214,6 +1127,25 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         document.getElementById('previewFrame').srcdoc = html;
     }
 
+    function saveProgress() {
+        if (!generatedData) return;
+        const save = {
+            data: generatedData,
+            story: generatedStoryCopy,
+            html: generatedHTML,
+            savedAt: new Date().toLocaleString()
+        };
+        const blob = new Blob([JSON.stringify(save)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'wedding-website-progress.json';
+        a.click();
+        const btn = event.target;
+        const orig = btn.innerHTML;
+        btn.textContent = 'Saved!';
+        setTimeout(() => btn.innerHTML = orig, 2000);
+    }
+
     function downloadWebsite() {
         if (!generatedHTML) return;
         const n1 = document.getElementById('name1').value.trim().toLowerCase().replace(/\s+/g,'-') || 'partner1';
@@ -1233,6 +1165,73 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             btn.textContent = 'Copied!';
             setTimeout(() => btn.innerHTML = orig, 2000);
         });
+    }
+
+    function loadProgress(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const save = JSON.parse(e.target.result);
+                const d = save.data;
+                // Restore form fields
+                if (d.name1) document.getElementById('name1').value = d.name1;
+                if (d.name2) document.getElementById('name2').value = d.name2;
+                if (d.weddingDate) document.getElementById('weddingDate').value = d.weddingDate;
+                if (d.ceremonyLocation) document.getElementById('ceremonyLocation').value = d.ceremonyLocation;
+                if (d.ceremonyAddress) document.getElementById('ceremonyAddress').value = d.ceremonyAddress;
+                if (d.ceremonyTime) document.getElementById('ceremonyTime').value = d.ceremonyTime;
+                if (d.receptionLocation) document.getElementById('receptionLocation').value = d.receptionLocation;
+                if (d.receptionAddress) document.getElementById('receptionAddress').value = d.receptionAddress;
+                if (d.dressCode) document.getElementById('dressCode').value = d.dressCode;
+                if (d.howMet) document.getElementById('howMet').value = d.howMet;
+                if (d.proposal) document.getElementById('proposal').value = d.proposal;
+                if (d.extraDetails) document.getElementById('extraDetails').value = d.extraDetails;
+                // Restore theme & tone
+                if (d.theme) { const t = document.getElementById('theme-' + d.theme); if (t) t.checked = true; }
+                if (d.tone) { const t = document.querySelector('input[name="tone"][value="' + d.tone + '"]'); if (t) t.checked = true; }
+                // Restore schedule, party, hotels
+                if (d.schedule) { scheduleItems = d.schedule; renderSchedule(); }
+                if (d.partyMembers) { partyMembers = d.partyMembers; renderParty(); }
+                if (d.hotels) { hotelItems = d.hotels; renderHotels(); }
+                // Restore photos
+                if (d.photos) { uploadedPhotos = d.photos; renderPhotoThumbs(); }
+                if (d.heroPhoto) { heroPhoto = d.heroPhoto; document.getElementById('heroPhotoPreview').innerHTML = '<img src="' + d.heroPhoto + '" style="width:100%;height:100%;object-fit:cover;">'; document.getElementById('heroRemoveBtn').style.display = 'block'; }
+                // Restore registry
+                if (d.selectedRegistries) {
+                    d.selectedRegistries.forEach(v => {
+                        const cb = document.querySelector('input[name="registry"][value="' + v + '"]');
+                        if (cb) { cb.checked = true; updateRegStyle(v, true); }
+                    });
+                }
+                // If we have saved HTML, show the result
+                if (save.html) {
+                    generatedHTML = save.html;
+                    generatedData = d;
+                    generatedStoryCopy = save.story;
+                    document.getElementById('storyEditor').innerHTML = save.story;
+                    document.getElementById('previewFrame').srcdoc = save.html;
+                    document.getElementById('previewUrl').textContent = d.name1.toLowerCase() + '-' + d.name2.toLowerCase() + '.netlify.app — preview';
+                    document.getElementById('formSection').style.display = 'none';
+                    document.getElementById('resultSection').classList.add('visible');
+                    ['blush','navy','sage','ivory','dustyrose','lavender'].forEach(th => {
+                        const btn = document.getElementById('themeBtn_' + th);
+                        if (btn) { btn.style.background = th === d.theme ? 'var(--blush)' : 'white'; btn.style.borderColor = th === d.theme ? 'var(--blush)' : 'var(--border)'; btn.style.color = th === d.theme ? 'white' : 'var(--text)'; }
+                    });
+                    document.getElementById('step1indicator').classList.add('done');
+                    document.getElementById('step2indicator').classList.add('done');
+                    document.getElementById('step3indicator').classList.add('active');
+                    setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' }), 100);
+                    alert('Progress loaded! Your saved website is ready. (' + save.savedAt + ')');
+                } else {
+                    alert('Form data loaded! Review your details and click Generate.');
+                }
+            } catch(err) {
+                alert('Could not load progress file. Please make sure it\'s the correct file.');
+            }
+        };
+        reader.readAsText(file);
     }
 
     function resetForm() {
