@@ -150,7 +150,7 @@
         .dot { width: 10px; height: 10px; border-radius: 50%; }
         .dot-r { background: #FF6058; } .dot-y { background: #FFBD2E; } .dot-g { background: #28C840; }
         .url-bar { flex: 1; background: white; border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; color: var(--text-light); }
-        iframe#previewFrame { width: 100%; height: 750px; border: none; display: block; }
+        iframe#previewFrame { border: none; display: block; }
 
         /* Affiliate banner */
         .affiliate-banner { margin-top: 40px; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px 36px; }
@@ -381,10 +381,20 @@
 
     <!-- RESULT -->
     <div id="resultSection">
+        <!-- Published URL banner (hidden until published) -->
+        <div id="publishedBanner" style="display:none;background:linear-gradient(135deg,#A8B89C,#8FA98F);color:white;border-radius:14px;padding:20px 24px;margin-bottom:20px;text-align:center;">
+            <div style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;opacity:0.85;margin-bottom:8px;">🎉 Your wedding website is live!</div>
+            <a id="publishedUrl" href="#" target="_blank" style="color:white;font-size:1.1rem;font-weight:600;word-break:break-all;"></a>
+            <div style="margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                <button onclick="copyPublishedUrl()" style="background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.4);padding:7px 16px;border-radius:20px;cursor:pointer;font-size:0.8rem;font-weight:500;">📋 Copy Link</button>
+                <button onclick="republish()" style="background:rgba(255,255,255,0.2);color:white;border:1px solid rgba(255,255,255,0.4);padding:7px 16px;border-radius:20px;cursor:pointer;font-size:0.8rem;font-weight:500;">🔄 Update Site</button>
+            </div>
+        </div>
+
         <div class="result-actions">
-            <button class="btn-action btn-primary" onclick="downloadWebsite()">&#8595; Download Website</button>
-            <button class="btn-action btn-sage" onclick="copyWebsite()">&#128203; Copy HTML</button>
-            <button class="btn-action btn-secondary" onclick="saveProgress()" title="Save your form answers to come back later">&#128190; Save Progress</button>
+            <button class="btn-action btn-primary" onclick="publishWebsite()" id="publishBtn">&#127760; Publish My Website</button>
+            <button class="btn-action btn-sage" onclick="saveProgress()" title="Save your form to come back later">&#128190; Save Progress</button>
+            <button class="btn-action btn-secondary" onclick="downloadWebsite()">&#8595; Download</button>
             <button class="btn-action btn-secondary" onclick="resetForm()">&#8617; Start Over</button>
         </div>
 
@@ -411,12 +421,30 @@
             <div id="storyEditor" contenteditable="true" style="border:1.5px solid var(--border);border-radius:8px;padding:14px;min-height:120px;font-size:0.9rem;line-height:1.8;color:var(--text);outline:none;"></div>
         </div>
 
-        <div class="preview-frame-wrap">
+        <!-- PREVIEW HEADER -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+            <div>
+                <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);">&#128065; Live Preview</span>
+                <span style="font-size:0.75rem;color:var(--text-light);margin-left:8px;">&#8212; this is exactly what your guests will see</span>
+            </div>
+            <div style="display:flex;gap:6px;">
+                <button id="previewDesktopBtn" onclick="setPreviewMode('desktop')" style="padding:7px 14px;border-radius:20px;border:2px solid var(--blush);background:var(--blush);color:white;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;">
+                    &#128421; Desktop
+                </button>
+                <button id="previewMobileBtn" onclick="setPreviewMode('mobile')" style="padding:7px 14px;border-radius:20px;border:2px solid var(--border);background:white;color:var(--text);font-size:0.78rem;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;">
+                    &#128241; Mobile
+                </button>
+            </div>
+        </div>
+
+        <div class="preview-frame-wrap" id="previewFrameWrap">
             <div class="preview-bar">
                 <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
                 <div class="url-bar" id="previewUrl">yournames.netlify.app &mdash; preview</div>
             </div>
-            <iframe id="previewFrame" title="Wedding Website Preview"></iframe>
+            <div style="background:#E8E4DF;display:flex;justify-content:center;align-items:flex-start;" id="previewContainer">
+                <iframe id="previewFrame" title="Wedding Website Preview" style="width:100%;height:750px;border:none;display:block;transition:width 0.4s ease;"></iframe>
+            </div>
         </div>
 
         <div class="affiliate-banner">
@@ -443,6 +471,8 @@
     let generatedHTML = '';
     let generatedData = null;
     let generatedStoryCopy = '';
+    let publishedSiteId = null;
+    let publishedSiteUrl = null;
     let uploadedPhotos = [];
     let heroPhoto = '';
 
@@ -1100,6 +1130,40 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         }
     }
 
+    function setPreviewMode(mode) {
+        const iframe = document.getElementById('previewFrame');
+        const container = document.getElementById('previewContainer');
+        const dBtn = document.getElementById('previewDesktopBtn');
+        const mBtn = document.getElementById('previewMobileBtn');
+        if (mode === 'mobile') {
+            iframe.style.width = '390px';
+            iframe.style.height = '844px';
+            container.style.padding = '20px';
+            container.style.background = '#E8E4DF';
+            iframe.style.borderRadius = '20px';
+            iframe.style.boxShadow = '0 20px 60px rgba(0,0,0,0.3)';
+            dBtn.style.background = 'white';
+            dBtn.style.borderColor = 'var(--border)';
+            dBtn.style.color = 'var(--text)';
+            mBtn.style.background = 'var(--blush)';
+            mBtn.style.borderColor = 'var(--blush)';
+            mBtn.style.color = 'white';
+        } else {
+            iframe.style.width = '100%';
+            iframe.style.height = '750px';
+            container.style.padding = '0';
+            container.style.background = 'transparent';
+            iframe.style.borderRadius = '0';
+            iframe.style.boxShadow = 'none';
+            dBtn.style.background = 'var(--blush)';
+            dBtn.style.borderColor = 'var(--blush)';
+            dBtn.style.color = 'white';
+            mBtn.style.background = 'white';
+            mBtn.style.borderColor = 'var(--border)';
+            mBtn.style.color = 'var(--text)';
+        }
+    }
+
     function switchTheme(newTheme) {
         if (!generatedData) return;
         generatedData.theme = newTheme;
@@ -1127,12 +1191,77 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         document.getElementById('previewFrame').srcdoc = html;
     }
 
+    async function publishWebsite() {
+        if (!generatedHTML) return;
+        const btn = document.getElementById('publishBtn');
+        const origText = btn.innerHTML;
+        btn.innerHTML = '⏳ Publishing...';
+        btn.disabled = true;
+
+        const n1 = (generatedData.name1 || 'partner1').toLowerCase().replace(/\s+/g, '-');
+        const n2 = (generatedData.name2 || 'partner2').toLowerCase().replace(/\s+/g, '-');
+        const siteName = n1 + '-and-' + n2;
+
+        try {
+            const res = await fetch('/.netlify/functions/deploy-site', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    html: generatedHTML,
+                    siteName,
+                    siteId: publishedSiteId
+                })
+            });
+            const result = await res.json();
+            if (result.error) throw new Error(result.error);
+
+            publishedSiteId = result.siteId;
+            publishedSiteUrl = result.url;
+
+            // Show the published banner
+            const banner = document.getElementById('publishedBanner');
+            const urlLink = document.getElementById('publishedUrl');
+            urlLink.href = publishedSiteUrl;
+            urlLink.textContent = publishedSiteUrl;
+            banner.style.display = 'block';
+            banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            btn.innerHTML = '✓ Published!';
+            btn.style.background = 'var(--sage)';
+            setTimeout(() => {
+                btn.innerHTML = '🔄 Update Website';
+                btn.disabled = false;
+                btn.style.background = '';
+            }, 3000);
+
+        } catch (err) {
+            alert('Publishing failed: ' + err.message + '\n\nPlease try again or use the Download button.');
+            btn.innerHTML = origText;
+            btn.disabled = false;
+        }
+    }
+
+    function republish() {
+        publishWebsite();
+    }
+
+    function copyPublishedUrl() {
+        if (!publishedSiteUrl) return;
+        navigator.clipboard.writeText(publishedSiteUrl).then(() => {
+            const btns = document.querySelectorAll('#publishedBanner button');
+            btns[0].textContent = 'Copied!';
+            setTimeout(() => btns[0].textContent = '📋 Copy Link', 2000);
+        });
+    }
+
     function saveProgress() {
         if (!generatedData) return;
         const save = {
             data: generatedData,
             story: generatedStoryCopy,
             html: generatedHTML,
+            siteId: publishedSiteId,
+            siteUrl: publishedSiteUrl,
             savedAt: new Date().toLocaleString()
         };
         const blob = new Blob([JSON.stringify(save)], { type: 'application/json' });
@@ -1206,6 +1335,16 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
                     });
                 }
                 // If we have saved HTML, show the result
+                publishedSiteId = save.siteId || null;
+                publishedSiteUrl = save.siteUrl || null;
+                if (save.siteUrl) {
+                    const banner = document.getElementById('publishedBanner');
+                    const urlLink = document.getElementById('publishedUrl');
+                    urlLink.href = save.siteUrl;
+                    urlLink.textContent = save.siteUrl;
+                    banner.style.display = 'block';
+                    document.getElementById('publishBtn').innerHTML = '🔄 Update Website';
+                }
                 if (save.html) {
                     generatedHTML = save.html;
                     generatedData = d;
