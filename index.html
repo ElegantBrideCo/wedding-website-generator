@@ -1003,7 +1003,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             lavender: { primary:'#9B8EC4', primaryDark:'#7B6EA4', accent:'#B8A8C8', bg:'#F8F7FC', light:'#EDE8F5', text:'#3A3848', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:true }
         };
         return themes[name] || themes.blush;
-    
+    }
 
     function buildWebsiteHTML(data, storyCopy) {
         const t = getTheme(data.theme);
@@ -1274,8 +1274,6 @@ ${registrySection}
 
 ${EDIT_SCRIPT_TAG}
 </body></html>`;
-    }
-
     }
 
 </script>
