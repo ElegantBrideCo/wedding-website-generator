@@ -484,7 +484,7 @@
         if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
         btn.textContent = 'Signing in...'; btn.disabled = true;
         try {
-            const res = await fetch('/functions/auth', {
+            const res = await fetch('/auth', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'login', email, password })
             });
@@ -510,7 +510,7 @@
         if (password !== password2) { errEl.textContent = "Passwords don\u0027t match."; errEl.style.display = 'block'; return; }
         btn.textContent = 'Creating account...'; btn.disabled = true;
         try {
-            const res = await fetch('/functions/auth', {
+            const res = await fetch('/auth', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'signup', email, password })
             });
@@ -553,7 +553,7 @@
     async function loadUserData() {
         if (!authToken) return;
         try {
-            const res = await fetch('/functions/auth', {
+            const res = await fetch('/auth', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'load', token: authToken })
             });
@@ -646,7 +646,7 @@
         autoSaveTimer = setTimeout(async () => {
             if (!authToken || !generatedHTML) return;
             try {
-                await fetch('/functions/auth', {
+                await fetch('/auth', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         action: 'save', token: authToken,
@@ -921,7 +921,7 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output the story HTML first. Nothing else unless party blurbs were requested.`;
 
         try {
-            const res = await fetch('/functions/generate', {
+            const res = await fetch('/generate', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
             });
@@ -972,7 +972,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         const siteName = (d.name1 + '-and-' + d.name2).toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 
         try {
-            const res = await fetch('/functions/deploy-site', {
+            const res = await fetch('/deploy-site', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ html: generatedHTML, siteName, projectName: publishedSiteId })
             });
