@@ -484,7 +484,7 @@
         if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
         btn.textContent = 'Signing in...'; btn.disabled = true;
         try {
-            const res = await fetch('/.netlify/functions/auth', {
+            const res = await fetch('/functions/auth', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'login', email, password })
             });
@@ -510,7 +510,7 @@
         if (password !== password2) { errEl.textContent = 'Passwords don't match.'; errEl.style.display = 'block'; return; }
         btn.textContent = 'Creating account...'; btn.disabled = true;
         try {
-            const res = await fetch('/.netlify/functions/auth', {
+            const res = await fetch('/functions/auth', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'signup', email, password })
             });
@@ -553,7 +553,7 @@
     async function loadUserData() {
         if (!authToken) return;
         try {
-            const res = await fetch('/.netlify/functions/auth', {
+            const res = await fetch('/functions/auth', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'load', token: authToken })
             });
@@ -646,7 +646,7 @@
         autoSaveTimer = setTimeout(async () => {
             if (!authToken || !generatedHTML) return;
             try {
-                await fetch('/.netlify/functions/auth', {
+                await fetch('/functions/auth', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         action: 'save', token: authToken,
@@ -774,23 +774,21 @@
 
     // ── WEDDING PARTY ─────────────────────────────────────────────────────────
     function renderParty() {
-        document.getElementById('partyItems').innerHTML = partyMembers.map((p, i) => `
-            <div class="ep-item">
-                <button class="ep-item-remove" onclick="removePartyMember(${i})">✕</button>
-                <div class="ep-field"><label>Name</label><input type="text" value="${p.name||''}" placeholder="Full name" onchange="partyMembers[${i}].name=this.value;liveUpdate()"></div>
-                <div class="ep-field"><label>Role</label><input type="text" value="${p.role||''}" placeholder="e.g. Maid of Honor" onchange="partyMembers[${i}].role=this.value;liveUpdate()"></div>
-                <div class="ep-field"><label>Relation <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${p.relation||''}" placeholder="e.g. Best Friend" onchange="partyMembers[${i}].relation=this.value;liveUpdate()"></div>
-                <div class="ep-field"><label>Note for AI blurb <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${p.note||''}" placeholder="Fun fact or personality" onchange="partyMembers[${i}].note=this.value"></div>
-                <div class="ep-field"><label>Tone</label>
-                    <select onchange="partyMembers[${i}].tone=this.value">
-                        <option value="sweet" ${(p.tone||'sweet')==='sweet'?'selected':''}>Sweet</option>
-                        <option value="funny" ${p.tone==='funny'?'selected':''}>Funny</option>
-                        <option value="heartfelt" ${p.tone==='heartfelt'?'selected':''}>Heartfelt</option>
-                        <option value="classic" ${p.tone==='classic'?'selected':''}>Classic</option>
-                    </select>
-                </div>
-            </div>
-        `).join('');
+        document.getElementById('partyItems').innerHTML = partyMembers.map((p, i) => {
+            const tone = p.tone || 'sweet';
+            return '<div class="ep-item">' +
+                '<button class="ep-item-remove" onclick="removePartyMember(' + i + ')">\u2715</button>' +
+                '<div class="ep-field"><label>Name</label><input type="text" value="' + (p.name||'') + '" placeholder="Full name" onchange="partyMembers[' + i + '].name=this.value;liveUpdate()"></div>' +
+                '<div class="ep-field"><label>Role</label><input type="text" value="' + (p.role||'') + '" placeholder="e.g. Maid of Honor" onchange="partyMembers[' + i + '].role=this.value;liveUpdate()"></div>' +
+                '<div class="ep-field"><label>Relation</label><input type="text" value="' + (p.relation||'') + '" placeholder="e.g. Best Friend" onchange="partyMembers[' + i + '].relation=this.value;liveUpdate()"></div>' +
+                '<div class="ep-field"><label>Note for AI blurb</label><input type="text" value="' + (p.note||'') + '" placeholder="Fun fact or personality" onchange="partyMembers[' + i + '].note=this.value"></div>' +
+                '<div class="ep-field"><label>Tone</label><select onchange="partyMembers[' + i + '].tone=this.value">' +
+                '<option value="sweet" ' + (tone==='sweet'?'selected':'') + '>Sweet</option>' +
+                '<option value="funny" ' + (tone==='funny'?'selected':'') + '>Funny</option>' +
+                '<option value="heartfelt" ' + (tone==='heartfelt'?'selected':'') + '>Heartfelt</option>' +
+                '<option value="classic" ' + (tone==='classic'?'selected':'') + '>Classic</option>' +
+                '</select></div></div>';
+        }).join('');
     }
 
     function addPartyMember() { partyMembers.push({ name: '', role: '', relation: '', note: '', tone: 'sweet' }); renderParty(); }
@@ -923,7 +921,7 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output the story HTML first. Nothing else unless party blurbs were requested.`;
 
         try {
-            const res = await fetch('/.netlify/functions/generate', {
+            const res = await fetch('/functions/generate', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
             });
@@ -974,14 +972,14 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         const siteName = (d.name1 + '-and-' + d.name2).toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 
         try {
-            const res = await fetch('/.netlify/functions/deploy-site', {
+            const res = await fetch('/functions/deploy-site', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ html: generatedHTML, siteName, siteId: publishedSiteId })
+                body: JSON.stringify({ html: generatedHTML, siteName, projectName: publishedSiteId })
             });
             const result = await res.json();
             if (result.error) throw new Error(result.error);
 
-            publishedSiteId = result.siteId;
+            publishedSiteId = result.projectName;
             publishedSiteUrl = result.url;
             showPublishedBanner(publishedSiteUrl);
             btn.innerHTML = '✓ Published!';
