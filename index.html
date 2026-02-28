@@ -64,21 +64,20 @@
 
         /* ── TWO-PANEL EDITOR ── */
         .editor-panels { display: flex; flex: 1; overflow: hidden; }
-
-        /* Left panel */
-        .left-panel { width: 340px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
-        .left-panel-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); flex-shrink: 0; }
-
-        /* Section nav */
-        .section-nav { display: flex; flex-direction: column; padding: 8px 0; flex-shrink: 0; border-bottom: 1px solid var(--warm-gray); overflow-y: auto; max-height: 380px; }
-        .section-nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 20px; font-size: 0.83rem; color: var(--text-light); cursor: pointer; transition: all 0.15s; border-left: 3px solid transparent; }
-        .section-nav-item:hover { background: var(--cream); color: var(--text); }
-        .section-nav-item.active { background: var(--cream); color: var(--blush); border-left-color: var(--blush); font-weight: 500; }
-        .section-nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
-
+        /* Narrow icon nav strip */
+        .icon-nav { width: 72px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 8px 0; overflow-y: auto; }
+        .icon-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 4px; width: 100%; cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s; text-align: center; }
+        .icon-nav-item:hover { background: var(--cream); }
+        .icon-nav-item.active { background: var(--cream); border-left-color: var(--blush); }
+        .icon-nav-item .nav-icon { font-size: 1.3rem; line-height: 1; }
+        .icon-nav-item .nav-label { font-size: 0.58rem; font-weight: 500; color: var(--text-light); line-height: 1.2; }
+        .icon-nav-item.active .nav-label { color: var(--blush); }
+        /* Edit panel column */
+        .left-panel { width: 280px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+        .left-panel-header { padding: 14px 18px 10px; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); flex-shrink: 0; }
         /* Edit panels */
-        .edit-panels { flex: 1; overflow-y: auto; min-height: 0; }
-        .edit-panel { display: none; padding: 20px; }
+        .edit-panels { flex: 1; overflow-y: auto; }
+        .edit-panel { display: none; padding: 18px; }
         .edit-panel.active { display: block; }
         .edit-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--text); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--warm-gray); }
         .ep-field { margin-bottom: 14px; }
@@ -246,11 +245,23 @@
     <!-- PANELS -->
     <div class="editor-panels">
 
-        <!-- LEFT PANEL -->
+        <!-- ICON NAV (narrow strip like Zola) -->
+        <div class="icon-nav">
+            <div class="icon-nav-item active" onclick="showSection('names')" id="nav-names"><span class="nav-icon">💑</span><span class="nav-label">Names</span></div>
+            <div class="icon-nav-item" onclick="showSection('photo')" id="nav-photo"><span class="nav-icon">📷</span><span class="nav-label">Photo</span></div>
+            <div class="icon-nav-item" onclick="showSection('story')" id="nav-story"><span class="nav-icon">✨</span><span class="nav-label">Story</span></div>
+            <div class="icon-nav-item" onclick="showSection('details')" id="nav-details"><span class="nav-icon">📍</span><span class="nav-label">Details</span></div>
+            <div class="icon-nav-item" onclick="showSection('schedule')" id="nav-schedule"><span class="nav-icon">🕐</span><span class="nav-label">Schedule</span></div>
+            <div class="icon-nav-item" onclick="showSection('party')" id="nav-party"><span class="nav-icon">🥂</span><span class="nav-label">Party</span></div>
+            <div class="icon-nav-item" onclick="showSection('gallery')" id="nav-gallery"><span class="nav-icon">🖼</span><span class="nav-label">Gallery</span></div>
+            <div class="icon-nav-item" onclick="showSection('hotels')" id="nav-hotels"><span class="nav-icon">🏨</span><span class="nav-label">Hotels</span></div>
+            <div class="icon-nav-item" onclick="showSection('registry')" id="nav-registry"><span class="nav-icon">🎁</span><span class="nav-label">Registry</span></div>
+            <div class="icon-nav-item" onclick="showSection('theme')" id="nav-theme"><span class="nav-icon">🎨</span><span class="nav-label">Theme</span></div>
+        </div>
+        <!-- LEFT PANEL (edit fields) -->
         <div class="left-panel">
-            <div class="left-panel-header">Your Wedding Details</div>
-
-            <!-- Published banner (hidden until live) -->
+            <div class="left-panel-header" id="leftPanelHeader">Names & Date</div>
+            <!-- Published banner -->
             <div id="publishedBanner" class="published-banner" style="display:none;">
                 🎉 Your site is live!
                 <a id="publishedUrl" href="#" target="_blank"></a>
@@ -259,21 +270,6 @@
                     <button class="published-banner-btn" onclick="publishWebsite()">🔄 Update Site</button>
                 </div>
             </div>
-
-            <!-- Section nav -->
-            <div class="section-nav">
-                <div class="section-nav-item active" onclick="showSection('names')" id="nav-names"><span class="nav-icon">💑</span> Names & Date</div>
-                <div class="section-nav-item" onclick="showSection('photo')" id="nav-photo"><span class="nav-icon">📷</span> Couple Photo</div>
-                <div class="section-nav-item" onclick="showSection('story')" id="nav-story"><span class="nav-icon">✨</span> Your Story</div>
-                <div class="section-nav-item" onclick="showSection('details')" id="nav-details"><span class="nav-icon">📍</span> Wedding Details</div>
-                <div class="section-nav-item" onclick="showSection('schedule')" id="nav-schedule"><span class="nav-icon">🕐</span> Schedule</div>
-                <div class="section-nav-item" onclick="showSection('party')" id="nav-party"><span class="nav-icon">🥂</span> Wedding Party</div>
-                <div class="section-nav-item" onclick="showSection('gallery')" id="nav-gallery"><span class="nav-icon">🖼</span> Gallery Photos</div>
-                <div class="section-nav-item" onclick="showSection('hotels')" id="nav-hotels"><span class="nav-icon">🏨</span> Hotels</div>
-                <div class="section-nav-item" onclick="showSection('registry')" id="nav-registry"><span class="nav-icon">🎁</span> Registry</div>
-                <div class="section-nav-item" onclick="showSection('theme')" id="nav-theme"><span class="nav-icon">🎨</span> Color Theme & Tone</div>
-            </div>
-
             <!-- Edit panels -->
             <div class="edit-panels">
 
@@ -668,11 +664,18 @@
     }
 
     // ── SECTION NAV ───────────────────────────────────────────────────────────
+    const sectionTitles = {
+        names: 'Names & Date', photo: 'Couple Photo', story: 'Your Story',
+        details: 'Wedding Details', schedule: 'Schedule', party: 'Wedding Party',
+        gallery: 'Gallery Photos', hotels: 'Hotels', registry: 'Registry', theme: 'Color Theme & Tone'
+    };
     function showSection(name) {
-        document.querySelectorAll('.section-nav-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.icon-nav-item').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.edit-panel').forEach(el => el.classList.remove('active'));
         document.getElementById('nav-' + name).classList.add('active');
         document.getElementById('panel-' + name).classList.add('active');
+        const h = document.getElementById('leftPanelHeader');
+        if (h) h.textContent = sectionTitles[name] || name;
     }
 
     // ── PREVIEW MODE ──────────────────────────────────────────────────────────
