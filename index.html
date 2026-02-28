@@ -302,6 +302,24 @@
                     <div class="story-ai-note">
                         <strong>✦ AI-written for you.</strong> Fill in your details and click Generate — we'll write your story. You can edit the text below anytime.
                     </div>
+                    <div class="ep-field">
+                        <label>Writing Tone</label>
+                        <div class="ep-tone-grid" style="margin-top:6px;">
+                            <input type="radio" name="tone" value="romantic" id="tone-romantic" class="ep-tone-opt" checked>
+                            <label for="tone-romantic" class="ep-tone-label">💕 Romantic</label>
+                            <input type="radio" name="tone" value="humorous" id="tone-humorous" class="ep-tone-opt">
+                            <label for="tone-humorous" class="ep-tone-label">😄 Humorous</label>
+                            <input type="radio" name="tone" value="modern" id="tone-modern" class="ep-tone-opt">
+                            <label for="tone-modern" class="ep-tone-label">✨ Modern</label>
+                            <input type="radio" name="tone" value="whimsical" id="tone-whimsical" class="ep-tone-opt">
+                            <label for="tone-whimsical" class="ep-tone-label">🌙 Whimsical</label>
+                            <input type="radio" name="tone" value="classic" id="tone-classic" class="ep-tone-opt">
+                            <label for="tone-classic" class="ep-tone-label">📜 Classic</label>
+                            <input type="radio" name="tone" value="roast" id="tone-roast" class="ep-tone-opt">
+                            <label for="tone-roast" class="ep-tone-label">🔥 Roast</label>
+                        </div>
+                        <p class="ep-hint" style="margin-top:6px;">Affects how your AI-written story sounds.</p>
+                    </div>
                     <div class="ep-field"><label>How did you meet?</label><textarea id="howMet" placeholder="Tell us how your story began..." oninput="autoSave()"></textarea></div>
                     <div class="ep-field"><label>The proposal <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><textarea id="proposal" placeholder="How did it happen?" oninput="autoSave()"></textarea></div>
                     <div class="ep-field"><label>Anything else to share? <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><textarea id="extraDetails" placeholder="Funny moments, meaningful details..." oninput="autoSave()"></textarea></div>
@@ -399,21 +417,7 @@
                         <label class="ep-theme-label"><input type="radio" name="eptheme" value="dustyrose" class="ep-theme-opt" onchange="switchTheme('dustyrose')"><div class="ep-theme-swatch"><span style="background:#C2848A;"></span><span style="background:#FDF8F8;"></span><span style="background:#9B7B8C;"></span></div><div class="ep-theme-name">Dusty Rose ✿</div></label>
                         <label class="ep-theme-label"><input type="radio" name="eptheme" value="lavender" class="ep-theme-opt" onchange="switchTheme('lavender')"><div class="ep-theme-swatch"><span style="background:#9B8EC4;"></span><span style="background:#F8F7FC;"></span><span style="background:#B8A8C8;"></span></div><div class="ep-theme-name">Lavender ✿</div></label>
                     </div>
-                    <hr class="ep-section-divider">
-                    <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Story Writing Tone</div>
-                    <div class="ep-tone-grid">
-                        <input type="radio" name="tone" value="romantic" id="tone-romantic" class="ep-tone-opt" checked>
-                        <label for="tone-romantic" class="ep-tone-label">💕 Romantic</label>
-                        <input type="radio" name="tone" value="humorous" id="tone-humorous" class="ep-tone-opt">
-                        <label for="tone-humorous" class="ep-tone-label">😄 Humorous</label>
-                        <input type="radio" name="tone" value="modern" id="tone-modern" class="ep-tone-opt">
-                        <label for="tone-modern" class="ep-tone-label">✨ Modern</label>
-                        <input type="radio" name="tone" value="whimsical" id="tone-whimsical" class="ep-tone-opt">
-                        <label for="tone-whimsical" class="ep-tone-label">🌙 Whimsical</label>
-                        <input type="radio" name="tone" value="classic" id="tone-classic" class="ep-tone-opt">
-                        <label for="tone-classic" class="ep-tone-label">📜 Classic</label>
-                    </div>
-                    <p class="ep-hint" style="margin-top:8px;">Tone affects how your AI-written story sounds.</p>
+
                 </div>
 
             </div><!-- end edit-panels -->
@@ -782,24 +786,56 @@
     function removeScheduleItem(i) { scheduleItems.splice(i, 1); renderSchedule(); liveUpdate(); }
 
     // ── WEDDING PARTY ─────────────────────────────────────────────────────────
+    function handlePartyPhoto(event, i) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const size = 300;
+                canvas.width = size; canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                const scale = Math.max(size/img.width, size/img.height);
+                const x = (size - img.width*scale)/2;
+                const y = (size - img.height*scale)/2;
+                ctx.drawImage(img, x, y, img.width*scale, img.height*scale);
+                partyMembers[i].photo = canvas.toDataURL('image/jpeg', 0.8);
+                renderParty(); liveUpdate();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
     function renderParty() {
         document.getElementById('partyItems').innerHTML = partyMembers.map((p, i) => {
             const tone = p.tone || 'sweet';
+            const photoHtml = p.photo
+                ? '<img src="' + p.photo + '" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;">'
+                : '<div style="width:48px;height:48px;border-radius:50%;background:var(--warm-gray);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">👤</div>';
+            const removePhotoBtn = p.photo ? '<button onclick="partyMembers[' + i + '].photo=\'\';renderParty();liveUpdate();" style="background:none;border:none;color:var(--text-light);font-size:0.75rem;cursor:pointer;text-decoration:underline;">Remove</button>' : '';
             return '<div class="ep-item">' +
-                '<button class="ep-item-remove" onclick="removePartyMember(' + i + ')">\u2715</button>' +
+                '<button class="ep-item-remove" onclick="removePartyMember(' + i + ')">✕</button>' +
                 '<div class="ep-field"><label>Name</label><input type="text" value="' + (p.name||'') + '" placeholder="Full name" onchange="partyMembers[' + i + '].name=this.value;liveUpdate()"></div>' +
                 '<div class="ep-field"><label>Role</label><input type="text" value="' + (p.role||'') + '" placeholder="e.g. Maid of Honor" onchange="partyMembers[' + i + '].role=this.value;liveUpdate()"></div>' +
                 '<div class="ep-field"><label>Relation</label><input type="text" value="' + (p.relation||'') + '" placeholder="e.g. Best Friend" onchange="partyMembers[' + i + '].relation=this.value;liveUpdate()"></div>' +
+                '<div class="ep-field"><label>Photo <span style=\"font-weight:300;color:var(--text-light);\">(optional)</span></label>' +
+                '<div style=\"display:flex;align-items:center;gap:10px;margin-top:4px;\">' + photoHtml +
+                '<div><label style=\"cursor:pointer;font-size:0.78rem;color:var(--blush);text-decoration:underline;\">' +
+                (p.photo ? 'Change photo' : 'Upload photo') +
+                '<input type=\"file\" accept=\"image/*\" style=\"display:none;\" onchange=\"handlePartyPhoto(event,' + i + ')\"></label>' +
+                (p.photo ? '<br>' + removePhotoBtn : '') + '</div></div></div>' +
                 '<div class="ep-field"><label>Note for AI blurb</label><input type="text" value="' + (p.note||'') + '" placeholder="Fun fact or personality" onchange="partyMembers[' + i + '].note=this.value"></div>' +
-                '<div class="ep-field"><label>Tone</label><select onchange="partyMembers[' + i + '].tone=this.value">' +
+                '<div class="ep-field"><label>Blurb Tone</label><select onchange="partyMembers[' + i + '].tone=this.value">' +
                 '<option value="sweet" ' + (tone==='sweet'?'selected':'') + '>Sweet</option>' +
                 '<option value="funny" ' + (tone==='funny'?'selected':'') + '>Funny</option>' +
                 '<option value="heartfelt" ' + (tone==='heartfelt'?'selected':'') + '>Heartfelt</option>' +
                 '<option value="classic" ' + (tone==='classic'?'selected':'') + '>Classic</option>' +
+                '<option value="roast" ' + (tone==='roast'?'selected':'') + '>🔥 Roast</option>' +
                 '</select></div></div>';
         }).join('');
     }
-
     function addPartyMember() { partyMembers.push({ name: '', role: '', relation: '', note: '', tone: 'sweet' }); renderParty(); }
     function removePartyMember(i) { partyMembers.splice(i, 1); renderParty(); liveUpdate(); }
 
@@ -895,6 +931,7 @@
         if (!data.howMet) { showSection('story'); showToast('Please tell us how you met!'); return; }
 
         document.getElementById('generatingOverlay').classList.add('visible');
+        showPreviewPlaceholder(false);
         let mi = 0;
         msgInterval = setInterval(() => {
             mi = (mi + 1) % genMessages.length;
