@@ -781,7 +781,10 @@
             proposal: document.getElementById('proposal').value.trim(),
             extraDetails: document.getElementById('extraDetails').value.trim(),
             tone: (document.querySelector('input[name="tone"]:checked') || {}).value || 'romantic',
-            theme: (document.querySelector('input[name="eptheme"]:checked') || {}).value || 'blush',
+            theme: selectedDesign || 'blush_garden',
+            themeVariant: selectedVariant || 0,
+            themeColors: DESIGNS[selectedDesign]?.variants[selectedVariant] || DESIGNS.blush_garden.variants[0],
+            themeFloral: DESIGNS[selectedDesign]?.floral || 'garden',
             headFont: fontMap[selectedFont] || fontMap.cormorant,
             customRegName: document.getElementById('customRegName').value.trim(),
             customRegUrl: document.getElementById('customRegUrl').value.trim(),
@@ -1264,8 +1267,10 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         } catch(err) {
             clearInterval(msgInterval);
             document.getElementById('generatingOverlay').classList.remove('visible');
-            showToast('Something went wrong. Please try again.');
-            console.error(err);
+            showPreviewPlaceholder(true);
+            const msg = err?.message || 'Unknown error';
+            showToast('Something went wrong: ' + msg);
+            console.error('Generate error:', err);
         }
     }
 
@@ -1660,12 +1665,14 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
                 floral: d.floral || false
             };
         } else {
-            // fallback legacy
+            // fallback - use blush_garden default
+            const defV = DESIGNS.blush_garden.variants[0];
             t = {
-                primary:'#C4828A', primaryDark:'#A86070', accent:'#A8B89C',
-                bg:'#FBF8F5', light:'#F5EDEC', text:'#4A4540',
+                primary: defV.primary, primaryDark: defV.primary,
+                accent: defV.accent, bg: defV.bg, light: defV.light, text: defV.text,
                 headFont: data.headFont || "'Cormorant Garamond', serif",
-                bodyFont:"'Jost', sans-serif", floral:'garden'
+                bodyFont: "'Jost', sans-serif",
+                floral: 'garden'
             };
         }
         if (data.headFont) t.headFont = data.headFont;
