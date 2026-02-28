@@ -5,13 +5,19 @@ const corsHeaders = {
   'Content-Type': 'application/json',
 };
 
-export async function onRequestOptions() {
-  return new Response(null, { headers: corsHeaders });
-}
+export async function onRequest(context) {
+  const { request } = context;
+  
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+  
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
+  }
 
-export async function onRequestPost(context) {
   try {
-    const { action, email, password, token, formData, generatedHtml, storyCopy, siteId, siteUrl } = await context.request.json();
+    const { action, email, password, token, formData, generatedHtml, storyCopy, siteId, siteUrl } = await request.json();
     const SUPABASE_URL = context.env.SUPABASE_URL;
     const SUPABASE_ANON_KEY = context.env.SUPABASE_ANON_KEY;
 
@@ -42,14 +48,12 @@ export async function onRequestPost(context) {
     }
 
     if (action === 'save') {
-      // Verify token
       const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
         headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` },
       });
       const userData = await userRes.json();
       if (!userData.id) return new Response(JSON.stringify({ error: 'Not authenticated' }), { status: 401, headers: corsHeaders });
 
-      // Check for existing record
       const checkRes = await fetch(`${SUPABASE_URL}/rest/v1/wedding_sites?user_id=eq.${userData.id}&select=id`, {
         headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` },
       });
