@@ -1710,6 +1710,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         </section>` : '';
 
         // Schedule section
+        const validHotels = (data.hotels || []).filter(h => h.name);
         const validSchedule = data.schedule.filter(s => s.time && s.event);
         const scheduleSection = validSchedule.length > 0 ? `
         <section id="schedule" style="padding:80px 20px;background:${t.light};">
