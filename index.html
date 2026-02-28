@@ -507,7 +507,7 @@
         errEl.style.display = 'none';
         if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
         if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
-        if (password !== password2) { errEl.textContent = 'Passwords don't match.'; errEl.style.display = 'block'; return; }
+        if (password !== password2) { errEl.textContent = "Passwords don\u0027t match."; errEl.style.display = 'block'; return; }
         btn.textContent = 'Creating account...'; btn.disabled = true;
         try {
             const res = await fetch('/functions/auth', {
@@ -1274,6 +1274,9 @@ ${registrySection}
 
 ${EDIT_SCRIPT_TAG}
 </body></html>`;
+    }
+
+    }
 
 </script>
 </body>
