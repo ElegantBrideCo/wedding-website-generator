@@ -387,7 +387,7 @@
                 <!-- REGISTRY -->
                 <div class="edit-panel" id="panel-registry">
                     <h3>Registry</h3>
-                    <p class="ep-hint" style="margin-bottom:14px;">Select where you're registered. Links will appear on your website.</p>
+                    <p class="ep-hint" style="margin-bottom:14px;">Haven't set yours up yet? <a href="https://www.honeyfund.com/" target="_blank" style="color:var(--blush);">Honeyfund</a> and <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" style="color:var(--blush);">Amazon</a> are great places to start. Select whichever you're using below.</p>
                     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
                         <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.15s;" id="reg-amazon-wrap">
                             <input type="checkbox" name="registry" value="amazon" id="reg-amazon" onchange="updateRegStyle('amazon',this.checked);liveUpdate()"> 🎁 Amazon Registry
@@ -402,6 +402,12 @@
                     <div id="customRegistryFields" style="display:none;">
                         <div class="ep-field"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Crate & Barrel" oninput="liveUpdate()"></div>
                         <div class="ep-field"><label>Registry URL</label><input type="text" id="customRegUrl" placeholder="https://..." oninput="liveUpdate()"></div>
+                    </div>
+                    <hr class="ep-section-divider">
+                    <div class="ep-field">
+                        <label>Message to Guests <span style="font-weight:300;color:var(--text-light);">(optional)</span></label>
+                        <textarea id="registryMessage" placeholder="e.g. Since we already have everything we need at home, we're celebrating with an experience instead — your contribution to our honeymoon means the world to us!" oninput="liveUpdate()" style="min-height:100px;"></textarea>
+                        <p class="ep-hint">This replaces the default "Your presence is the greatest gift" message.</p>
                     </div>
                 </div>
 
@@ -618,6 +624,7 @@
         }
         if (d.customRegName) document.getElementById('customRegName').value = d.customRegName;
         if (d.customRegUrl) document.getElementById('customRegUrl').value = d.customRegUrl;
+        if (d.registryMessage) document.getElementById('registryMessage').value = d.registryMessage;
     }
 
     function collectFormData() {
@@ -638,6 +645,7 @@
             theme: (document.querySelector('input[name="eptheme"]:checked') || {}).value || 'blush',
             customRegName: document.getElementById('customRegName').value.trim(),
             customRegUrl: document.getElementById('customRegUrl').value.trim(),
+            registryMessage: document.getElementById('registryMessage').value.trim(),
             selectedRegistries: Array.from(document.querySelectorAll('input[name="registry"]:checked')).map(cb => cb.value),
             photos: uploadedPhotos,
             heroPhoto: heroPhoto,
@@ -832,7 +840,7 @@
                 '<option value="funny" ' + (tone==='funny'?'selected':'') + '>Funny</option>' +
                 '<option value="heartfelt" ' + (tone==='heartfelt'?'selected':'') + '>Heartfelt</option>' +
                 '<option value="classic" ' + (tone==='classic'?'selected':'') + '>Classic</option>' +
-                '<option value="roast" ' + (tone==='roast'?'selected':'') + '>🔥 Roast</option>' +
+                '<option value="roast" ' + (tone==='roast'?'selected':'') + '>Roast</option>' +
                 '</select></div></div>';
         }).join('');
     }
@@ -845,8 +853,18 @@
             <div class="ep-item">
                 <button class="ep-item-remove" onclick="removeHotel(${i})">✕</button>
                 <div class="ep-field"><label>Hotel Name</label><input type="text" value="${h.name||''}" placeholder="e.g. The Grand Hotel" onchange="hotelItems[${i}].name=this.value;liveUpdate()"></div>
-                <div class="ep-field"><label>Price Range</label><input type="text" value="${h.price||''}" placeholder="e.g. $120–$180/night" onchange="hotelItems[${i}].price=this.value;liveUpdate()"></div>
-                <div class="ep-field"><label>Address</label><input type="text" value="${h.address||''}" placeholder="City or full address" onchange="hotelItems[${i}].address=this.value;liveUpdate()"></div>
+                <div class="ep-field"><label>Price Range</label>
+                    <select onchange="hotelItems[${i}].price=this.value;liveUpdate()">
+                        <option value="" ${!h.price?'selected':''}>Select price range...</option>
+                        <option value="Under $100/night" ${h.price==='Under $100/night'?'selected':''}>Under $100/night</option>
+                        <option value="$100–$150/night" ${h.price==='$100–$150/night'?'selected':''}>$100–$150/night</option>
+                        <option value="$150–$200/night" ${h.price==='$150–$200/night'?'selected':''}>$150–$200/night</option>
+                        <option value="$200–$250/night" ${h.price==='$200–$250/night'?'selected':''}>$200–$250/night</option>
+                        <option value="$250–$300/night" ${h.price==='$250–$300/night'?'selected':''}>$250–$300/night</option>
+                        <option value="$300+/night" ${h.price==='$300+/night'?'selected':''}>$300+/night</option>
+                    </select>
+                </div>
+                <div class="ep-field"><label>Address <span style="font-weight:300;color:var(--text-light);">(for map)</span></label><input type="text" value="${h.address||''}" placeholder="e.g. 123 Main St, Austin TX" onchange="hotelItems[${i}].address=this.value;liveUpdate()"></div>
                 <div class="ep-field"><label>Note <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${h.note||''}" placeholder="e.g. Ask for the wedding rate" onchange="hotelItems[${i}].note=this.value;liveUpdate()"></div>
                 <div class="ep-field"><label>Booking URL <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><input type="text" value="${h.bookingUrl||''}" placeholder="https://..." onchange="hotelItems[${i}].bookingUrl=this.value;liveUpdate()"></div>
             </div>
@@ -1085,7 +1103,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
           <div style="max-width:700px;margin:0 auto;text-align:center;">
             
             <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};margin-bottom:16px;">Registry</h2>
-            <p style="font-size:1rem;line-height:1.8;color:${t.text};opacity:0.75;max-width:500px;margin:0 auto 28px;font-weight:300;">Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:</p>
+            <p style="font-size:1rem;line-height:1.8;color:${t.text};opacity:0.75;max-width:500px;margin:0 auto 28px;font-weight:300;">${data.registryMessage || 'Your presence is the greatest gift. But if you\'d like to celebrate with something special, we\'re registered at:'}</p>
             <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
               ${selectedRegistries.map((r, i) => `<a href="${r.url}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:50px;${i===0 ? `background:${t.primary};color:white;` : `background:white;color:${t.primary};border:2px solid ${t.primary};`}text-decoration:none;font-size:0.9rem;font-weight:500;letter-spacing:0.04em;">${r.emoji} ${r.name}</a>`).join('')}
             </div>
@@ -1151,22 +1169,26 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
           </div>
         </section>` : '';
 
-        // Accommodations section (hotels only — maps moved to details)
+        // Accommodations section with maps
         const mapSection = validHotels.length > 0 ? `
-        <section style="padding:80px 20px;background:${t.light};">
+        <section id="hotels" style="padding:80px 20px;background:${t.light};">
           <div style="max-width:860px;margin:0 auto;">
             <div style="text-align:center;margin-bottom:40px;">
-              
               <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.6rem);font-weight:300;color:${t.text};">Recommended Hotels</h2>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+            <div style="display:flex;flex-direction:column;gap:24px;">
               ${validHotels.map(h => `
-              <div class="eb-deletable" style="background:white;border-radius:12px;padding:20px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-                <div class="eb-text" style="font-weight:600;color:${t.text};font-size:0.95rem;margin-bottom:4px;">${h.name}</div>
-                ${h.price ? `<div class="eb-text" style="font-size:0.78rem;color:${t.primary};font-weight:600;margin-bottom:6px;">${h.price}</div>` : ''}
-                ${h.address ? `<div style="font-size:0.8rem;color:${t.text};opacity:0.55;margin-bottom:8px;">&#128205; ${h.address}</div>` : ''}
-                ${h.note ? `<div class="eb-text" style="font-size:0.82rem;color:${t.text};opacity:0.7;font-style:italic;margin-bottom:12px;">${h.note}</div>` : ''}
-                ${h.bookingUrl ? `<a href="${h.bookingUrl}" target="_blank" style="display:inline-block;padding:8px 18px;background:${t.primary};color:white;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:500;">Book Now &rarr;</a>` : ''}
+              <div class="eb-deletable" style="background:white;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 12px rgba(0,0,0,0.05);display:grid;grid-template-columns:1fr ${h.address ? '1fr' : ''};gap:0;">
+                <div style="padding:24px;">
+                  <div class="eb-text" style="font-weight:600;color:${t.text};font-size:1rem;margin-bottom:4px;">${h.name}</div>
+                  ${h.price ? `<div class="eb-text" style="font-size:0.8rem;color:${t.primary};font-weight:600;margin-bottom:8px;">${h.price}</div>` : ''}
+                  ${h.address ? `<div style="font-size:0.82rem;color:${t.text};opacity:0.55;margin-bottom:10px;">&#128205; ${h.address}</div>` : ''}
+                  ${h.note ? `<div class="eb-text" style="font-size:0.85rem;color:${t.text};opacity:0.7;font-style:italic;margin-bottom:14px;">${h.note}</div>` : ''}
+                  ${h.bookingUrl ? `<a href="${h.bookingUrl}" target="_blank" style="display:inline-block;padding:9px 20px;background:${t.primary};color:white;border-radius:20px;text-decoration:none;font-size:0.82rem;font-weight:500;">Book Now &rarr;</a>` : ''}
+                </div>
+                ${h.address ? `<div style="min-height:200px;">
+                  <iframe src="https://maps.google.com/maps?q=${encodeURIComponent(h.address)}&output=embed&z=15" width="100%" height="100%" style="border:0;display:block;min-height:200px;" allowfullscreen loading="lazy"></iframe>
+                </div>` : ''}
               </div>`).join('')}
             </div>
           </div>
@@ -1179,6 +1201,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             validSchedule.length > 0 ? '<a href="#schedule" onclick="event.preventDefault();document.getElementById(\'schedule\').scrollIntoView({behavior:\'smooth\'});">Schedule</a>' : '',
             validParty.length > 0 ? '<a href="#party" onclick="event.preventDefault();document.getElementById(\'party\').scrollIntoView({behavior:\'smooth\'});">Wedding Party</a>' : '',
             data.photos && data.photos.length > 0 ? '<a href="#gallery" onclick="event.preventDefault();document.getElementById(\'gallery\').scrollIntoView({behavior:\'smooth\'});">Gallery</a>' : '',
+            validHotels.length > 0 ? '<a href="#hotels" onclick="event.preventDefault();document.getElementById(\'hotels\').scrollIntoView({behavior:\'smooth\'});">Hotels</a>' : '',
             selectedRegistries.length > 0 ? '<a href="#registry" onclick="event.preventDefault();document.getElementById(\'registry\').scrollIntoView({behavior:\'smooth\'});">Registry</a>' : '',
         ].filter(Boolean).join('\n    ');
 
