@@ -73,7 +73,7 @@
         .icon-nav-item .nav-label { font-size: 0.58rem; font-weight: 500; color: var(--text-light); line-height: 1.2; }
         .icon-nav-item.active .nav-label { color: var(--blush); }
         /* Edit panel column */
-        .left-panel { width: 280px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+        .left-panel { width: 340px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
         .left-panel-header { padding: 14px 18px 10px; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); flex-shrink: 0; }
         /* Edit panels */
         .edit-panels { flex: 1; overflow-y: auto; }
@@ -359,7 +359,11 @@
                 <!-- WEDDING PARTY -->
                 <div class="edit-panel" id="panel-party">
                     <h3>Wedding Party</h3>
-                    <p class="ep-hint" style="margin-bottom:14px;">Add your bridesmaids, groomsmen, flower girls, and more.</p>
+                    <p class="ep-hint" style="margin-bottom:14px;">Add your bridesmaids, groomsmen, flower girls, and more. AI will write a blurb for each person when you generate.</p>
+                    <div id="partyBlurbPreview" style="display:none;background:linear-gradient(135deg,#f9f5ff,#fff5f5);border:1px solid var(--blush-light);border-radius:8px;padding:12px 14px;margin-bottom:14px;">
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:8px;">✦ AI-WRITTEN BLURBS</div>
+                        <div id="partyBlurbList" style="font-size:0.82rem;line-height:1.6;color:var(--text);"></div>
+                    </div>
                     <div id="partyItems"></div>
                     <button class="ep-add-btn" onclick="addPartyMember()">+ Add Person</button>
                 </div>
@@ -372,7 +376,7 @@
                         <input type="file" id="galleryPhotoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
                         <div style="font-size:1.6rem;margin-bottom:6px;">📸</div>
                         <div style="font-size:0.82rem;color:var(--text-light);">Click to upload photos</div>
-                        <div style="font-size:0.72rem;color:var(--border);margin-top:4px;">Up to 5 photos · JPG or PNG</div>
+                        <div style="font-size:0.72rem;color:var(--border);margin-top:4px;">Up to 12 photos · JPG or PNG</div>
                     </div>
                     <div class="ep-photo-grid" id="photoPreviewGrid"></div>
                 </div>
@@ -397,8 +401,14 @@
                             <input type="checkbox" name="registry" value="honeyfund" id="reg-honeyfund" onchange="updateRegStyle('honeyfund',this.checked);liveUpdate()"> 🏝 Honeyfund
                         </label>
                         <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.15s;" id="reg-custom-wrap">
-                            <input type="checkbox" name="registry" value="custom" id="reg-custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';liveUpdate()"> 🔗 Other Registry
+                            <input type="checkbox" name="registry" value="custom" id="reg-custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';document.getElementById('regUrlGuidance').style.display=this.checked?'block':'none';liveUpdate()"> 🔗 Other Registry
                         </label>
+                    </div>
+                    <div id="regUrlGuidance" style="display:none;background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px;margin-bottom:10px;font-size:0.78rem;line-height:1.6;color:var(--text);">
+                        <strong>📋 How to get your registry link:</strong><br>
+                        <strong>Amazon:</strong> Go to your registry → Share → Copy the link.<br>
+                        <strong>Honeyfund:</strong> Your page URL is honeyfund.com/your-name — copy it from your browser.<br>
+                        Then paste it in the "Registry URL" field below.
                     </div>
                     <div id="customRegistryFields" style="display:none;">
                         <div class="ep-field"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Crate & Barrel" oninput="liveUpdate()"></div>
@@ -408,22 +418,18 @@
                     <div class="ep-field">
                         <label>Message to Guests</label>
                         <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
-                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-0">
-                                <input type="radio" name="registryMsgOpt" value="0" checked onchange="setRegistryMsg(0)" style="margin-top:2px;flex-shrink:0;">
-                                <span><strong>Classic</strong> — Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:</span>
-                            </label>
-                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-1">
-                                <input type="radio" name="registryMsgOpt" value="1" onchange="setRegistryMsg(1)" style="margin-top:2px;flex-shrink:0;">
-                                <span><strong>Experience</strong> — Since we already have everything we need at home, we're celebrating with an experience instead. Your contribution to our honeymoon means the world!</span>
-                            </label>
-                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-2">
-                                <input type="radio" name="registryMsgOpt" value="2" onchange="setRegistryMsg(2)" style="margin-top:2px;flex-shrink:0;">
-                                <span><strong>Casual</strong> — No gifts necessary — your love and presence are all we need. But if you insist, here's where we're registered:</span>
-                            </label>
-                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-3">
-                                <input type="radio" name="registryMsgOpt" value="3" onchange="setRegistryMsg(3)" style="margin-top:2px;flex-shrink:0;">
-                                <span><strong>Write my own</strong></span>
-                            </label>
+                            <div id="rmsg-wrap-0" onclick="document.querySelector('input[name=registryMsgOpt][value=\'0\']').checked=true;setRegistryMsg(0)" style="padding:10px 12px;border:1.5px solid var(--blush);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;background:var(--blush-light,#fdf0f0);">
+                                <input type="radio" name="registryMsgOpt" value="0" checked style="display:none;"><strong>Classic</strong> — Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:
+                            </div>
+                            <div id="rmsg-wrap-1" onclick="document.querySelector('input[name=registryMsgOpt][value=\'1\']').checked=true;setRegistryMsg(1)" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;background:white;">
+                                <input type="radio" name="registryMsgOpt" value="1" style="display:none;"><strong>Experience</strong> — Since we already have everything we need at home, we're celebrating with an experience instead. Your contribution to our honeymoon means the world!
+                            </div>
+                            <div id="rmsg-wrap-2" onclick="document.querySelector('input[name=registryMsgOpt][value=\'2\']').checked=true;setRegistryMsg(2)" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;background:white;">
+                                <input type="radio" name="registryMsgOpt" value="2" style="display:none;"><strong>Casual</strong> — No gifts necessary — your love and presence are all we need. But if you insist, here's where we're registered:
+                            </div>
+                            <div id="rmsg-wrap-3" onclick="document.querySelector('input[name=registryMsgOpt][value=\'3\']').checked=true;setRegistryMsg(3)" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;background:white;">
+                                <input type="radio" name="registryMsgOpt" value="3" style="display:none;"><strong>✏️ Write my own message</strong>
+                            </div>
                         </div>
                         <textarea id="registryMessage" oninput="liveUpdate()" style="min-height:90px;display:none;" placeholder="Write your own message to guests..."></textarea>
                         <p class="ep-hint">This message appears above your registry links.</p>
@@ -433,34 +439,77 @@
                 <!-- PLANNING RESOURCES -->
                 <div class="edit-panel" id="panel-resources">
                     <h3>Wedding Shops & Resources</h3>
-                    <p class="ep-hint" style="margin-bottom:16px;">These links appear on your website to help your guests (and you!) find everything you need. Toggle any you'd like to include.</p>
-                    <div style="display:flex;flex-direction:column;gap:8px;">
-                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-dresses-wrap">
-                            <input type="checkbox" id="res-dresses" checked onchange="updateResStyle('dresses',this.checked);liveUpdate()"> 👗 Wedding Dresses
-                        </label>
-                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-invitations-wrap">
-                            <input type="checkbox" id="res-invitations" checked onchange="updateResStyle('invitations',this.checked);liveUpdate()"> 💌 Invitations
-                        </label>
-                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-decorations-wrap">
-                            <input type="checkbox" id="res-decorations" checked onchange="updateResStyle('decorations',this.checked);liveUpdate()"> 🌸 Decorations
-                        </label>
-                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-planner-wrap">
-                            <input type="checkbox" id="res-planner" checked onchange="updateResStyle('planner',this.checked);liveUpdate()"> 📋 Wedding Planner App
-                        </label>
+                    <div style="background:var(--cream);border-radius:10px;padding:16px;margin-bottom:16px;text-align:center;">
+                        <div style="font-size:1.4rem;margin-bottom:6px;">🌸</div>
+                        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);margin-bottom:4px;">Elegant Bride Co.</div>
+                        <div style="font-size:0.78rem;color:var(--text-light);line-height:1.5;margin-bottom:10px;">Free tools, shopping guides & inspiration for budget-conscious brides planning their perfect day, their way.</div>
+                        <a href="https://www.elegantbrideco.com" target="_blank" style="display:inline-block;padding:8px 20px;background:var(--blush);color:white;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:500;">Visit elegantbrideco.com →</a>
                     </div>
-                    <p class="ep-hint" style="margin-top:12px;">These are curated links from <a href="https://www.elegantbrideco.com" target="_blank" style="color:var(--blush);">Elegant Bride Co.</a> to help couples plan their perfect day.</p>
+                    <p class="ep-hint" style="margin-bottom:12px;">A small "Planned with Elegant Bride Co." credit will appear at the bottom of your website. We'd love to be part of your big day! 💕</p>
+                    <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px;background:white;">
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:8px;">FREE RESOURCES FOR YOU</div>
+                        <div style="display:flex;flex-direction:column;gap:6px;">
+                            <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">👗 Shop Wedding Dresses</a>
+                            <a href="https://www.elegantbrideco.com/wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">💌 Browse Invitations</a>
+                            <a href="https://www.elegantbrideco.com" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">🌸 Wedding Planning Guide</a>
+                            <a href="https://www.elegantbrideco.com/wedding-planner" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">📋 Free Wedding Planner App</a>
+                        </div>
+                    </div>
                 </div>
                 <!-- THEME & TONE -->
                 <div class="edit-panel" id="panel-theme">
                     <h3>Color Theme & Tone</h3>
+                    <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Heading Font</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;" id="fontPicker">
+                        <div onclick="setFont('cormorant')" id="font-cormorant" style="padding:10px 14px;border:1.5px solid var(--blush);border-radius:8px;cursor:pointer;background:var(--blush-light,#fdf0f0);">
+                            <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--text);">Cormorant</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Classic · Romantic</span>
+                        </div>
+                        <div onclick="setFont('playfair')" id="font-playfair" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
+                            <span style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--text);">Playfair Display</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Bold · Timeless</span>
+                        </div>
+                        <div onclick="setFont('raleway')" id="font-raleway" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
+                            <span style="font-family:'Raleway',sans-serif;font-size:1.3rem;font-weight:300;color:var(--text);">Raleway</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Modern · Minimal</span>
+                        </div>
+                        <div onclick="setFont('lato')" id="font-lato" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
+                            <span style="font-family:'Lato',sans-serif;font-size:1.3rem;font-weight:300;color:var(--text);">Lato</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Clean · Contemporary</span>
+                        </div>
+                    </div>
                     <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Color Theme</div>
-                    <div class="ep-theme-grid">
-                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="blush" class="ep-theme-opt" checked onchange="switchTheme('blush')"><div class="ep-theme-swatch"><span style="background:#D4A5A5;"></span><span style="background:#F8F4F0;"></span><span style="background:#A8B89C;"></span></div><div class="ep-theme-name">Blush & Sage</div></label>
-                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="navy" class="ep-theme-opt" onchange="switchTheme('navy')"><div class="ep-theme-swatch"><span style="background:#2C3E5D;"></span><span style="background:#F5F0E8;"></span><span style="background:#C9A96E;"></span></div><div class="ep-theme-name">Navy & Gold</div></label>
-                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="sage" class="ep-theme-opt" onchange="switchTheme('sage')"><div class="ep-theme-swatch"><span style="background:#7A9E7E;"></span><span style="background:#F7F5F0;"></span><span style="background:#C4A882;"></span></div><div class="ep-theme-name">Forest & Linen</div></label>
-                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="ivory" class="ep-theme-opt" onchange="switchTheme('ivory')"><div class="ep-theme-swatch"><span style="background:#B5A898;"></span><span style="background:#FAFAF7;"></span><span style="background:#C8B89A;"></span></div><div class="ep-theme-name">Ivory & Champagne</div></label>
-                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="dustyrose" class="ep-theme-opt" onchange="switchTheme('dustyrose')"><div class="ep-theme-swatch"><span style="background:#C2848A;"></span><span style="background:#FDF8F8;"></span><span style="background:#9B7B8C;"></span></div><div class="ep-theme-name">Dusty Rose ✿</div></label>
-                        <label class="ep-theme-label"><input type="radio" name="eptheme" value="lavender" class="ep-theme-opt" onchange="switchTheme('lavender')"><div class="ep-theme-swatch"><span style="background:#9B8EC4;"></span><span style="background:#F8F7FC;"></span><span style="background:#B8A8C8;"></span></div><div class="ep-theme-name">Lavender ✿</div></label>
+                    <div style="display:flex;flex-direction:column;gap:8px;" id="themePicker">
+                        <div onclick="switchTheme('blush')" id="theme-blush" style="border:1.5px solid var(--blush);border-radius:10px;overflow:hidden;cursor:pointer;background:var(--blush-light,#fdf0f0);">
+                            <input type="radio" name="eptheme" value="blush" class="ep-theme-opt" checked style="display:none;">
+                            <div style="display:flex;height:28px;"><span style="flex:1;background:#D4A5A5;"></span><span style="flex:1;background:#F8F4F0;"></span><span style="flex:1;background:#A8B89C;"></span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Blush & Sage</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Soft, romantic, garden-inspired</span></div>
+                        </div>
+                        <div onclick="switchTheme('navy')" id="theme-navy" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;">
+                            <input type="radio" name="eptheme" value="navy" class="ep-theme-opt" style="display:none;">
+                            <div style="display:flex;height:28px;"><span style="flex:1;background:#2C3E5D;"></span><span style="flex:1;background:#F5F0E8;"></span><span style="flex:1;background:#C9A96E;"></span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Navy & Gold</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Classic, formal, black-tie elegant</span></div>
+                        </div>
+                        <div onclick="switchTheme('sage')" id="theme-sage" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;">
+                            <input type="radio" name="eptheme" value="sage" class="ep-theme-opt" style="display:none;">
+                            <div style="display:flex;height:28px;"><span style="flex:1;background:#7A9E7E;"></span><span style="flex:1;background:#F7F5F0;"></span><span style="flex:1;background:#C4A882;"></span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Forest & Linen</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Natural, earthy, outdoor ceremony</span></div>
+                        </div>
+                        <div onclick="switchTheme('ivory')" id="theme-ivory" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;">
+                            <input type="radio" name="eptheme" value="ivory" class="ep-theme-opt" style="display:none;">
+                            <div style="display:flex;height:28px;"><span style="flex:1;background:#B5A898;"></span><span style="flex:1;background:#FAFAF7;"></span><span style="flex:1;background:#C8B89A;"></span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Ivory & Champagne</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Neutral, timeless, understated</span></div>
+                        </div>
+                        <div onclick="switchTheme('dustyrose')" id="theme-dustyrose" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;">
+                            <input type="radio" name="eptheme" value="dustyrose" class="ep-theme-opt" style="display:none;">
+                            <div style="display:flex;height:28px;"><span style="flex:1;background:#C2848A;"></span><span style="flex:1;background:#FDF8F8;"></span><span style="flex:1;background:#9B7B8C;"></span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Dusty Rose</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Romantic, moody, floral accents ✿</span></div>
+                        </div>
+                        <div onclick="switchTheme('lavender')" id="theme-lavender" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;">
+                            <input type="radio" name="eptheme" value="lavender" class="ep-theme-opt" style="display:none;">
+                            <div style="display:flex;height:28px;"><span style="flex:1;background:#9B8EC4;"></span><span style="flex:1;background:#F8F7FC;"></span><span style="flex:1;background:#B8A8C8;"></span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Lavender</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Dreamy, soft, whimsical ✿</span></div>
+                        </div>
                     </div>
 
                 </div>
@@ -682,6 +731,7 @@
             extraDetails: document.getElementById('extraDetails').value.trim(),
             tone: (document.querySelector('input[name="tone"]:checked') || {}).value || 'romantic',
             theme: (document.querySelector('input[name="eptheme"]:checked') || {}).value || 'blush',
+            headFont: fontMap[selectedFont] || fontMap.cormorant,
             customRegName: document.getElementById('customRegName').value.trim(),
             customRegUrl: document.getElementById('customRegUrl').value.trim(),
             registryMessage: (() => {
@@ -721,6 +771,29 @@
     }
 
     // ── SECTION NAV ───────────────────────────────────────────────────────────
+    let selectedFont = 'cormorant';
+    const fontMap = {
+        cormorant: "'Cormorant Garamond', serif",
+        playfair:  "'Playfair Display', serif",
+        raleway:   "'Raleway', sans-serif",
+        lato:      "'Lato', sans-serif"
+    };
+    function setFont(name) {
+        selectedFont = name;
+        ['cormorant','playfair','raleway','lato'].forEach(f => {
+            const el = document.getElementById('font-' + f);
+            if (!el) return;
+            el.style.borderColor = f === name ? 'var(--blush)' : 'var(--border)';
+            el.style.background = f === name ? 'var(--blush-light,#fdf0f0)' : 'white';
+        });
+        if (generatedData) {
+            generatedData.headFont = fontMap[name];
+            const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+            generatedHTML = html;
+            document.getElementById('previewFrame').srcdoc = html;
+            autoSave();
+        }
+    }
     const sectionTitles = {
         names: 'Names & Date', photo: 'Couple Photo', story: 'Your Story', resources: 'Shops & Resources',
         details: 'Wedding Details', schedule: 'Schedule', party: 'Wedding Party',
@@ -798,7 +871,7 @@
     // ── GALLERY PHOTOS ────────────────────────────────────────────────────────
     function handlePhotoUpload(event) {
         const files = Array.from(event.target.files);
-        const remaining = 5 - uploadedPhotos.length;
+        const remaining = 12 - uploadedPhotos.length;
         files.slice(0, remaining).forEach(file => {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -983,6 +1056,16 @@
 
     // ── THEME SWITCH ──────────────────────────────────────────────────────────
     function switchTheme(newTheme) {
+        // Update radio
+        const radio = document.querySelector('input[name="eptheme"][value="' + newTheme + '"]');
+        if (radio) radio.checked = true;
+        // Highlight theme cards
+        ['blush','navy','sage','ivory','dustyrose','lavender'].forEach(t => {
+            const el = document.getElementById('theme-' + t);
+            if (!el) return;
+            el.style.borderColor = t === newTheme ? 'var(--blush)' : 'var(--border)';
+            el.style.background = t === newTheme ? 'var(--blush-light,#fdf0f0)' : 'white';
+        });
         if (!generatedData) return;
         generatedData.theme = newTheme;
         const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
@@ -1081,7 +1164,17 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
                 try { const blurbArr = JSON.parse(parts[1].split('PARTY_BLURBS_END')[0].trim()); blurbArr.forEach(b => { partyBlurbs[b.name] = b.blurb; }); } catch(e) {}
             }
             data.partyBlurbs = partyBlurbs;
-
+            // Show blurbs in party panel
+            if (Object.keys(partyBlurbs).length > 0) {
+                const preview = document.getElementById('partyBlurbPreview');
+                const list = document.getElementById('partyBlurbList');
+                if (preview && list) {
+                    preview.style.display = 'block';
+                    list.innerHTML = Object.entries(partyBlurbs).map(([name, blurb]) =>
+                        '<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,0.06);last-child{border:none}"><strong style=\"color:var(--blush);\">' + name + '</strong><br><em>"' + blurb + '"</em></div>'
+                    ).join('');
+                }
+            }
             clearInterval(msgInterval);
             generatedStoryCopy = storyCopy;
             generatedData = data;
@@ -1153,6 +1246,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
 
     function buildWebsiteHTML(data, storyCopy) {
         const t = getTheme(data.theme);
+        if (data.headFont) t.headFont = data.headFont;
         const wDate = data.weddingDate ? new Date(data.weddingDate + 'T12:00:00') : null;
         const fDate = wDate ? wDate.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '';
         const fTime = data.ceremonyTime ? new Date('2000-01-01T' + data.ceremonyTime).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'}) : '';
