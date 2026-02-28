@@ -1677,6 +1677,15 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         }
         if (data.headFont) t.headFont = data.headFont;
 
+        // ── DATE / TIME / VENUE VARS ──────────────────────────────────────────
+        const wDate = data.weddingDate ? new Date(data.weddingDate + 'T12:00:00') : null;
+        const fDate = wDate ? wDate.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '';
+        const fTime = data.ceremonyTime ? new Date('2000-01-01T' + data.ceremonyTime).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'}) : '';
+        const reception = (data.receptionLocation && data.receptionLocation.trim()) ? data.receptionLocation : data.ceremonyLocation;
+        const ceremonyAddr = data.ceremonyAddress || data.ceremonyLocation;
+        const receptionAddr = (data.receptionAddress && data.receptionAddress.trim()) ? data.receptionAddress : (data.receptionLocation && data.receptionLocation !== data.ceremonyLocation ? data.receptionLocation : null);
+        const hasDualMap = !!(ceremonyAddr && receptionAddr);
+
         const registryLinks = {
             amazon:    { name: 'Amazon Registry', url: 'https://www.amazon.com/wedding/home?tag=elegantbridec-20', emoji: '&#127873;' },
             honeyfund: { name: 'Honeyfund', url: 'https://www.honeyfund.com/', emoji: '&#127965;' },
