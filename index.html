@@ -257,6 +257,7 @@
             <div class="icon-nav-item" onclick="showSection('hotels')" id="nav-hotels"><span class="nav-icon">🏨</span><span class="nav-label">Hotels</span></div>
             <div class="icon-nav-item" onclick="showSection('registry')" id="nav-registry"><span class="nav-icon">🎁</span><span class="nav-label">Registry</span></div>
             <div class="icon-nav-item" onclick="showSection('theme')" id="nav-theme"><span class="nav-icon">🎨</span><span class="nav-label">Theme</span></div>
+            <div class="icon-nav-item" onclick="showSection('resources')" id="nav-resources"><span class="nav-icon">🛍️</span><span class="nav-label">Shops</span></div>
         </div>
         <!-- LEFT PANEL (edit fields) -->
         <div class="left-panel">
@@ -387,7 +388,7 @@
                 <!-- REGISTRY -->
                 <div class="edit-panel" id="panel-registry">
                     <h3>Registry</h3>
-                    <p class="ep-hint" style="margin-bottom:14px;">Haven't set yours up yet? <a href="https://www.honeyfund.com/" target="_blank" style="color:var(--blush);">Honeyfund</a> and <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" style="color:var(--blush);">Amazon</a> are great places to start. Select whichever you're using below.</p>
+                    <p class="ep-hint" style="margin-bottom:14px;">Haven't set yours up yet? <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" style="color:var(--blush);">Amazon</a> and <a href="https://www.honeyfund.com/" target="_blank" style="color:var(--blush);">Honeyfund</a> are great places to start. Click below to get started.</p>
                     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
                         <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.15s;" id="reg-amazon-wrap">
                             <input type="checkbox" name="registry" value="amazon" id="reg-amazon" onchange="updateRegStyle('amazon',this.checked);liveUpdate()"> 🎁 Amazon Registry
@@ -405,12 +406,50 @@
                     </div>
                     <hr class="ep-section-divider">
                     <div class="ep-field">
-                        <label>Message to Guests <span style="font-weight:300;color:var(--text-light);">(optional)</span></label>
-                        <textarea id="registryMessage" placeholder="e.g. Since we already have everything we need at home, we're celebrating with an experience instead — your contribution to our honeymoon means the world to us!" oninput="liveUpdate()" style="min-height:100px;"></textarea>
-                        <p class="ep-hint">This replaces the default "Your presence is the greatest gift" message.</p>
+                        <label>Message to Guests</label>
+                        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
+                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-0">
+                                <input type="radio" name="registryMsgOpt" value="0" checked onchange="setRegistryMsg(0)" style="margin-top:2px;flex-shrink:0;">
+                                <span><strong>Classic</strong> — Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:</span>
+                            </label>
+                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-1">
+                                <input type="radio" name="registryMsgOpt" value="1" onchange="setRegistryMsg(1)" style="margin-top:2px;flex-shrink:0;">
+                                <span><strong>Experience</strong> — Since we already have everything we need at home, we're celebrating with an experience instead. Your contribution to our honeymoon means the world!</span>
+                            </label>
+                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-2">
+                                <input type="radio" name="registryMsgOpt" value="2" onchange="setRegistryMsg(2)" style="margin-top:2px;flex-shrink:0;">
+                                <span><strong>Casual</strong> — No gifts necessary — your love and presence are all we need. But if you insist, here's where we're registered:</span>
+                            </label>
+                            <label style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;transition:all 0.15s;" id="rmsg-wrap-3">
+                                <input type="radio" name="registryMsgOpt" value="3" onchange="setRegistryMsg(3)" style="margin-top:2px;flex-shrink:0;">
+                                <span><strong>Write my own</strong></span>
+                            </label>
+                        </div>
+                        <textarea id="registryMessage" oninput="liveUpdate()" style="min-height:90px;display:none;" placeholder="Write your own message to guests..."></textarea>
+                        <p class="ep-hint">This message appears above your registry links.</p>
                     </div>
                 </div>
 
+                <!-- PLANNING RESOURCES -->
+                <div class="edit-panel" id="panel-resources">
+                    <h3>Wedding Shops & Resources</h3>
+                    <p class="ep-hint" style="margin-bottom:16px;">These links appear on your website to help your guests (and you!) find everything you need. Toggle any you'd like to include.</p>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-dresses-wrap">
+                            <input type="checkbox" id="res-dresses" checked onchange="updateResStyle('dresses',this.checked);liveUpdate()"> 👗 Wedding Dresses
+                        </label>
+                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-invitations-wrap">
+                            <input type="checkbox" id="res-invitations" checked onchange="updateResStyle('invitations',this.checked);liveUpdate()"> 💌 Invitations
+                        </label>
+                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-decorations-wrap">
+                            <input type="checkbox" id="res-decorations" checked onchange="updateResStyle('decorations',this.checked);liveUpdate()"> 🌸 Decorations
+                        </label>
+                        <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;" id="res-planner-wrap">
+                            <input type="checkbox" id="res-planner" checked onchange="updateResStyle('planner',this.checked);liveUpdate()"> 📋 Wedding Planner App
+                        </label>
+                    </div>
+                    <p class="ep-hint" style="margin-top:12px;">These are curated links from <a href="https://www.elegantbrideco.com" target="_blank" style="color:var(--blush);">Elegant Bride Co.</a> to help couples plan their perfect day.</p>
+                </div>
                 <!-- THEME & TONE -->
                 <div class="edit-panel" id="panel-theme">
                     <h3>Color Theme & Tone</h3>
@@ -645,13 +684,19 @@
             theme: (document.querySelector('input[name="eptheme"]:checked') || {}).value || 'blush',
             customRegName: document.getElementById('customRegName').value.trim(),
             customRegUrl: document.getElementById('customRegUrl').value.trim(),
-            registryMessage: document.getElementById('registryMessage').value.trim(),
+            registryMessage: (() => {
+                const opt = document.querySelector('input[name="registryMsgOpt"]:checked');
+                const idx = opt ? parseInt(opt.value) : 0;
+                if (idx === 3) return document.getElementById('registryMessage').value.trim();
+                return registryMsgPresets[idx] || registryMsgPresets[0];
+            })(),
             selectedRegistries: Array.from(document.querySelectorAll('input[name="registry"]:checked')).map(cb => cb.value),
             photos: uploadedPhotos,
             heroPhoto: heroPhoto,
             schedule: scheduleItems,
             partyMembers: partyMembers,
             hotels: hotelItems,
+            selectedResources: ['dresses','invitations','decorations','planner'].filter(id => document.getElementById('res-'+id)?.checked),
         };
     }
 
@@ -677,7 +722,7 @@
 
     // ── SECTION NAV ───────────────────────────────────────────────────────────
     const sectionTitles = {
-        names: 'Names & Date', photo: 'Couple Photo', story: 'Your Story',
+        names: 'Names & Date', photo: 'Couple Photo', story: 'Your Story', resources: 'Shops & Resources',
         details: 'Wedding Details', schedule: 'Schedule', party: 'Wedding Party',
         gallery: 'Gallery Photos', hotels: 'Hotels', registry: 'Registry', theme: 'Color Theme & Tone'
     };
@@ -875,6 +920,38 @@
     function removeHotel(i) { hotelItems.splice(i, 1); renderHotels(); liveUpdate(); }
 
     // ── REGISTRY ──────────────────────────────────────────────────────────────
+    const registryMsgPresets = [
+        "Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:",
+        "Since we already have everything we need at home, we're celebrating with an experience instead. Your contribution to our honeymoon means the world!",
+        "No gifts necessary — your love and presence are all we need. But if you insist, here's where we're registered:",
+        null // freehand
+    ];
+    function setRegistryMsg(idx) {
+        const ta = document.getElementById('registryMessage');
+        if (idx === 3) {
+            ta.style.display = 'block';
+            ta.value = '';
+        } else {
+            ta.style.display = 'none';
+            ta.value = registryMsgPresets[idx];
+        }
+        // highlight selected
+        [0,1,2,3].forEach(i => {
+            const w = document.getElementById('rmsg-wrap-' + i);
+            if (w) { w.style.borderColor = i === idx ? 'var(--blush)' : 'var(--border)'; w.style.background = i === idx ? 'var(--blush-light, #fdf0f0)' : 'white'; }
+        });
+        liveUpdate();
+    }
+    // Init on load
+    document.addEventListener('DOMContentLoaded', () => setRegistryMsg(0));
+    function updateResStyle(id, checked) {
+        const wrap = document.getElementById('res-' + id + '-wrap');
+        if (wrap) { wrap.style.borderColor = checked ? 'var(--blush)' : 'var(--border)'; wrap.style.background = checked ? 'var(--blush-light,#fdf0f0)' : 'white'; }
+    }
+    // init resource styles on load
+    document.addEventListener('DOMContentLoaded', () => {
+        ['dresses','invitations','decorations','planner'].forEach(id => updateResStyle(id, true));
+    });
     function updateRegStyle(id, checked) {
         const wrap = document.getElementById('reg-' + id + '-wrap');
         if (wrap) {
@@ -1340,6 +1417,20 @@ ${gallerySection}
 ${mapSection}
 ${registrySection}
 
+${(data.selectedResources && data.selectedResources.length > 0) ? `
+<section style="padding:60px 20px;background:${t.bg};border-top:1px solid rgba(0,0,0,0.05);">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <p style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.primary};font-weight:600;margin-bottom:12px;">Still Planning?</p>
+    <h2 style="font-family:${t.headFont};font-size:clamp(1.4rem,3vw,2rem);font-weight:300;color:${t.text};margin-bottom:24px;">Wedding Resources We Love</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+      ${data.selectedResources.includes('dresses') ? `<a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid ${t.primary};border-radius:50px;color:${t.primary};text-decoration:none;font-size:0.85rem;font-weight:500;transition:all 0.2s;">👗 Wedding Dresses</a>` : ''}
+      ${data.selectedResources.includes('invitations') ? `<a href="https://www.elegantbrideco.com/wedding-invitations" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid ${t.primary};border-radius:50px;color:${t.primary};text-decoration:none;font-size:0.85rem;font-weight:500;transition:all 0.2s;">💌 Invitations</a>` : ''}
+      ${data.selectedResources.includes('decorations') ? `<a href="https://www.elegantbrideco.com/wedding-decorations" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid ${t.primary};border-radius:50px;color:${t.primary};text-decoration:none;font-size:0.85rem;font-weight:500;transition:all 0.2s;">🌸 Decorations</a>` : ''}
+      ${data.selectedResources.includes('planner') ? `<a href="https://www.elegantbrideco.com/wedding-planner" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:${t.primary};border-radius:50px;color:white;text-decoration:none;font-size:0.85rem;font-weight:500;">📋 Free Wedding Planner App</a>` : ''}
+    </div>
+    <p style="font-size:0.72rem;color:${t.text};opacity:0.35;margin-top:18px;">Curated by Elegant Bride Co.</p>
+  </div>
+</section>` : ''}
 <footer style="background:${t.text};color:white;text-align:center;padding:50px 20px;">
   <div style="font-family:${t.headFont};font-size:2rem;font-weight:300;margin-bottom:8px;opacity:0.9;">${data.name1} &amp; ${data.name2}</div>
   ${fDate ? `<div style="font-size:0.85rem;opacity:0.4;letter-spacing:0.1em;margin-bottom:20px;">${fDate}</div>` : ''}
