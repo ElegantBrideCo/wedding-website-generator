@@ -257,7 +257,7 @@
             <div class="icon-nav-item" onclick="showSection('hotels')" id="nav-hotels"><span class="nav-icon">🏨</span><span class="nav-label">Hotels</span></div>
             <div class="icon-nav-item" onclick="showSection('registry')" id="nav-registry"><span class="nav-icon">🎁</span><span class="nav-label">Registry</span></div>
             <div class="icon-nav-item" onclick="showSection('theme')" id="nav-theme"><span class="nav-icon">🎨</span><span class="nav-label">Theme</span></div>
-            <div class="icon-nav-item" onclick="showSection('resources')" id="nav-resources"><span class="nav-icon">🛍️</span><span class="nav-label">Shops</span></div>
+            <div class="icon-nav-item" onclick="showSection('resources')" id="nav-resources"><span class="nav-icon">🛍️</span><span class="nav-label">Resources</span></div>
         </div>
         <!-- LEFT PANEL (edit fields) -->
         <div class="left-panel">
@@ -361,8 +361,8 @@
                     <h3>Wedding Party</h3>
                     <p class="ep-hint" style="margin-bottom:14px;">Add your bridesmaids, groomsmen, flower girls, and more. AI will write a blurb for each person when you generate.</p>
                     <div id="partyBlurbPreview" style="display:none;background:linear-gradient(135deg,#f9f5ff,#fff5f5);border:1px solid var(--blush-light);border-radius:8px;padding:12px 14px;margin-bottom:14px;">
-                        <div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:8px;">✦ AI-WRITTEN BLURBS</div>
-                        <div id="partyBlurbList" style="font-size:0.82rem;line-height:1.6;color:var(--text);"></div>
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:8px;">✦ AI-WRITTEN BLURBS — click to edit</div>
+                        <div id="partyBlurbList"></div>
                     </div>
                     <div id="partyItems"></div>
                     <button class="ep-add-btn" onclick="addPartyMember()">+ Add Person</button>
@@ -438,21 +438,71 @@
 
                 <!-- PLANNING RESOURCES -->
                 <div class="edit-panel" id="panel-resources">
-                    <h3>Wedding Shops & Resources</h3>
+                    <h3>Resources</h3>
                     <div style="background:var(--cream);border-radius:10px;padding:16px;margin-bottom:16px;text-align:center;">
                         <div style="font-size:1.4rem;margin-bottom:6px;">🌸</div>
                         <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);margin-bottom:4px;">Elegant Bride Co.</div>
                         <div style="font-size:0.78rem;color:var(--text-light);line-height:1.5;margin-bottom:10px;">Free tools, shopping guides & inspiration for budget-conscious brides planning their perfect day, their way.</div>
                         <a href="https://www.elegantbrideco.com" target="_blank" style="display:inline-block;padding:8px 20px;background:var(--blush);color:white;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:500;">Visit elegantbrideco.com →</a>
                     </div>
-                    <p class="ep-hint" style="margin-bottom:12px;">A small "Planned with Elegant Bride Co." credit will appear at the bottom of your website. We'd love to be part of your big day! 💕</p>
+
                     <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px;background:white;">
-                        <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:8px;">FREE RESOURCES FOR YOU</div>
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:8px;">RESOURCES FOR BRIDES</div>
                         <div style="display:flex;flex-direction:column;gap:6px;">
-                            <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">👗 Shop Wedding Dresses</a>
-                            <a href="https://www.elegantbrideco.com/wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">💌 Browse Invitations</a>
-                            <a href="https://www.elegantbrideco.com" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">🌸 Wedding Planning Guide</a>
-                            <a href="https://www.elegantbrideco.com/wedding-planner" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">📋 Free Wedding Planner App</a>
+                            <a href="https://www.elegantbrideco.com/best-wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">👗 Shop Wedding Dresses</a>
+                            <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">💌 Browse Invitations</a>
+                            <a href="https://www.elegantbrideco.com" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">🌸 Wedding Planning Guides</a>
+                            <a href="https://www.elegantbrideco.com/downloads" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">📋 Free Wedding Planner App</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- THEME & TONE -->
+                <div class="edit-panel" id="panel-theme">
+                    <h3>Design & Color</h3>
+                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Choose a Design</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;" id="designGrid"></div>
+                    <hr class="ep-section-divider">
+                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Color Variant</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;" id="colorDots"></div>
+                    <hr class="ep-section-divider">
+                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Heading Font</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;" id="fontPicker">
+                        <div onclick="setFont('cormorant')" id="font-cormorant" style="padding:10px 14px;border:1.5px solid var(--blush);border-radius:8px;cursor:pointer;background:var(--blush-light,#fdf0f0);">
+                            <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--text);">Cormorant</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Classic · Romantic</span>
+                        </div>
+                        <div onclick="setFont('playfair')" id="font-playfair" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
+                            <span style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--text);">Playfair Display</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Bold · Timeless</span>
+                        </div>
+                        <div onclick="setFont('raleway')" id="font-raleway" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
+                            <span style="font-family:'Raleway',sans-serif;font-size:1.3rem;font-weight:300;color:var(--text);">Raleway</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Modern · Minimal</span>
+                        </div>
+                        <div onclick="setFont('lato')" id="font-lato" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
+                            <span style="font-family:'Lato',sans-serif;font-size:1.3rem;font-weight:300;color:var(--text);">Lato</span>
+                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Clean · Contemporary</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- PLANNING RESOURCES -->
+                <!-- PLANNING RESOURCES -->
+                <div class="edit-panel" id="panel-resources">
+                    <h3>Resources</h3>
+                    <div style="background:var(--cream);border-radius:10px;padding:16px;margin-bottom:16px;text-align:center;">
+                        <div style="font-size:1.4rem;margin-bottom:6px;">🌸</div>
+                        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--text);margin-bottom:4px;">Elegant Bride Co.</div>
+                        <div style="font-size:0.78rem;color:var(--text-light);line-height:1.5;margin-bottom:10px;">Free tools, shopping guides & inspiration for budget-conscious brides planning their perfect day, their way.</div>
+                        <a href="https://www.elegantbrideco.com" target="_blank" style="display:inline-block;padding:8px 20px;background:var(--blush);color:white;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:500;">Visit elegantbrideco.com →</a>
+                    </div>
+
+                    <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px;background:white;">
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:8px;">RESOURCES FOR BRIDES</div>
+                        <div style="display:flex;flex-direction:column;gap:6px;">
+                            <a href="https://www.elegantbrideco.com/best-wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">👗 Shop Wedding Dresses</a>
+                            <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">💌 Browse Invitations</a>
+                            <a href="https://www.elegantbrideco.com" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">🌸 Wedding Planning Guides</a>
+                            <a href="https://www.elegantbrideco.com/downloads" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">📋 Free Wedding Planner App</a>
                         </div>
                     </div>
                 </div>
@@ -636,6 +686,7 @@
         document.getElementById('authScreen').style.display = 'none';
         document.getElementById('appScreen').classList.add('visible');
         renderSchedule(); renderParty(); renderHotels();
+        renderDesignGrid(); renderColorDots();
         // Try to load saved data
         await loadUserData();
     }
@@ -771,6 +822,19 @@
     }
 
     // ── SECTION NAV ───────────────────────────────────────────────────────────
+    function updatePartyBlurb(el) {
+        const name = el.getAttribute('data-name');
+        if (generatedData && generatedData.partyBlurbs) {
+            generatedData.partyBlurbs[name] = el.innerText;
+            clearTimeout(liveUpdateTimer);
+            liveUpdateTimer = setTimeout(() => {
+                const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+                generatedHTML = html;
+                document.getElementById('previewFrame').srcdoc = html;
+                autoSave();
+            }, 800);
+        }
+    }
     let selectedFont = 'cormorant';
     const fontMap = {
         cormorant: "'Cormorant Garamond', serif",
@@ -1016,15 +1080,17 @@
         liveUpdate();
     }
     // Init on load
-    document.addEventListener('DOMContentLoaded', () => setRegistryMsg(0));
+    document.addEventListener('DOMContentLoaded', () => {
+        setRegistryMsg(0);
+        renderDesignGrid();
+        renderColorDots();
+        ['dresses','invitations','decorations','planner'].forEach(id => updateResStyle(id, true));
+    });
     function updateResStyle(id, checked) {
         const wrap = document.getElementById('res-' + id + '-wrap');
         if (wrap) { wrap.style.borderColor = checked ? 'var(--blush)' : 'var(--border)'; wrap.style.background = checked ? 'var(--blush-light,#fdf0f0)' : 'white'; }
     }
-    // init resource styles on load
-    document.addEventListener('DOMContentLoaded', () => {
-        ['dresses','invitations','decorations','planner'].forEach(id => updateResStyle(id, true));
-    });
+
     function updateRegStyle(id, checked) {
         const wrap = document.getElementById('reg-' + id + '-wrap');
         if (wrap) {
@@ -1171,7 +1237,10 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
                 if (preview && list) {
                     preview.style.display = 'block';
                     list.innerHTML = Object.entries(partyBlurbs).map(([name, blurb]) =>
-                        '<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,0.06);last-child{border:none}"><strong style=\"color:var(--blush);\">' + name + '</strong><br><em>"' + blurb + '"</em></div>'
+                        '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(0,0,0,0.08);">' +
+                        '<div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:4px;">' + name + '</div>' +
+                        '<div contenteditable="true" data-name="' + name + '" oninput="updatePartyBlurb(this)" style="font-size:0.82rem;line-height:1.6;color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px;background:white;outline:none;font-family:Jost,sans-serif;cursor:text;" title="Click to edit">' + blurb + '</div>' +
+                        '</div>'
                     ).join('');
                 }
             }
@@ -1232,35 +1301,375 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         }
     }
 
+    // ── DESIGN SYSTEM ────────────────────────────────────────────────────────
+    // 10 named designs, each with 4 color variants
+    const DESIGNS = {
+        blush_garden: {
+            name: 'Blush Garden', desc: 'Soft & romantic',
+            floral: 'garden', // rich watercolor florals
+            variants: [
+                { label:'Blush', dot:'#D4A5A5', primary:'#C4828A', accent:'#A8B89C', bg:'#FBF8F5', light:'#F5EDEC', text:'#4A4540' },
+                { label:'Peach', dot:'#E8B89A', primary:'#D4905A', accent:'#B8A882', bg:'#FDF8F4', light:'#F5EDE4', text:'#4A4035' },
+                { label:'Mauve', dot:'#B8929A', primary:'#9A6878', accent:'#C4A8B8', bg:'#FAF7F9', light:'#F0E8EE', text:'#443840' },
+                { label:'Rose', dot:'#E8A0B0', primary:'#C4607A', accent:'#A89898', bg:'#FDF8FA', light:'#F5E8EE', text:'#4A3840' },
+            ]
+        },
+        garden_party: {
+            name: 'Garden Party', desc: 'Lush & botanical',
+            floral: 'botanical',
+            variants: [
+                { label:'Sage', dot:'#8AAE84', primary:'#6A9468', accent:'#D4B896', bg:'#F5F8F4', light:'#E4EEE2', text:'#383C35' },
+                { label:'Fern', dot:'#5A8A5A', primary:'#3A6A3A', accent:'#C8A870', bg:'#F4F7F2', light:'#DCE8DA', text:'#303830' },
+                { label:'Moss', dot:'#7A9272', primary:'#5A7A52', accent:'#B8C4A0', bg:'#F5F6F2', light:'#E2E8DA', text:'#384035' },
+                { label:'Eucalyptus', dot:'#9AB8A8', primary:'#6A9888', accent:'#D4C8A8', bg:'#F4F8F6', light:'#DFF0E8', text:'#354038' },
+            ]
+        },
+        navy_gold: {
+            name: 'Navy & Gold', desc: 'Classic & formal',
+            floral: false,
+            variants: [
+                { label:'Navy', dot:'#2C3E5D', primary:'#2C3E5D', accent:'#C9A96E', bg:'#F5F0E8', light:'#EAE0D0', text:'#2C3040' },
+                { label:'Midnight', dot:'#1A2840', primary:'#1A2840', accent:'#D4B878', bg:'#F4F0EC', light:'#E4DDD0', text:'#282838' },
+                { label:'Ocean', dot:'#2A5080', primary:'#2A5080', accent:'#C0B478', bg:'#F2F5F8', light:'#D8E4EE', text:'#2A3848' },
+                { label:'Slate', dot:'#3A4A5A', primary:'#3A4A5A', accent:'#B8A870', bg:'#F4F4F2', light:'#E0E4E8', text:'#303840' },
+            ]
+        },
+        forest_linen: {
+            name: 'Forest & Linen', desc: 'Natural & earthy',
+            floral: false,
+            variants: [
+                { label:'Forest', dot:'#7A9E7E', primary:'#5A8060', accent:'#C4A882', bg:'#F7F5F0', light:'#E4EEE0', text:'#3A3830' },
+                { label:'Cedar', dot:'#8A7A60', primary:'#6A5A40', accent:'#A89A78', bg:'#F6F4EE', light:'#E8E0D0', text:'#403830' },
+                { label:'Terracotta', dot:'#C47A5A', primary:'#A85A38', accent:'#8AAA80', bg:'#F8F4EE', light:'#F0E0D4', text:'#403428' },
+                { label:'Stone', dot:'#A09888', primary:'#808070', accent:'#C4B898', bg:'#F6F6F2', light:'#E8E4DC', text:'#3C3C38' },
+            ]
+        },
+        ivory_champagne: {
+            name: 'Ivory & Champagne', desc: 'Timeless elegance',
+            floral: false,
+            variants: [
+                { label:'Champagne', dot:'#C8B89A', primary:'#A89070', accent:'#C8C0A8', bg:'#FAFAF7', light:'#F0EDE4', text:'#4A4540' },
+                { label:'Pearl', dot:'#D8D0C0', primary:'#B0A890', accent:'#D8CCA8', bg:'#FAFAF8', light:'#F0EDE8', text:'#484540' },
+                { label:'Bronze', dot:'#B89060', primary:'#907040', accent:'#C8A870', bg:'#F8F6F0', light:'#EEE4D4', text:'#443C30' },
+                { label:'Cream', dot:'#E8E0C8', primary:'#C0B088', accent:'#D8CCA0', bg:'#FCFAF6', light:'#F4F0E4', text:'#4A4840' },
+            ]
+        },
+        dusty_rose: {
+            name: 'Dusty Rose', desc: 'Romantic with florals',
+            floral: 'peony',
+            variants: [
+                { label:'Dusty', dot:'#C2848A', primary:'#A86070', accent:'#9B8090', bg:'#FDF8F8', light:'#F5E8EC', text:'#4A3840' },
+                { label:'Berry', dot:'#9A6070', primary:'#7A4050', accent:'#C09098', bg:'#FAF5F6', light:'#EED8DC', text:'#4A3040' },
+                { label:'Blush Mauve', dot:'#D4A0B8', primary:'#B07898', accent:'#C4A0B4', bg:'#FDF8FC', light:'#F4E8F4', text:'#483848' },
+                { label:'Antique', dot:'#C0908A', primary:'#A06858', accent:'#B0A898', bg:'#FBF8F5', light:'#F0E4DC', text:'#4A3C38' },
+            ]
+        },
+        lavender_silver: {
+            name: 'Lavender & Silver', desc: 'Dreamy & whimsical',
+            floral: 'lavender',
+            variants: [
+                { label:'Lavender', dot:'#9B8EC4', primary:'#7A6AAA', accent:'#B8C0D4', bg:'#F8F7FC', light:'#EDE8F8', text:'#3A3848' },
+                { label:'Lilac', dot:'#C0A8D8', primary:'#9080B8', accent:'#C8C0D8', bg:'#F8F6FC', light:'#EDE8F4', text:'#403848' },
+                { label:'Periwinkle', dot:'#8898C8', primary:'#6070A8', accent:'#A8B0CC', bg:'#F5F6FC', light:'#E0E4F4', text:'#383848' },
+                { label:'Amethyst', dot:'#8A6A9A', primary:'#6A4A7A', accent:'#A890B4', bg:'#F8F5FA', light:'#EDE0F4', text:'#40384A' },
+            ]
+        },
+        modern_noir: {
+            name: 'Modern Noir', desc: 'Bold & dramatic',
+            floral: false,
+            variants: [
+                { label:'Noir', dot:'#2A2A2A', primary:'#1A1A1A', accent:'#D4A060', bg:'#F8F8F6', light:'#ECEAE4', text:'#1A1A1A' },
+                { label:'Charcoal', dot:'#484848', primary:'#303030', accent:'#C8B080', bg:'#F6F6F4', light:'#E4E4E0', text:'#282828' },
+                { label:'Black & Blush', dot:'#282828', primary:'#1A1A1A', accent:'#D4A5A5', bg:'#FBF8F8', light:'#F0E8E8', text:'#1A1A1A' },
+                { label:'Onyx', dot:'#3A3440', primary:'#28243A', accent:'#B8A878', bg:'#F6F5F8', light:'#E8E4F0', text:'#28283A' },
+            ]
+        },
+        wildflower: {
+            name: 'Wildflower', desc: 'Free-spirited & colorful',
+            floral: 'wildflower',
+            variants: [
+                { label:'Meadow', dot:'#D4A848', primary:'#B08030', accent:'#8AAA70', bg:'#FAF7EE', light:'#F0EAD4', text:'#403C28' },
+                { label:'Sunflower', dot:'#E8C040', primary:'#C09820', accent:'#80A868', bg:'#FAFAEE', light:'#F4F0D0', text:'#404028' },
+                { label:'Poppy', dot:'#D84848', primary:'#B82828', accent:'#98C070', bg:'#FBF6F4', light:'#F4E0DC', text:'#402828' },
+                { label:'Cornflower', dot:'#6888C8', primary:'#4868A8', accent:'#A8B860', bg:'#F4F6FA', light:'#E0E8F4', text:'#283848' },
+            ]
+        },
+        vintage_romance: {
+            name: 'Vintage Romance', desc: 'Antique & sentimental',
+            floral: 'vintage',
+            variants: [
+                { label:'Parchment', dot:'#C8A878', primary:'#A88050', accent:'#9A8870', bg:'#FAF6EE', light:'#F0E8D8', text:'#44382A' },
+                { label:'Sepia', dot:'#A88858', primary:'#806038', accent:'#B0A888', bg:'#F8F4EC', light:'#EEE4D4', text:'#403828' },
+                { label:'Victorian', dot:'#8A6888', primary:'#6A4868', accent:'#C8A888', bg:'#F8F4F8', light:'#EEE0EE', text:'#403848' },
+                { label:'Dusty Blue', dot:'#7898A8', primary:'#507888', accent:'#C0A888', bg:'#F4F8FA', light:'#DCE8F0', text:'#304048' },
+            ]
+        }
+    };
+
+    let selectedDesign = 'blush_garden';
+    let selectedVariant = 0;
+
+    function renderDesignGrid() {
+        const grid = document.getElementById('designGrid');
+        if (!grid) return;
+        grid.innerHTML = Object.entries(DESIGNS).map(([key, d]) => {
+            const v = d.variants[0];
+            const active = key === selectedDesign;
+            return `<div onclick="selectDesign('${key}')" id="dcard-${key}" style="border:2px solid ${active ? v.primary : 'var(--border)'};border-radius:10px;overflow:hidden;cursor:pointer;transition:all 0.2s;${active ? 'box-shadow:0 0 0 3px ' + v.primary + '22;' : ''}">
+                <div style="display:flex;height:24px;">
+                    <span style="flex:1;background:${v.primary};"></span>
+                    <span style="flex:1;background:${v.bg};"></span>
+                    <span style="flex:1;background:${v.accent};"></span>
+                </div>
+                <div style="padding:6px 8px;background:white;">
+                    <div style="font-size:0.72rem;font-weight:600;color:var(--text);line-height:1.2;">${d.name}</div>
+                    <div style="font-size:0.62rem;color:var(--text-light);">${d.desc}</div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function renderColorDots() {
+        const wrap = document.getElementById('colorDots');
+        if (!wrap) return;
+        const d = DESIGNS[selectedDesign];
+        if (!d) return;
+        wrap.innerHTML = d.variants.map((v, i) => {
+            const active = i === selectedVariant;
+            return `<div onclick="selectVariant(${i})" title="${v.label}" style="width:28px;height:28px;border-radius:50%;background:${v.dot};cursor:pointer;border:3px solid ${active ? 'var(--text)' : 'transparent'};box-shadow:0 0 0 1px rgba(0,0,0,0.15);transition:all 0.15s;" title="${v.label}"></div>`;
+        }).join('');
+    }
+
+    function selectDesign(key) {
+        selectedDesign = key;
+        selectedVariant = 0;
+        renderDesignGrid();
+        renderColorDots();
+        applyDesign();
+    }
+
+    function selectVariant(i) {
+        selectedVariant = i;
+        renderColorDots();
+        applyDesign();
+    }
+
+    function applyDesign() {
+        if (!generatedData) return;
+        const d = DESIGNS[selectedDesign];
+        const v = d.variants[selectedVariant];
+        generatedData.theme = selectedDesign;
+        generatedData.themeVariant = selectedVariant;
+        generatedData.themeFloral = d.floral;
+        generatedData.themeColors = v;
+        const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+        generatedHTML = html;
+        document.getElementById('previewFrame').srcdoc = html;
+        autoSave();
+    }
+
+    // Legacy switchTheme kept for compatibility
+    function switchTheme(newTheme) { selectDesign(newTheme); }
+
     function getTheme(name) {
-        const themes = {
-            blush:    { primary:'#D4A5A5', primaryDark:'#B88A8A', accent:'#A8B89C', bg:'#FBF8F5', light:'#F0E8E8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:false },
-            navy:     { primary:'#2C3E5D', primaryDark:'#1E2D45', accent:'#C9A96E', bg:'#F5F0E8', light:'#E8E0D0', text:'#2C3040', headFont:"'Playfair Display', serif", bodyFont:"'Lato', sans-serif", floral:false },
-            sage:     { primary:'#7A9E7E', primaryDark:'#5E8563', accent:'#C4A882', bg:'#F7F5F0', light:'#E0EAE0', text:'#3A3830', headFont:"'Cormorant Garamond', serif", bodyFont:"'Raleway', sans-serif", floral:false },
-            ivory:    { primary:'#B5A898', primaryDark:'#9A8D7E', accent:'#C8B89A', bg:'#FAFAF7', light:'#F0EDE8', text:'#4A4540', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:false },
-            dustyrose:{ primary:'#C2848A', primaryDark:'#A96870', accent:'#9B7B8C', bg:'#FDF8F8', light:'#F5E8EC', text:'#4A3840', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:true },
-            lavender: { primary:'#9B8EC4', primaryDark:'#7B6EA4', accent:'#B8A8C8', bg:'#F8F7FC', light:'#EDE8F5', text:'#3A3848', headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral:true }
+        // Legacy: if themeColors passed directly, use them
+        return {
+            primary:'#C4828A', primaryDark:'#A86070', accent:'#A8B89C',
+            bg:'#FBF8F5', light:'#F5EDEC', text:'#4A4540',
+            headFont:"'Cormorant Garamond', serif", bodyFont:"'Jost', sans-serif", floral: 'garden'
         };
-        return themes[name] || themes.blush;
+    }
+
+    // Floral SVG generator
+    function getFloralSVG(type, color, accent, side='left') {
+        const flip = side === 'right' ? 'transform="scale(-1,1) translate(-200,0)"' : '';
+        if (type === 'garden') {
+            return `<svg xmlns='http://www.w3.org/2000/svg' width='180' height='320' viewBox='0 0 180 320' style='position:absolute;${side}:0;bottom:0;opacity:0.18;pointer-events:none;' aria-hidden='true'>
+                <g ${flip}>
+                <!-- Main stem -->
+                <path d='M70 320 C65 280 60 240 68 200 C76 160 60 130 55 100' stroke='${color}' stroke-width='2' fill='none' opacity='0.5'/>
+                <!-- Large bloom top -->
+                <ellipse cx='55' cy='95' rx='18' ry='10' fill='${color}' transform='rotate(-20 55 95)' opacity='0.9'/>
+                <ellipse cx='45' cy='88' rx='16' ry='9' fill='${color}' transform='rotate(-50 45 88)' opacity='0.8'/>
+                <ellipse cx='65' cy='85' rx='16' ry='9' fill='${color}' transform='rotate(10 65 85)' opacity='0.8'/>
+                <ellipse cx='50' cy='78' rx='14' ry='8' fill='${color}' transform='rotate(-30 50 78)' opacity='0.7'/>
+                <circle cx='55' cy='88' r='8' fill='${accent}' opacity='0.9'/>
+                <!-- Mid bloom -->
+                <ellipse cx='85' cy='155' rx='14' ry='8' fill='${color}' transform='rotate(15 85 155)' opacity='0.85'/>
+                <ellipse cx='75' cy='148' rx='13' ry='7' fill='${color}' transform='rotate(-25 75 148)' opacity='0.75'/>
+                <ellipse cx='95' cy='148' rx='13' ry='7' fill='${color}' transform='rotate(40 95 148)' opacity='0.75'/>
+                <circle cx='84' cy='150' r='6' fill='${accent}' opacity='0.85'/>
+                <!-- Small bud -->
+                <ellipse cx='62' cy='205' rx='9' ry='5' fill='${color}' transform='rotate(-10 62 205)' opacity='0.7'/>
+                <ellipse cx='56' cy='200' rx='8' ry='4' fill='${color}' transform='rotate(-35 56 200)' opacity='0.6'/>
+                <circle cx='61' cy='203' r='4' fill='${accent}' opacity='0.8'/>
+                <!-- Leaves -->
+                <ellipse cx='40' cy='120' rx='22' ry='8' fill='${color}' transform='rotate(-40 40 120)' opacity='0.35'/>
+                <ellipse cx='90' cy='175' rx='20' ry='7' fill='${color}' transform='rotate(30 90 175)' opacity='0.3'/>
+                <ellipse cx='55' cy='230' rx='18' ry='6' fill='${color}' transform='rotate(-20 55 230)' opacity='0.3'/>
+                <ellipse cx='80' cy='260' rx='16' ry='6' fill='${color}' transform='rotate(15 80 260)' opacity='0.25'/>
+                <!-- Branch stems -->
+                <path d='M65 200 C50 185 38 178 30 165' stroke='${color}' stroke-width='1.5' fill='none' opacity='0.4'/>
+                <path d='M68 155 C80 140 88 130 92 118' stroke='${color}' stroke-width='1.5' fill='none' opacity='0.4'/>
+                </g>
+            </svg>`;
+        }
+        if (type === 'botanical') {
+            return `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='300' viewBox='0 0 160 300' style='position:absolute;${side}:0;bottom:0;opacity:0.15;pointer-events:none;' aria-hidden='true'>
+                <g ${flip}>
+                <path d='M60 300 C58 260 55 220 62 180 C69 140 55 110 50 80' stroke='${color}' stroke-width='2.5' fill='none' opacity='0.4'/>
+                <!-- Large leaf cluster top -->
+                <ellipse cx='50' cy='78' rx='28' ry='11' fill='${color}' transform='rotate(-35 50 78)' opacity='0.7'/>
+                <ellipse cx='35' cy='90' rx='24' ry='10' fill='${color}' transform='rotate(-60 35 90)' opacity='0.6'/>
+                <ellipse cx='70' cy='72' rx='22' ry='9' fill='${color}' transform='rotate(-10 70 72)' opacity='0.6'/>
+                <ellipse cx='42' cy='62' rx='18' ry='7' fill='${color}' transform='rotate(-45 42 62)' opacity='0.5'/>
+                <!-- Berry clusters -->
+                <circle cx='48' cy='80' r='5' fill='${accent}' opacity='0.8'/>
+                <circle cx='56' cy='74' r='4' fill='${accent}' opacity='0.7'/>
+                <circle cx='42' cy='72' r='4' fill='${accent}' opacity='0.7'/>
+                <!-- Mid leaves -->
+                <ellipse cx='78' cy='148' rx='24' ry='9' fill='${color}' transform='rotate(20 78 148)' opacity='0.6'/>
+                <ellipse cx='55' cy='155' rx='20' ry='8' fill='${color}' transform='rotate(-30 55 155)' opacity='0.5'/>
+                <circle cx='74' cy='148' r='4' fill='${accent}' opacity='0.7'/>
+                <!-- Lower leaves -->
+                <ellipse cx='65' cy='220' rx='22' ry='8' fill='${color}' transform='rotate(-15 65 220)' opacity='0.5'/>
+                <ellipse cx='80' cy='255' rx='18' ry='7' fill='${color}' transform='rotate(25 80 255)' opacity='0.4'/>
+                <path d='M62 180 C45 165 35 155 25 140' stroke='${color}' stroke-width='1.5' fill='none' opacity='0.35'/>
+                </g>
+            </svg>`;
+        }
+        if (type === 'peony') {
+            return `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='340' viewBox='0 0 200 340' style='position:absolute;${side}:0;bottom:0;opacity:0.16;pointer-events:none;' aria-hidden='true'>
+                <g ${flip}>
+                <path d='M80 340 C75 300 70 255 78 210 C86 165 72 130 65 95' stroke='${color}' stroke-width='2' fill='none' opacity='0.4'/>
+                <!-- Lush peony top - many layered petals -->
+                <ellipse cx='65' cy='90' rx='22' ry='12' fill='${color}' transform='rotate(-10 65 90)' opacity='0.9'/>
+                <ellipse cx='52' cy='82' rx='20' ry='11' fill='${color}' transform='rotate(-35 52 82)' opacity='0.85'/>
+                <ellipse cx='78' cy='80' rx='20' ry='11' fill='${color}' transform='rotate(20 78 80)' opacity='0.85'/>
+                <ellipse cx='58' cy='70' rx='18' ry='10' fill='${color}' transform='rotate(-20 58 70)' opacity='0.8'/>
+                <ellipse cx='74' cy='68' rx='17' ry='9' fill='${color}' transform='rotate(10 74 68)' opacity='0.75'/>
+                <ellipse cx='64' cy='62' rx='15' ry='8' fill='${color}' transform='rotate(0 64 62)' opacity='0.7'/>
+                <ellipse cx='55' cy='96' rx='14' ry='7' fill='${color}' transform='rotate(-50 55 96)' opacity='0.7'/>
+                <ellipse cx='76' cy='97' rx='14' ry='7' fill='${color}' transform='rotate(40 76 97)' opacity='0.7'/>
+                <circle cx='65' cy='78' r='10' fill='${accent}' opacity='0.6'/>
+                <circle cx='65' cy='78' r='6' fill='${color}' opacity='0.9'/>
+                <!-- Mid peony bud -->
+                <ellipse cx='95' cy='170' rx='16' ry='9' fill='${color}' transform='rotate(15 95 170)' opacity='0.8'/>
+                <ellipse cx='84' cy='163' rx='14' ry='8' fill='${color}' transform='rotate(-20 84 163)' opacity='0.75'/>
+                <ellipse cx='105' cy='163' rx='14' ry='8' fill='${color}' transform='rotate(35 105 163)' opacity='0.75'/>
+                <ellipse cx='93' cy='156' rx='12' ry='7' fill='${color}' transform='rotate(5 93 156)' opacity='0.7'/>
+                <circle cx='93' cy='163' r='6' fill='${accent}' opacity='0.7'/>
+                <!-- Leaves -->
+                <ellipse cx='42' cy='115' rx='26' ry='9' fill='${color}' transform='rotate(-42 42 115)' opacity='0.35'/>
+                <ellipse cx='95' cy='195' rx='24' ry='8' fill='${color}' transform='rotate(28 95 195)' opacity='0.3'/>
+                <ellipse cx='70' cy='240' rx='22' ry='8' fill='${color}' transform='rotate(-18 70 240)' opacity='0.3'/>
+                <ellipse cx='88' cy='270' rx='20' ry='7' fill='${color}' transform='rotate(22 88 270)' opacity='0.25'/>
+                <!-- Tiny bud -->
+                <ellipse cx='72' cy='215' rx='8' ry='5' fill='${color}' transform='rotate(-5 72 215)' opacity='0.7'/>
+                <circle cx='72' cy='213' r='3' fill='${accent}' opacity='0.75'/>
+                </g>
+            </svg>`;
+        }
+        if (type === 'lavender') {
+            return `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='300' viewBox='0 0 160 300' style='position:absolute;${side}:0;bottom:0;opacity:0.17;pointer-events:none;' aria-hidden='true'>
+                <g ${flip}>
+                <!-- Lavender spikes -->
+                <line x1='50' y1='280' x2='50' y2='80' stroke='${color}' stroke-width='2' opacity='0.4'/>
+                <line x1='70' y1='280' x2='75' y2='100' stroke='${color}' stroke-width='2' opacity='0.35'/>
+                <line x1='35' y1='280' x2='30' y2='110' stroke='${color}' stroke-width='1.5' opacity='0.3'/>
+                <line x1='88' y1='280' x2='95' y2='120' stroke='${color}' stroke-width='1.5' opacity='0.3'/>
+                <!-- Florets on main spike -->
+                ${[80,92,104,116,128,140,152,164,176,188,200,212].map((y,i) => 
+                    `<ellipse cx='50' cy='${y}' rx='7' ry='4' fill='${color}' transform='rotate(-10 50 ${y})' opacity='${0.9-i*0.04}'/>
+                    <ellipse cx='50' cy='${y}' rx='6' ry='3' fill='${color}' transform='rotate(20 50 ${y})' opacity='${0.85-i*0.04}'/>`
+                ).join('')}
+                <!-- Second spike florets -->
+                ${[100,113,126,139,152,165,178].map((y,i) => 
+                    `<ellipse cx='75' cy='${y}' rx='6' ry='3' fill='${color}' transform='rotate(-5 75 ${y})' opacity='${0.8-i*0.05}'/>`
+                ).join('')}
+                <!-- Leaves -->
+                <ellipse cx='30' cy='180' rx='20' ry='6' fill='${color}' transform='rotate(-35 30 180)' opacity='0.35'/>
+                <ellipse cx='72' cy='200' rx='18' ry='6' fill='${color}' transform='rotate(25 72 200)' opacity='0.3'/>
+                <ellipse cx='40' cy='230' rx='16' ry='5' fill='${color}' transform='rotate(-20 40 230)' opacity='0.28'/>
+                </g>
+            </svg>`;
+        }
+        if (type === 'wildflower') {
+            return "<svg xmlns='http://www.w3.org/2000/svg' width='180' height='310' viewBox='0 0 180 310' style='position:absolute;" + side + ":0;bottom:0;opacity:0.16;pointer-events:none;' aria-hidden='true'>" +
+                "<g " + flip + ">" +
+                "<path d='M60 310 C58 270 62 230 55 195 C48 160 58 130 52 100' stroke='" + color + "' stroke-width='1.5' fill='none' opacity='0.4'/>" +
+                "<ellipse cx='52' cy='82' rx='10' ry='4' fill='" + color + "' opacity='0.75'/>" +
+                "<ellipse cx='66' cy='88' rx='10' ry='4' fill='" + color + "' transform='rotate(40 52 96)' opacity='0.75'/>" +
+                "<ellipse cx='64' cy='103' rx='10' ry='4' fill='" + color + "' transform='rotate(80 52 96)' opacity='0.75'/>" +
+                "<ellipse cx='40' cy='103' rx='10' ry='4' fill='" + color + "' transform='rotate(160 52 96)' opacity='0.75'/>" +
+                "<ellipse cx='38' cy='88' rx='10' ry='4' fill='" + color + "' transform='rotate(200 52 96)' opacity='0.75'/>" +
+                "<circle cx='52' cy='96' r='7' fill='" + accent + "' opacity='0.9'/>" +
+                "<ellipse cx='88' cy='172' rx='8' ry='3' fill='" + color + "' opacity='0.7'/>" +
+                "<ellipse cx='98' cy='178' rx='8' ry='3' fill='" + color + "' transform='rotate(60 88 182)' opacity='0.7'/>" +
+                "<ellipse cx='81' cy='190' rx='8' ry='3' fill='" + color + "' transform='rotate(180 88 182)' opacity='0.7'/>" +
+                "<circle cx='88' cy='182' r='5' fill='" + accent + "' opacity='0.85'/>" +
+                "<ellipse cx='38' cy='150' rx='20' ry='7' fill='" + color + "' transform='rotate(-30 38 150)' opacity='0.35'/>" +
+                "<ellipse cx='75' cy='220' rx='18' ry='6' fill='" + color + "' transform='rotate(20 75 220)' opacity='0.3'/>" +
+                "</g></svg>";
+        }
+        if (type === 'vintage') {
+            return `<svg xmlns='http://www.w3.org/2000/svg' width='170' height='320' viewBox='0 0 170 320' style='position:absolute;${side}:0;bottom:0;opacity:0.15;pointer-events:none;' aria-hidden='true'>
+                <g ${flip}>
+                <path d='M65 320 C63 280 60 240 67 200 C74 160 60 130 55 95' stroke='${color}' stroke-width='1.5' fill='none' opacity='0.4' stroke-dasharray='4,3'/>
+                <!-- Ornate rose -->
+                <ellipse cx='55' cy='92' rx='20' ry='11' fill='${color}' transform='rotate(-15 55 92)' opacity='0.85'/>
+                <ellipse cx='44' cy='84' rx='18' ry='10' fill='${color}' transform='rotate(-40 44 84)' opacity='0.8'/>
+                <ellipse cx='67' cy='82' rx='17' ry='9' fill='${color}' transform='rotate(15 67 82)' opacity='0.8'/>
+                <ellipse cx='52' cy='74' rx='15' ry='8' fill='${color}' transform='rotate(-25 52 74)' opacity='0.75'/>
+                <ellipse cx='62' cy='72' rx='13' ry='7' fill='${color}' transform='rotate(5 62 72)' opacity='0.7'/>
+                <ellipse cx='56' cy='65' rx='11' ry='6' fill='${color}' opacity='0.65'/>
+                <circle cx='56' cy='82' r='8' fill='${accent}' opacity='0.5'/>
+                <!-- Decorative flourish -->
+                <path d='M30 140 C20 120 25 100 35 90' stroke='${color}' stroke-width='1' fill='none' opacity='0.35' stroke-dasharray='3,2'/>
+                <path d='M90 140 C100 120 95 100 85 90' stroke='${color}' stroke-width='1' fill='none' opacity='0.35' stroke-dasharray='3,2'/>
+                <!-- Mid bloom -->
+                <ellipse cx='78' cy='175' rx='14' ry='8' fill='${color}' transform='rotate(20 78 175)' opacity='0.75'/>
+                <ellipse cx='67' cy='168' rx='12' ry='7' fill='${color}' transform='rotate(-20 67 168)' opacity='0.7'/>
+                <ellipse cx='88' cy='167' rx='12' ry='7' fill='${color}' transform='rotate(40 88 167)' opacity='0.7'/>
+                <circle cx='77' cy='170' r='5' fill='${accent}' opacity='0.65'/>
+                <!-- Vintage leaves (pointed) -->
+                <ellipse cx='38' cy='118' rx='24' ry='7' fill='${color}' transform='rotate(-42 38 118)' opacity='0.32'/>
+                <ellipse cx='92' cy='195' rx='22' ry='7' fill='${color}' transform='rotate(32 92 195)' opacity='0.3'/>
+                <ellipse cx='62' cy='240' rx='20' ry='7' fill='${color}' transform='rotate(-18 62 240)' opacity='0.28'/>
+                <!-- Small buds -->
+                <ellipse cx='48' cy='210' rx='7' ry='4' fill='${color}' transform='rotate(-8 48 210)' opacity='0.65'/>
+                <ellipse cx='80' cy='240' rx='6' ry='3' fill='${color}' transform='rotate(12 80 240)' opacity='0.6'/>
+                </g>
+            </svg>`;
+        }
+        return ''; // no floral for non-floral themes
     }
 
     function buildWebsiteHTML(data, storyCopy) {
-        const t = getTheme(data.theme);
+        // Resolve theme colors
+        let t;
+        if (data.themeColors) {
+            const v = data.themeColors;
+            const d = DESIGNS[data.theme] || DESIGNS.blush_garden;
+            const hf = data.headFont || (selectedFont ? fontMap[selectedFont] : "'Cormorant Garamond', serif");
+            t = {
+                primary: v.primary, primaryDark: v.primary,
+                accent: v.accent, bg: v.bg, light: v.light, text: v.text,
+                headFont: hf,
+                bodyFont: "'Jost', sans-serif",
+                floral: d.floral || false
+            };
+        } else {
+            // fallback legacy
+            t = {
+                primary:'#C4828A', primaryDark:'#A86070', accent:'#A8B89C',
+                bg:'#FBF8F5', light:'#F5EDEC', text:'#4A4540',
+                headFont: data.headFont || "'Cormorant Garamond', serif",
+                bodyFont:"'Jost', sans-serif", floral:'garden'
+            };
+        }
         if (data.headFont) t.headFont = data.headFont;
-        const wDate = data.weddingDate ? new Date(data.weddingDate + 'T12:00:00') : null;
-        const fDate = wDate ? wDate.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '';
-        const fTime = data.ceremonyTime ? new Date('2000-01-01T' + data.ceremonyTime).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'}) : '';
-        const reception = (data.receptionLocation && data.receptionLocation.trim()) ? data.receptionLocation : data.ceremonyLocation;
 
-        // Map variables (used in details section)
-        const ceremonyAddr = data.ceremonyAddress || data.ceremonyLocation;
-        const receptionAddr = (data.receptionAddress && data.receptionAddress.trim()) ? data.receptionAddress : (data.receptionLocation && data.receptionLocation !== data.ceremonyLocation ? data.receptionLocation : null);
-        const hasDualMap = ceremonyAddr && receptionAddr;
-
-        // Hotels
-        const validHotels = (data.hotels || []).filter(h => h.name);
-
-        // Registry links
         const registryLinks = {
             amazon:    { name: 'Amazon Registry', url: 'https://www.amazon.com/wedding/home?tag=elegantbridec-20', emoji: '&#127873;' },
             honeyfund: { name: 'Honeyfund', url: 'https://www.honeyfund.com/', emoji: '&#127965;' },
@@ -1411,41 +1820,7 @@ ${data.heroPhoto ? `<div style="width:100%;height:55vh;min-height:300px;max-heig
 
 <!-- NAMES & DATE -->
 <section style="padding:${data.heroPhoto ? '60px' : '110px'} 30px 65px;background:${t.bg};text-align:center;position:relative;overflow:hidden;${!data.heroPhoto ? 'margin-top:58px;' : ''}">
-  ${t.floral ? `
-  <svg xmlns='http://www.w3.org/2000/svg' width='130' height='230' viewBox='0 0 130 230' style='position:absolute;left:0;bottom:0;opacity:0.14;pointer-events:none;' aria-hidden='true'>
-    <g fill='${t.primary}'>
-      <ellipse cx='38' cy='188' rx='22' ry='10' transform='rotate(-30 38 188)'/>
-      <ellipse cx='22' cy='162' rx='17' ry='8' transform='rotate(-50 22 162)'/>
-      <ellipse cx='58' cy='175' rx='19' ry='9' transform='rotate(-10 58 175)'/>
-      <ellipse cx='28' cy='138' rx='14' ry='6' transform='rotate(-40 28 138)'/>
-      <ellipse cx='62' cy='152' rx='16' ry='7' transform='rotate(10 62 152)'/>
-      <ellipse cx='12' cy='115' rx='11' ry='5' transform='rotate(-60 12 115)'/>
-      <circle cx='40' cy='194' r='6' fill='${t.accent}' opacity='0.8'/>
-      <circle cx='24' cy='168' r='5' fill='${t.accent}' opacity='0.7'/>
-      <circle cx='60' cy='181' r='5' fill='${t.accent}' opacity='0.7'/>
-      <line x1='40' y1='198' x2='40' y2='95' stroke='${t.primary}' stroke-width='1.5' opacity='0.3'/>
-      <line x1='40' y1='162' x2='22' y2='144' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
-      <line x1='40' y1='175' x2='60' y2='157' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
-      <line x1='40' y1='142' x2='12' y2='122' stroke='${t.primary}' stroke-width='1' opacity='0.2'/>
-    </g>
-  </svg>
-  <svg xmlns='http://www.w3.org/2000/svg' width='130' height='230' viewBox='0 0 130 230' style='position:absolute;right:0;bottom:0;opacity:0.14;pointer-events:none;transform:scaleX(-1);' aria-hidden='true'>
-    <g fill='${t.primary}'>
-      <ellipse cx='38' cy='188' rx='22' ry='10' transform='rotate(-30 38 188)'/>
-      <ellipse cx='22' cy='162' rx='17' ry='8' transform='rotate(-50 22 162)'/>
-      <ellipse cx='58' cy='175' rx='19' ry='9' transform='rotate(-10 58 175)'/>
-      <ellipse cx='28' cy='138' rx='14' ry='6' transform='rotate(-40 28 138)'/>
-      <ellipse cx='62' cy='152' rx='16' ry='7' transform='rotate(10 62 152)'/>
-      <ellipse cx='12' cy='115' rx='11' ry='5' transform='rotate(-60 12 115)'/>
-      <circle cx='40' cy='194' r='6' fill='${t.accent}' opacity='0.8'/>
-      <circle cx='24' cy='168' r='5' fill='${t.accent}' opacity='0.7'/>
-      <circle cx='60' cy='181' r='5' fill='${t.accent}' opacity='0.7'/>
-      <line x1='40' y1='198' x2='40' y2='95' stroke='${t.primary}' stroke-width='1.5' opacity='0.3'/>
-      <line x1='40' y1='162' x2='22' y2='144' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
-      <line x1='40' y1='175' x2='60' y2='157' stroke='${t.primary}' stroke-width='1' opacity='0.25'/>
-      <line x1='40' y1='142' x2='12' y2='122' stroke='${t.primary}' stroke-width='1' opacity='0.2'/>
-    </g>
-  </svg>` : ''}
+  ${t.floral ? getFloralSVG(t.floral, t.primary, t.accent, 'left') + getFloralSVG(t.floral, t.primary, t.accent, 'right') : ''}
   <div style="position:relative;z-index:1;">
     <div style="font-family:${t.headFont};font-size:clamp(2.6rem,6vw,4.8rem);font-weight:300;line-height:1.1;color:${t.text};margin-bottom:22px;letter-spacing:0.02em;">
       <span class="eb-text">${data.name1}</span>
@@ -1474,7 +1849,7 @@ ${data.heroPhoto ? `<div style="width:100%;height:55vh;min-height:300px;max-heig
 
 <!-- DETAILS -->
 <section id="details" style="padding:80px 20px;background:${t.light};position:relative;">
-  ${t.floral ? `<div style="position:absolute;top:10px;left:30px;font-size:3rem;opacity:0.07;pointer-events:none;">🌷</div>` : ''}
+
   <div style="max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1;">
     
     <h2 style="font-family:${t.headFont};font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;color:${t.text};margin-bottom:36px;line-height:1.2;">Wedding Details</h2>
@@ -1511,20 +1886,14 @@ ${gallerySection}
 ${mapSection}
 ${registrySection}
 
-${(data.selectedResources && data.selectedResources.length > 0) ? `
-<section style="padding:60px 20px;background:${t.bg};border-top:1px solid rgba(0,0,0,0.05);">
-  <div style="max-width:700px;margin:0 auto;text-align:center;">
-    <p style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:${t.primary};font-weight:600;margin-bottom:12px;">Still Planning?</p>
-    <h2 style="font-family:${t.headFont};font-size:clamp(1.4rem,3vw,2rem);font-weight:300;color:${t.text};margin-bottom:24px;">Wedding Resources We Love</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
-      ${data.selectedResources.includes('dresses') ? `<a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid ${t.primary};border-radius:50px;color:${t.primary};text-decoration:none;font-size:0.85rem;font-weight:500;transition:all 0.2s;">👗 Wedding Dresses</a>` : ''}
-      ${data.selectedResources.includes('invitations') ? `<a href="https://www.elegantbrideco.com/wedding-invitations" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid ${t.primary};border-radius:50px;color:${t.primary};text-decoration:none;font-size:0.85rem;font-weight:500;transition:all 0.2s;">💌 Invitations</a>` : ''}
-      ${data.selectedResources.includes('decorations') ? `<a href="https://www.elegantbrideco.com/wedding-decorations" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid ${t.primary};border-radius:50px;color:${t.primary};text-decoration:none;font-size:0.85rem;font-weight:500;transition:all 0.2s;">🌸 Decorations</a>` : ''}
-      ${data.selectedResources.includes('planner') ? `<a href="https://www.elegantbrideco.com/wedding-planner" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:${t.primary};border-radius:50px;color:white;text-decoration:none;font-size:0.85rem;font-weight:500;">📋 Free Wedding Planner App</a>` : ''}
-    </div>
-    <p style="font-size:0.72rem;color:${t.text};opacity:0.35;margin-top:18px;">Curated by Elegant Bride Co.</p>
+<section style="padding:50px 20px;background:${t.light};border-top:1px solid rgba(0,0,0,0.06);">
+  <div style="max-width:500px;margin:0 auto;text-align:center;">
+    <div style="font-size:1.6rem;margin-bottom:10px;">🌸</div>
+    <div style="font-family:${t.headFont};font-size:1.3rem;font-weight:400;color:${t.text};margin-bottom:8px;letter-spacing:0.04em;">Elegant Bride Co.</div>
+    <p style="font-size:0.82rem;color:${t.text};opacity:0.6;line-height:1.7;margin-bottom:16px;">Free tools, shopping guides &amp; inspiration for brides planning their perfect day, their way.</p>
+    <a href="https://www.elegantbrideco.com" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border:1.5px solid ${t.primary};border-radius:50px;color:${t.primary};text-decoration:none;font-size:0.82rem;font-weight:500;">Visit elegantbrideco.com →</a>
   </div>
-</section>` : ''}
+</section>
 <footer style="background:${t.text};color:white;text-align:center;padding:50px 20px;">
   <div style="font-family:${t.headFont};font-size:2rem;font-weight:300;margin-bottom:8px;opacity:0.9;">${data.name1} &amp; ${data.name2}</div>
   ${fDate ? `<div style="font-size:0.85rem;opacity:0.4;letter-spacing:0.1em;margin-bottom:20px;">${fDate}</div>` : ''}
