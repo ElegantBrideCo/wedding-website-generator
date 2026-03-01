@@ -8,16 +8,17 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --sage: #A8B89C; --sage-dark: #8FA98F;
-            --blush: #D4A5A5; --blush-light: #F0E0E0;
-            --cream: #F8F6F3; --warm-gray: #E8E4DF;
-            --text: #4A4540; --text-light: #8A837C; --border: #D8D0C8;
+            --sage: #9AAE8E; --sage-dark: #7A9070;
+            --blush: #B8807A; --blush-light: #F2E8E6;
+            --cream: #F7F5F1; --warm-gray: #EDE9E4;
+            --text: #2E2B28; --text-light: #7A756E; --border: #DDD8D0;
+            --surface: #FFFFFF; --surface2: #FAF8F5;
         }
-        body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+        body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; letter-spacing: 0.01em; }
 
         /* ── SITE HEADER ── */
-        .site-header { background: white; border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 200; }
-        .site-header .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--blush); letter-spacing: 0.05em; text-decoration: none; }
+        .site-header { background: white; border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 58px; position: sticky; top: 0; z-index: 200; box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
+        .site-header .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--text); letter-spacing: 0.08em; text-decoration: none; font-weight: 400; }
         .header-right { display: flex; align-items: center; gap: 14px; }
         .user-pill { display: flex; align-items: center; gap: 8px; background: var(--cream); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 0.8rem; color: var(--text-light); }
         .user-pill strong { color: var(--text); font-weight: 500; }
@@ -55,7 +56,7 @@
         .preview-toggle { display: flex; border: 1.5px solid var(--border); border-radius: 20px; overflow: hidden; }
         .preview-toggle button { padding: 5px 14px; background: white; border: none; font-size: 0.78rem; font-weight: 500; cursor: pointer; color: var(--text-light); font-family: 'Jost', sans-serif; transition: all 0.15s; }
         .preview-toggle button.active { background: var(--blush); color: white; }
-        .btn-generate-sm { background: var(--sage); color: white; border: none; padding: 8px 20px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .btn-generate-sm { background: var(--text); color: white; border: none; padding: 9px 22px; border-radius: 4px; font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; letter-spacing: 0.06em; text-transform: uppercase; }
         .btn-generate-sm:hover { background: var(--sage-dark); }
         .btn-publish { background: var(--blush); color: white; border: none; padding: 8px 22px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
         .btn-publish:hover { background: #C49090; }
@@ -65,7 +66,7 @@
         /* ── TWO-PANEL EDITOR ── */
         .editor-panels { display: flex; flex: 1; overflow: hidden; }
         /* Narrow icon nav strip */
-        .icon-nav { width: 72px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 8px 0; overflow-y: auto; }
+        .icon-nav { width: 68px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 8px 0; overflow-y: auto; }
         .icon-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 4px; width: 100%; cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s; text-align: center; }
         .icon-nav-item:hover { background: var(--cream); }
         .icon-nav-item.active { background: var(--cream); border-left-color: var(--blush); }
@@ -73,7 +74,7 @@
         .icon-nav-item .nav-label { font-size: 0.58rem; font-weight: 500; color: var(--text-light); line-height: 1.2; }
         .icon-nav-item.active .nav-label { color: var(--blush); }
         /* Edit panel column */
-        .left-panel { width: 340px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+        .left-panel { width: 340px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
         .left-panel-header { padding: 14px 18px 10px; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); flex-shrink: 0; }
         /* Edit panels */
         .edit-panels { flex: 1; overflow-y: auto; }
@@ -81,9 +82,9 @@
         .edit-panel.active { display: block; }
         .edit-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--text); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--warm-gray); }
         .ep-field { margin-bottom: 14px; }
-        .ep-field label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--text); margin-bottom: 5px; }
-        .ep-field input, .ep-field textarea, .ep-field select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; font-family: 'Jost', sans-serif; font-size: 0.88rem; color: var(--text); background: white; transition: border-color 0.2s; }
-        .ep-field input:focus, .ep-field textarea:focus, .ep-field select:focus { outline: none; border-color: var(--blush); }
+        .ep-field label { display: block; font-size: 0.68rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+        .ep-field input, .ep-field textarea, .ep-field select { width: 100%; border: 1px solid var(--border); border-radius: 5px; padding: 9px 12px; font-family: 'Jost', sans-serif; font-size: 0.86rem; color: var(--text); background: white; transition: border-color 0.2s; }
+        .ep-field input:focus, .ep-field textarea:focus, .ep-field select:focus { outline: none; border-color: var(--blush); box-shadow: 0 0 0 3px rgba(184,128,122,0.1); }
         .ep-field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
         .ep-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
         .ep-hint { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; line-height: 1.4; }
@@ -231,13 +232,13 @@
         </div>
         <div class="toolbar-center">
             <div class="preview-toggle">
-                <button class="active" id="deskBtn" onclick="setPreviewMode('desktop')">🖥 Desktop</button>
-                <button id="mobileBtn" onclick="setPreviewMode('mobile')">📱 Mobile</button>
+                <button class="active" id="deskBtn" onclick="setPreviewMode('desktop')">Desktop</button>
+                <button id="mobileBtn" onclick="setPreviewMode('mobile')">Mobile</button>
             </div>
         </div>
         <div class="toolbar-right">
-            <button class="btn-generate-sm" onclick="generateWebsite()" id="generateBtn">✦ Generate Website</button>
-            <button class="btn-publish" onclick="publishWebsite()" id="publishBtn" style="display:none;">🌐 Publish</button>
+            <button class="btn-generate-sm" onclick="generateWebsite()" id="generateBtn">Generate Website</button>
+            <button class="btn-publish" onclick="publishWebsite()" id="publishBtn" style="display:none;">→ Publish</button>
             <a id="publishedChip" class="published-chip" href="#" target="_blank" style="display:none;">✓ Live</a>
         </div>
     </div>
@@ -247,28 +248,28 @@
 
         <!-- ICON NAV (narrow strip like Zola) -->
         <div class="icon-nav">
-            <div class="icon-nav-item active" onclick="showSection('names')" id="nav-names"><span class="nav-icon">💑</span><span class="nav-label">Names</span></div>
-            <div class="icon-nav-item" onclick="showSection('photo')" id="nav-photo"><span class="nav-icon">📷</span><span class="nav-label">Photo</span></div>
-            <div class="icon-nav-item" onclick="showSection('story')" id="nav-story"><span class="nav-icon">✨</span><span class="nav-label">Story</span></div>
-            <div class="icon-nav-item" onclick="showSection('details')" id="nav-details"><span class="nav-icon">📍</span><span class="nav-label">Details</span></div>
-            <div class="icon-nav-item" onclick="showSection('schedule')" id="nav-schedule"><span class="nav-icon">🕐</span><span class="nav-label">Schedule</span></div>
-            <div class="icon-nav-item" onclick="showSection('party')" id="nav-party"><span class="nav-icon">🥂</span><span class="nav-label">Party</span></div>
-            <div class="icon-nav-item" onclick="showSection('gallery')" id="nav-gallery"><span class="nav-icon">🖼</span><span class="nav-label">Gallery</span></div>
-            <div class="icon-nav-item" onclick="showSection('hotels')" id="nav-hotels"><span class="nav-icon">🏨</span><span class="nav-label">Hotels</span></div>
-            <div class="icon-nav-item" onclick="showSection('registry')" id="nav-registry"><span class="nav-icon">🎁</span><span class="nav-label">Registry</span></div>
-            <div class="icon-nav-item" onclick="showSection('theme')" id="nav-theme"><span class="nav-icon">🎨</span><span class="nav-label">Theme</span></div>
-            <div class="icon-nav-item" onclick="showSection('resources')" id="nav-resources"><span class="nav-icon">🛍️</span><span class="nav-label">Resources</span></div>
+            <div class="icon-nav-item active" onclick="showSection('names')" id="nav-names"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="nav-label">Names</span></div>
+            <div class="icon-nav-item" onclick="showSection('photo')" id="nav-photo"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><span class="nav-label">Photo</span></div>
+            <div class="icon-nav-item" onclick="showSection('story')" id="nav-story"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span class="nav-label">Story</span></div>
+            <div class="icon-nav-item" onclick="showSection('details')" id="nav-details"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span><span class="nav-label">Details</span></div>
+            <div class="icon-nav-item" onclick="showSection('schedule')" id="nav-schedule"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="nav-label">Schedule</span></div>
+            <div class="icon-nav-item" onclick="showSection('party')" id="nav-party"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="nav-label">Party</span></div>
+            <div class="icon-nav-item" onclick="showSection('gallery')" id="nav-gallery"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><span class="nav-label">Gallery</span></div>
+            <div class="icon-nav-item" onclick="showSection('hotels')" id="nav-hotels"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="nav-label">Hotels</span></div>
+            <div class="icon-nav-item" onclick="showSection('registry')" id="nav-registry"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><span class="nav-label">Registry</span></div>
+            <div class="icon-nav-item" onclick="showSection('theme')" id="nav-theme"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 10 10 0 1 0 0-20"/><path d="M2 12h20"/></svg></span><span class="nav-label">Design</span></div>
+            <div class="icon-nav-item" onclick="showSection('resources')" id="nav-resources"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 1 0 6H6a3 3 0 0 1 0-6"/><path d="M6 21a3 3 0 0 1 0-6h12a3 3 0 0 1 0 6"/><line x1="12" y1="3" x2="12" y2="21"/></svg></span><span class="nav-label">Resources</span></div>
         </div>
         <!-- LEFT PANEL (edit fields) -->
         <div class="left-panel">
             <div class="left-panel-header" id="leftPanelHeader">Names & Date</div>
             <!-- Published banner -->
             <div id="publishedBanner" class="published-banner" style="display:none;">
-                🎉 Your site is live!
+                 Your site is live!
                 <a id="publishedUrl" href="#" target="_blank"></a>
                 <div class="published-banner-btns">
-                    <button class="published-banner-btn" onclick="copyPublishedUrl()">📋 Copy Link</button>
-                    <button class="published-banner-btn" onclick="publishWebsite()">🔄 Update Site</button>
+                    <button class="published-banner-btn" onclick="copyPublishedUrl()"> Copy Link</button>
+                    <button class="published-banner-btn" onclick="publishWebsite()">↺ Update Site</button>
                 </div>
             </div>
             <!-- Edit panels -->
@@ -290,34 +291,34 @@
                     <p class="ep-hint" style="margin-bottom:14px;">This appears as a full-width banner at the top of your website. Landscape photos work best.</p>
                     <div class="ep-photo-upload" onclick="document.getElementById('heroPhotoInput').click()">
                         <input type="file" id="heroPhotoInput" accept="image/*" style="display:none" onchange="handleHeroPhoto(event)">
-                        <div id="heroPreviewPanel" style="font-size:1.8rem;margin-bottom:6px;">📷</div>
+                        <div id="heroPreviewPanel" style="font-size:1.8rem;margin-bottom:6px;"></div>
                         <div style="font-size:0.82rem;color:var(--text-light);">Click to upload photo</div>
                         <div style="font-size:0.72rem;color:var(--border);margin-top:4px;">Landscape · JPG or PNG</div>
                     </div>
-                    <button id="heroRemoveBtn" style="display:none;margin-top:10px;background:none;border:none;color:var(--text-light);font-size:0.78rem;cursor:pointer;text-decoration:underline;font-family:'Jost',sans-serif;" onclick="removeHeroPhoto()">✕ Remove photo</button>
+                    <button id="heroRemoveBtn" style="display:none;margin-top:10px;background:none;border:none;color:var(--text-light);font-size:0.78rem;cursor:pointer;text-decoration:underline;font-family:'Jost',sans-serif;" onclick="removeHeroPhoto()">× Remove photo</button>
                 </div>
 
                 <!-- YOUR STORY -->
                 <div class="edit-panel" id="panel-story">
                     <h3>Your Story</h3>
                     <div class="story-ai-note">
-                        <strong>✦ AI-written for you.</strong> Fill in your details and click Generate — we'll write your story. You can edit the text below anytime.
+                        <strong>· AI-written for you.</strong> Fill in your details and click Generate — we'll write your story. You can edit the text below anytime.
                     </div>
                     <div class="ep-field">
                         <label>Writing Tone</label>
                         <div class="ep-tone-grid" style="margin-top:6px;">
                             <input type="radio" name="tone" value="romantic" id="tone-romantic" class="ep-tone-opt" checked>
-                            <label for="tone-romantic" class="ep-tone-label">💕 Romantic</label>
+                            <label for="tone-romantic" class="ep-tone-label">Romantic</label>
                             <input type="radio" name="tone" value="humorous" id="tone-humorous" class="ep-tone-opt">
-                            <label for="tone-humorous" class="ep-tone-label">😄 Humorous</label>
+                            <label for="tone-humorous" class="ep-tone-label">Humorous</label>
                             <input type="radio" name="tone" value="modern" id="tone-modern" class="ep-tone-opt">
-                            <label for="tone-modern" class="ep-tone-label">✨ Modern</label>
+                            <label for="tone-modern" class="ep-tone-label">Modern</label>
                             <input type="radio" name="tone" value="whimsical" id="tone-whimsical" class="ep-tone-opt">
-                            <label for="tone-whimsical" class="ep-tone-label">🌙 Whimsical</label>
+                            <label for="tone-whimsical" class="ep-tone-label"> Whimsical</label>
                             <input type="radio" name="tone" value="classic" id="tone-classic" class="ep-tone-opt">
-                            <label for="tone-classic" class="ep-tone-label">📜 Classic</label>
+                            <label for="tone-classic" class="ep-tone-label">Classic</label>
                             <input type="radio" name="tone" value="roast" id="tone-roast" class="ep-tone-opt">
-                            <label for="tone-roast" class="ep-tone-label">🔥 Roast</label>
+                            <label for="tone-roast" class="ep-tone-label">Roast</label>
                         </div>
                         <p class="ep-hint" style="margin-top:6px;">Affects how your AI-written story sounds.</p>
                     </div>
@@ -361,7 +362,7 @@
                     <h3>Wedding Party</h3>
                     <p class="ep-hint" style="margin-bottom:14px;">Add your bridesmaids, groomsmen, flower girls, and more. AI will write a blurb for each person when you generate.</p>
                     <div id="partyBlurbPreview" style="display:none;background:linear-gradient(135deg,#f9f5ff,#fff5f5);border:1px solid var(--blush-light);border-radius:8px;padding:12px 14px;margin-bottom:14px;">
-                        <div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:8px;">✦ AI-WRITTEN BLURBS — click to edit</div>
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:8px;">AI-Written Blurbs — click to edit</div>
                         <div id="partyBlurbList"></div>
                     </div>
                     <div id="partyItems"></div>
@@ -374,7 +375,7 @@
                     <p class="ep-hint" style="margin-bottom:14px;">Add engagement photos or your favorite pictures together.</p>
                     <div class="ep-photo-upload" onclick="document.getElementById('galleryPhotoInput').click()">
                         <input type="file" id="galleryPhotoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
-                        <div style="font-size:1.6rem;margin-bottom:6px;">📸</div>
+                        <div style="font-size:1.6rem;margin-bottom:6px;"></div>
                         <div style="font-size:0.82rem;color:var(--text-light);">Click to upload photos</div>
                         <div style="font-size:0.72rem;color:var(--border);margin-top:4px;">Up to 12 photos · JPG or PNG</div>
                     </div>
@@ -392,18 +393,18 @@
                 <!-- REGISTRY -->
                 <div class="edit-panel" id="panel-registry">
                     <h3>Registry</h3>
-                    <p class="ep-hint" style="margin-bottom:14px;">Haven't set yours up yet? <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" style="color:var(--blush);">Amazon</a> and <a href="https://www.honeyfund.com/" target="_blank" style="color:var(--blush);">Honeyfund</a> are great places to start. Click below to get started.</p>
+                    <p class="ep-hint" style="margin-bottom:14px;">Select your registries below. Each one includes a sign-up link and a place to paste your personal registry URL.</p>
                     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
 
                         <!-- AMAZON -->
                         <div id="reg-amazon-wrap" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;transition:all 0.15s;">
                             <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;font-size:0.85rem;font-weight:500;">
-                                <input type="checkbox" name="registry" value="amazon" id="reg-amazon" onchange="updateRegStyle('amazon',this.checked);document.getElementById('amazon-url-row').style.display=this.checked?'block':'none';liveUpdate()"> 🎁 Amazon Registry
+                                <input type="checkbox" name="registry" value="amazon" id="reg-amazon" onchange="updateRegStyle('amazon',this.checked);document.getElementById('amazon-url-row').style.display=this.checked?'block':'none';liveUpdate()"> Amazon Registry
                             </label>
                             <div id="amazon-url-row" style="display:none;padding:0 12px 10px;">
                                 <div style="font-size:0.78rem;color:var(--text);background:#f8f6f2;border-radius:6px;padding:10px 12px;margin-bottom:8px;line-height:1.7;">
-                                    <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" style="color:var(--blush);font-weight:600;text-decoration:none;">Click here to set up your Amazon Registry →</a><br>
-                                    <span style="font-size:0.72rem;color:var(--text-light);">Once you have your registry, go to <strong>Share</strong> and copy your link, then paste it below.</span>
+                                    <a href="https://www.amazon.com/wedding/home?tag=elegantbridec-20" target="_blank" style="display:inline-block;background:var(--blush);color:white;padding:7px 16px;border-radius:6px;text-decoration:none;font-size:0.78rem;font-weight:600;margin-bottom:6px;">Create Your Amazon Registry</a><br>
+                                    <span style="font-size:0.72rem;color:var(--text-light);">Once set up, go to <strong>Share</strong>, copy your link, and paste it below.</span>
                                 </div>
                                 <input type="text" id="amazonRegUrl" placeholder="Paste your Amazon Registry link here..." oninput="liveUpdate()" style="width:100%;border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;font-size:0.8rem;font-family:Jost,sans-serif;">
                             </div>
@@ -412,12 +413,12 @@
                         <!-- HONEYFUND -->
                         <div id="reg-honeyfund-wrap" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;transition:all 0.15s;">
                             <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;font-size:0.85rem;font-weight:500;">
-                                <input type="checkbox" name="registry" value="honeyfund" id="reg-honeyfund" onchange="updateRegStyle('honeyfund',this.checked);document.getElementById('honeyfund-url-row').style.display=this.checked?'block':'none';liveUpdate()"> 🏝️ Honeyfund
+                                <input type="checkbox" name="registry" value="honeyfund" id="reg-honeyfund" onchange="updateRegStyle('honeyfund',this.checked);document.getElementById('honeyfund-url-row').style.display=this.checked?'block':'none';liveUpdate()"> Honeyfund
                             </label>
                             <div id="honeyfund-url-row" style="display:none;padding:0 12px 10px;">
                                 <div style="font-size:0.78rem;color:var(--text);background:#f8f6f2;border-radius:6px;padding:10px 12px;margin-bottom:8px;line-height:1.7;">
-                                    <a href="https://www.honeyfund.com/" target="_blank" style="color:var(--blush);font-weight:600;text-decoration:none;">Click here to set up your Honeyfund →</a><br>
-                                    <span style="font-size:0.72rem;color:var(--text-light);">Once your page is ready, copy your link and paste it below.</span>
+                                    <a href="https://www.honeyfund.com/" target="_blank" style="display:inline-block;background:var(--blush);color:white;padding:7px 16px;border-radius:6px;text-decoration:none;font-size:0.78rem;font-weight:600;margin-bottom:6px;">Create Your Honeyfund</a><br>
+                                    <span style="font-size:0.72rem;color:var(--text-light);">Once set up, copy your link and paste it below.</span>
                                 </div>
                                 <input type="text" id="honeyfundRegUrl" placeholder="Paste your Honeyfund link here..." oninput="liveUpdate()" style="width:100%;border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;font-size:0.8rem;font-family:Jost,sans-serif;">
                             </div>
@@ -426,7 +427,7 @@
                         <!-- OTHER -->
                         <div id="reg-custom-wrap" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;transition:all 0.15s;">
                             <label style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;font-size:0.85rem;font-weight:500;">
-                                <input type="checkbox" name="registry" value="custom" id="reg-custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';liveUpdate()"> 🔗 Other Registry
+                                <input type="checkbox" name="registry" value="custom" id="reg-custom" onchange="updateRegStyle('custom',this.checked);document.getElementById('customRegistryFields').style.display=this.checked?'block':'none';liveUpdate()"> Other Registry
                             </label>
                             <div id="customRegistryFields" style="display:none;padding:0 12px 10px;">
                                 <div class="ep-field" style="margin-bottom:8px;"><label>Registry Name</label><input type="text" id="customRegName" placeholder="e.g. Crate & Barrel" oninput="liveUpdate()"></div>
@@ -449,7 +450,7 @@
                                 <input type="radio" name="registryMsgOpt" value="2" style="display:none;"><strong>Casual</strong> — No gifts necessary — your love and presence are all we need. But if you insist, here's where we're registered:
                             </div>
                             <div id="rmsg-wrap-3" onclick="document.querySelector('input[name=registryMsgOpt][value=\'3\']').checked=true;setRegistryMsg(3)" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;background:white;">
-                                <input type="radio" name="registryMsgOpt" value="3" style="display:none;"><strong>✏️ Write my own message</strong>
+                                <input type="radio" name="registryMsgOpt" value="3" style="display:none;"><strong>✎️ Write my own message</strong>
                             </div>
                         </div>
                         <textarea id="registryMessage" oninput="liveUpdate()" style="min-height:90px;display:none;" placeholder="Write your own message to guests..."></textarea>
@@ -465,10 +466,10 @@
                     <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px;background:white;">
                         <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:8px;">RESOURCES FOR BRIDES</div>
                         <div style="display:flex;flex-direction:column;gap:6px;">
-                            <a href="https://www.elegantbrideco.com/best-wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">👗 Shop Wedding Dresses</a>
-                            <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">💌 Browse Invitations</a>
-                            <a href="https://www.elegantbrideco.com" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">🌸 Wedding Planning Guides</a>
-                            <a href="https://www.elegantbrideco.com/downloads" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">📋 Free Wedding Planner App</a>
+                            <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Wedding Dresses</a>
+                            <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Browse Invitations</a>
+                            <a href="https://www.elegantbrideco.com/decorations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Wedding Decorations</a>
+                            <a href="https://www.elegantbrideco.com/downloads" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Free Wedding Planner App</a>
                         </div>
                     </div>
                 </div>
@@ -510,10 +511,10 @@
                     <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px;background:white;">
                         <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:8px;">RESOURCES FOR BRIDES</div>
                         <div style="display:flex;flex-direction:column;gap:6px;">
-                            <a href="https://www.elegantbrideco.com/best-wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">👗 Shop Wedding Dresses</a>
-                            <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">💌 Browse Invitations</a>
-                            <a href="https://www.elegantbrideco.com" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">🌸 Wedding Planning Guides</a>
-                            <a href="https://www.elegantbrideco.com/downloads" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">📋 Free Wedding Planner App</a>
+                            <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Wedding Dresses</a>
+                            <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Browse Invitations</a>
+                            <a href="https://www.elegantbrideco.com/decorations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Wedding Decorations</a>
+                            <a href="https://www.elegantbrideco.com/downloads" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Free Wedding Planner App</a>
                         </div>
                     </div>
                 </div>
@@ -564,12 +565,12 @@
                         <div onclick="switchTheme('dustyrose')" id="theme-dustyrose" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;">
                             <input type="radio" name="eptheme" value="dustyrose" class="ep-theme-opt" style="display:none;">
                             <div style="display:flex;height:28px;"><span style="flex:1;background:#C2848A;"></span><span style="flex:1;background:#FDF8F8;"></span><span style="flex:1;background:#9B7B8C;"></span></div>
-                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Dusty Rose</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Romantic, moody, floral accents ✿</span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Dusty Rose</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Romantic, moody, floral accents </span></div>
                         </div>
                         <div onclick="switchTheme('lavender')" id="theme-lavender" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;">
                             <input type="radio" name="eptheme" value="lavender" class="ep-theme-opt" style="display:none;">
                             <div style="display:flex;height:28px;"><span style="flex:1;background:#9B8EC4;"></span><span style="flex:1;background:#F8F7FC;"></span><span style="flex:1;background:#B8A8C8;"></span></div>
-                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Lavender</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Dreamy, soft, whimsical ✿</span></div>
+                            <div style="padding:8px 12px;"><strong style="font-size:0.82rem;">Lavender</strong> <span style="font-size:0.72rem;color:var(--text-light);">— Dreamy, soft, whimsical </span></div>
                         </div>
                     </div>
 
@@ -587,9 +588,9 @@
             <div class="preview-wrap" id="previewWrap">
                 <iframe id="previewFrame" title="Live Preview"></iframe>
                 <div id="previewPlaceholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--text-light);pointer-events:none;">
-                    <div style="font-size:3rem;">💑</div>
+                    <div style="font-size:3rem;"></div>
                     <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--text);">Your website preview will appear here</div>
-                    <div style="font-size:0.85rem;">Fill in your details and click <strong>✦ Generate Website</strong></div>
+                    <div style="font-size:0.85rem;">Fill in your details and click <strong>Generate Website</strong></div>
                 </div>
             </div>
         </div>
