@@ -300,8 +300,9 @@
                 <!-- YOUR STORY -->
                 <div class="edit-panel" id="panel-story">
                     <h3>Your Story</h3>
-                    <div class="story-ai-note">
-                        <strong>· AI-written for you.</strong> Fill in your details and click Generate — we'll write your story. You can edit the text below anytime.
+                    <div class="story-ai-note" style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                        <div><strong>AI-written for you.</strong> Fill in your details below, then click Generate Website — or use the button to write just the story.</div>
+                        <button onclick="rewriteStory()" id="rewriteStoryBtn" style="flex-shrink:0;background:var(--blush);color:white;border:none;padding:6px 14px;border-radius:3px;font-size:0.72rem;cursor:pointer;font-family:Jost,sans-serif;letter-spacing:0.04em;white-space:nowrap;">Write Story</button>
                     </div>
                     <div class="ep-field">
                         <label>Writing Tone</label>
@@ -326,8 +327,11 @@
                     <div class="ep-field"><label>Anything else to share? <span style="font-weight:300;color:var(--text-light);">(optional)</span></label><textarea id="extraDetails" placeholder="Funny moments, meaningful details..." oninput="autoSave()"></textarea></div>
                     <hr class="ep-section-divider">
                     <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:8px;">Story text (edit after generating)</div>
-                    <div id="storyEditor" contenteditable="false" style="border:1.5px solid var(--border);border-radius:8px;padding:12px;min-height:120px;font-size:0.85rem;line-height:1.8;color:var(--text);outline:none;background:var(--cream);color:var(--text-light);" placeholder="Generate your website first to see your story here.">Generate your website first to see your story here.</div>
-                    <button class="btn-apply" onclick="applyStoryEdit()" id="applyStoryBtn" style="display:none;">Apply Changes →</button>
+                    <div id="storyEditorWrap" style="position:relative;">
+                        <div id="storyEditor" contenteditable="true" oninput="handleStoryEdit()" style="border:1px solid var(--border);border-radius:5px;padding:12px;min-height:120px;font-size:0.84rem;line-height:1.9;color:var(--text-light);outline:none;background:white;" data-placeholder="Your story will appear here after writing. You can type directly or use the Write Story button above.">Your story will appear here. Use the Write Story button above, or type here directly.</div>
+                        <div id="storyWritingLoader" style="display:none;position:absolute;inset:0;background:rgba(255,255,255,0.9);display:none;align-items:center;justify-content:center;border-radius:5px;font-size:0.8rem;color:var(--text-light);letter-spacing:0.04em;">Writing your story...</div>
+                    </div>
+                    <button class="btn-apply" onclick="applyStoryEdit()" id="applyStoryBtn" style="display:none;margin-top:8px;">Apply Changes →</button>
                 </div>
 
                 <!-- WEDDING DETAILS -->
@@ -372,11 +376,7 @@
                 <!-- WEDDING PARTY -->
                 <div class="edit-panel" id="panel-party">
                     <h3>Wedding Party</h3>
-                    <p class="ep-hint" style="margin-bottom:14px;">Add your bridesmaids, groomsmen, flower girls, and more. AI will write a blurb for each person when you generate.</p>
-                    <div id="partyBlurbPreview" style="display:none;background:linear-gradient(135deg,#f9f5ff,#fff5f5);border:1px solid var(--blush-light);border-radius:8px;padding:12px 14px;margin-bottom:14px;">
-                        <div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:8px;">AI-Written Blurbs — click to edit</div>
-                        <div id="partyBlurbList"></div>
-                    </div>
+                    <p class="ep-hint" style="margin-bottom:16px;">Add your wedding party members below. Use the Write Blurb button on each person to have AI write their introduction — you can edit or rewrite it anytime.</p>
                     <div id="partyItems"></div>
                     <button class="ep-add-btn" onclick="addPartyMember()">+ Add Person</button>
                 </div>
@@ -633,6 +633,7 @@
     let heroPhoto = '';
     let scheduleItems = [{ time: '', event: '', note: '' }];
     let partyMembers = [];
+    let partyBlurbs = {};  // module-level: persists between renders
     let hotelItems = [];
     let autoSaveTimer = null;
     let liveUpdateTimer = null;
@@ -770,7 +771,9 @@
         if (d.theme) { const t = document.querySelector('input[name="eptheme"][value="' + d.theme + '"]'); if (t) t.checked = true; }
         if (d.tone) { const t = document.querySelector('input[name="tone"][value="' + d.tone + '"]'); if (t) t.checked = true; }
         if (d.schedule) { scheduleItems = d.schedule; renderSchedule(); }
-        if (d.partyMembers) { partyMembers = d.partyMembers; renderParty(); }
+        if (d.partyMembers) { partyMembers = d.partyMembers; }
+        if (d.partyBlurbs) { Object.assign(partyBlurbs, d.partyBlurbs); }
+        if (d.partyMembers) { renderParty(); }
         if (d.hotels) { hotelItems = d.hotels; renderHotels(); }
         if (d.photos) { uploadedPhotos = d.photos; renderPhotoThumbs(); }
         if (d.heroPhoto) {
@@ -829,6 +832,7 @@
             heroPhoto: heroPhoto,
             schedule: scheduleItems,
             partyMembers: partyMembers,
+            partyBlurbs: partyBlurbs,
             hotels: hotelItems,
             selectedResources: ['dresses','invitations','decorations','planner'].filter(id => document.getElementById('res-'+id)?.checked),
         };
@@ -855,26 +859,7 @@
     }
 
     // ── SECTION NAV ───────────────────────────────────────────────────────────
-    function updatePartyBlurb(el) {
-        const name = el.getAttribute('data-name');
-        if (generatedData && generatedData.partyBlurbs) {
-            generatedData.partyBlurbs[name] = el.innerText;
-            clearTimeout(liveUpdateTimer);
-            liveUpdateTimer = setTimeout(() => {
-                const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
-                generatedHTML = html;
-                document.getElementById('previewFrame').srcdoc = html;
-                autoSave();
-            }, 800);
-        }
-    }
-    let selectedFont = 'cormorant';
-    const fontMap = {
-        cormorant: "'Cormorant Garamond', serif",
-        playfair:  "'Playfair Display', serif",
-        raleway:   "'Raleway', sans-serif",
-        lato:      "'Lato', sans-serif"
-    };
+    
     function setFont(name) {
         selectedFont = name;
         ['cormorant','playfair','raleway','lato'].forEach(f => {
@@ -1034,35 +1019,106 @@
     function renderParty() {
         document.getElementById('partyItems').innerHTML = partyMembers.map((p, i) => {
             const tone = p.tone || 'sweet';
+            const blurb = partyBlurbs[p.name] || '';
+            const hasBlurb = !!blurb;
             const photoHtml = p.photo
                 ? '<img src="' + p.photo + '" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;">'
-                : '<div style="width:48px;height:48px;border-radius:50%;background:var(--warm-gray);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">👤</div>';
-            const removePhotoBtn = p.photo ? '<button onclick="partyMembers[' + i + '].photo=\'\';renderParty();liveUpdate();" style="background:none;border:none;color:var(--text-light);font-size:0.75rem;cursor:pointer;text-decoration:underline;">Remove</button>' : '';
+                : '<div style="width:48px;height:48px;border-radius:50%;background:var(--warm-gray);display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:0.85rem;flex-shrink:0;">Photo</div>';
+            const removePhotoBtn = p.photo ? '<button onclick="partyMembers[' + i + '].photo=\'\';renderParty();liveUpdate();" style="background:none;border:none;color:var(--text-light);font-size:0.72rem;cursor:pointer;text-decoration:underline;">Remove</button>' : '';
+            const blurbSection = '<div style="margin-top:10px;border-top:1px solid var(--warm-gray);padding-top:10px;">' +
+                '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">' +
+                '<label style="font-size:0.68rem;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;">AI Blurb</label>' +
+                '<button onclick="generateMemberBlurb(' + i + ')" style="background:var(--blush);color:white;border:none;padding:3px 10px;border-radius:3px;font-size:0.68rem;cursor:pointer;font-family:Jost,sans-serif;letter-spacing:0.04em;">' +
+                (hasBlurb ? 'Rewrite' : 'Write Blurb') + '</button>' +
+                '</div>' +
+                '<div id="blurb-loading-' + i + '" style="display:none;font-size:0.75rem;color:var(--text-light);padding:6px 0;">Writing blurb...</div>' +
+                '<div id="blurb-text-' + i + '" contenteditable="true" oninput="saveBlurb(' + i + ',this)" ' +
+                'style="min-height:52px;border:1px solid var(--border);border-radius:5px;padding:8px 10px;font-size:0.8rem;line-height:1.7;color:' + (hasBlurb ? 'var(--text)' : 'var(--text-light)') + ';outline:none;background:white;cursor:text;">' +
+                (hasBlurb ? blurb : '<span style="pointer-events:none;">Click &ldquo;Write Blurb&rdquo; to generate&hellip;</span>') +
+                '</div>' +
+                '</div>';
             return '<div class="ep-item">' +
-                '<button class="ep-item-remove" onclick="removePartyMember(' + i + ')">✕</button>' +
-                '<div class="ep-field"><label>Name</label><input type="text" value="' + (p.name||'') + '" placeholder="Full name" onchange="partyMembers[' + i + '].name=this.value;liveUpdate()"></div>' +
-                '<div class="ep-field"><label>Role</label><input type="text" value="' + (p.role||'') + '" placeholder="e.g. Maid of Honor" onchange="partyMembers[' + i + '].role=this.value;liveUpdate()"></div>' +
-                '<div class="ep-field"><label>Relation</label><input type="text" value="' + (p.relation||'') + '" placeholder="e.g. Best Friend" onchange="partyMembers[' + i + '].relation=this.value;liveUpdate()"></div>' +
-                '<div class="ep-field"><label>Photo <span style=\"font-weight:300;color:var(--text-light);\">(optional)</span></label>' +
-                '<div style=\"display:flex;align-items:center;gap:10px;margin-top:4px;\">' + photoHtml +
-                '<div><label style=\"cursor:pointer;font-size:0.78rem;color:var(--blush);text-decoration:underline;\">' +
-                (p.photo ? 'Change photo' : 'Upload photo') +
-                '<input type=\"file\" accept=\"image/*\" style=\"display:none;\" onchange=\"handlePartyPhoto(event,' + i + ')\"></label>' +
-                (p.photo ? '<br>' + removePhotoBtn : '') + '</div></div></div>' +
-                '<div class="ep-field"><label>Note for AI blurb</label><input type="text" value="' + (p.note||'') + '" placeholder="Fun fact or personality" onchange="partyMembers[' + i + '].note=this.value"></div>' +
+                '<button class="ep-item-remove" onclick="removePartyMember(' + i + ')">×</button>' +
+                '<div class="ep-field"><label>Name</label><input type="text" value="' + (p.name||'') + '" placeholder="Full name" oninput="partyMembers[' + i + '].name=this.value;liveUpdate()"></div>' +
+                '<div class="ep-field"><label>Role</label><input type="text" value="' + (p.role||'') + '" placeholder="e.g. Maid of Honor" oninput="partyMembers[' + i + '].role=this.value;liveUpdate()"></div>' +
+                '<div class="ep-field"><label>Relation</label><input type="text" value="' + (p.relation||'') + '" placeholder="e.g. Best Friend" oninput="partyMembers[' + i + '].relation=this.value;liveUpdate()"></div>' +
                 '<div class="ep-field"><label>Blurb Tone</label><select onchange="partyMembers[' + i + '].tone=this.value">' +
                 '<option value="sweet" ' + (tone==='sweet'?'selected':'') + '>Sweet</option>' +
                 '<option value="funny" ' + (tone==='funny'?'selected':'') + '>Funny</option>' +
                 '<option value="heartfelt" ' + (tone==='heartfelt'?'selected':'') + '>Heartfelt</option>' +
                 '<option value="classic" ' + (tone==='classic'?'selected':'') + '>Classic</option>' +
                 '<option value="roast" ' + (tone==='roast'?'selected':'') + '>Roast</option>' +
-                '</select></div></div>';
+                '</select></div>' +
+                '<div class="ep-field"><label>Notes for AI <span style="font-weight:300;color:var(--text-light);text-transform:none;letter-spacing:0;">(optional)</span></label><input type="text" value="' + (p.note||'') + '" placeholder="Fun fact or personality detail" oninput="partyMembers[' + i + '].note=this.value"></div>' +
+                '<div class="ep-field"><label>Photo <span style="font-weight:300;color:var(--text-light);text-transform:none;letter-spacing:0;">(optional)</span></label>' +
+                '<div style="display:flex;align-items:center;gap:10px;margin-top:4px;">' + photoHtml +
+                '<div><label style="cursor:pointer;font-size:0.78rem;color:var(--blush);text-decoration:underline;">' +
+                (p.photo ? 'Change' : 'Upload photo') +
+                '<input type="file" accept="image/*" style="display:none;" onchange="handlePartyPhoto(event,' + i + ')"></label>' +
+                (p.photo ? '<br>' + removePhotoBtn : '') + '</div></div></div>' +
+                blurbSection +
+                '</div>';
         }).join('');
     }
     function addPartyMember() { partyMembers.push({ name: '', role: '', relation: '', note: '', tone: 'sweet' }); renderParty(); }
     function removePartyMember(i) { partyMembers.splice(i, 1); renderParty(); liveUpdate(); }
 
     // ── HOTELS ────────────────────────────────────────────────────────────────
+    function saveBlurb(i, el) {
+        const name = partyMembers[i]?.name || '';
+        const text = el.innerText.trim();
+        if (text && text !== 'Click “Write Blurb” to generate…') {
+            partyBlurbs[name] = text;
+            liveUpdate();
+        }
+    }
+
+    async function generateMemberBlurb(i) {
+        const p = partyMembers[i];
+        if (!p || !p.name) { showToast('Please enter a name first.'); return; }
+        const loadingEl = document.getElementById('blurb-loading-' + i);
+        const textEl = document.getElementById('blurb-text-' + i);
+        if (!loadingEl || !textEl) return;
+
+        loadingEl.style.display = 'block';
+        textEl.style.opacity = '0.4';
+
+        const toneDescriptions = {
+            sweet: 'warm, loving, and sweet',
+            funny: 'lighthearted and gently humorous',
+            heartfelt: 'deeply sincere and emotional',
+            classic: 'timeless and elegant',
+            roast: 'playfully teasing (keep it tasteful)'
+        };
+        const tone = toneDescriptions[p.tone || 'sweet'];
+        const prompt = `Write a 2-3 sentence wedding party blurb for ${p.name}, who is the ${p.role}${p.relation ? ' and ' + p.relation : ''}. Tone: ${tone}. ${p.note ? 'About them: ' + p.note + '.' : ''} Write in third person. Keep it warm and personal. Output ONLY the blurb text, nothing else.`;
+
+        try {
+            const res = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+            });
+            const result = await res.json();
+            if (result.error) throw new Error(result.error);
+            const blurbText = (result.content?.[0]?.text || result.text || '').trim()
+                .replace(/^["']|["']$/g, '');
+            if (blurbText) {
+                partyBlurbs[p.name] = blurbText;
+                textEl.innerText = blurbText;
+                textEl.style.color = 'var(--text)';
+                liveUpdate();
+                renderParty();
+            }
+        } catch(err) {
+            showToast('Could not write blurb: ' + err.message);
+        } finally {
+            loadingEl.style.display = 'none';
+            if (textEl) textEl.style.opacity = '1';
+        }
+    }
+
+
     function renderHotels() {
         document.getElementById('hotelItems').innerHTML = hotelItems.map((h, i) => `
             <div class="ep-item">
@@ -1142,6 +1198,27 @@
         if (generatedStoryCopy) editor.innerHTML = generatedStoryCopy;
     }
 
+    function handleStoryEdit() {
+        // Live-update preview as user types in story editor
+        clearTimeout(liveUpdateTimer);
+        liveUpdateTimer = setTimeout(() => {
+            const el = document.getElementById('storyEditor');
+            if (!el) return;
+            const txt = el.innerHTML;
+            if (txt && txt !== 'Your story will appear here. Use the Write Story button above, or type here directly.') {
+                generatedStoryCopy = txt;
+                if (generatedData) {
+                    const d = collectFormData();
+                    generatedData = { ...generatedData, ...d };
+                    const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+                    generatedHTML = html;
+                    document.getElementById('previewFrame').srcdoc = html;
+                    autoSave();
+                }
+            }
+        }, 800);
+    }
+
     function applyStoryEdit() {
         generatedStoryCopy = document.getElementById('storyEditor').innerHTML;
         const d = collectFormData();
@@ -1151,6 +1228,73 @@
         document.getElementById('previewFrame').srcdoc = html;
         showToast('Story updated!');
         autoSave();
+    }
+
+    async function rewriteStory() {
+        const howMet = document.getElementById('howMet')?.value?.trim();
+        if (!howMet) { showToast('Please fill in how you met first.'); return; }
+        
+        const btn = document.getElementById('rewriteStoryBtn');
+        const editor = document.getElementById('storyEditor');
+        const loader = document.getElementById('storyWritingLoader');
+        
+        if (btn) { btn.textContent = 'Writing...'; btn.disabled = true; }
+        if (loader) loader.style.display = 'flex';
+        if (editor) editor.style.opacity = '0.3';
+
+        const data = collectFormData();
+        const toneGuide = {
+            romantic: 'Deeply romantic, poetic, and heartfelt.',
+            humorous: 'Warm and funny, with light humor and wit.',
+            modern: 'Fresh, conversational, and real.',
+            whimsical: 'Playful, dreamy, and fairytale-inspired.',
+            classic: 'Timeless, elegant, graceful.',
+            roast: 'Affectionate and gently teasing.'
+        };
+        const prompt = `Write the "Our Story" section for ${data.name1 || 'the couple'} and ${data.name2 || 'their partner'}'s wedding website.
+
+How they met: ${data.howMet}
+The proposal: ${data.proposal || 'Not provided'}
+Extra details: ${data.extraDetails || 'None'}
+
+Tone: ${toneGuide[data.tone] || 'Romantic and heartfelt.'}
+
+Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped in: <div class="story-pull" style="font-style:italic;text-align:center;padding:28px 0;border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin:32px 0;opacity:0.8;font-size:1.15rem;line-height:1.5;font-family:Georgia,serif;">quote here</div>
+
+Output ONLY the HTML. No extra commentary.`;
+
+        try {
+            const res = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+            });
+            const result = await res.json();
+            if (result.error) throw new Error(result.error);
+            const storyHTML = (result.content?.[0]?.text || result.text || '').trim();
+            if (storyHTML) {
+                generatedStoryCopy = storyHTML;
+                if (editor) {
+                    editor.innerHTML = storyHTML;
+                    editor.style.color = 'var(--text)';
+                }
+                if (generatedData) {
+                    const d = collectFormData();
+                    generatedData = { ...generatedData, ...d };
+                    const html = buildWebsiteHTML(generatedData, generatedStoryCopy);
+                    generatedHTML = html;
+                    document.getElementById('previewFrame').srcdoc = html;
+                    autoSave();
+                }
+                showToast('Story written!');
+            }
+        } catch(err) {
+            showToast('Could not write story: ' + err.message);
+        } finally {
+            if (btn) { btn.textContent = 'Rewrite Story'; btn.disabled = false; }
+            if (loader) loader.style.display = 'none';
+            if (editor) editor.style.opacity = '1';
+        }
     }
 
     // ── THEME SWITCH ──────────────────────────────────────────────────────────
@@ -1258,30 +1402,25 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             const result = await res.json();
             const rawText = result.content?.[0]?.text || '<p>A beautiful love story.</p>';
             let storyCopy = rawText;
-            let partyBlurbs = {};
+            let partyBlurbs_local = {};
             if (rawText.includes('PARTY_BLURBS_START')) {
                 const parts = rawText.split('PARTY_BLURBS_START');
                 storyCopy = parts[0].trim();
-                try { const blurbArr = JSON.parse(parts[1].split('PARTY_BLURBS_END')[0].trim()); blurbArr.forEach(b => { partyBlurbs[b.name] = b.blurb; }); } catch(e) {}
+                try { const blurbArr = JSON.parse(parts[1].split('PARTY_BLURBS_END')[0].trim()); blurbArr.forEach(b => { partyBlurbs_local[b.name] = b.blurb; }); } catch(e) {}
             }
-            data.partyBlurbs = partyBlurbs;
-            // Show blurbs in party panel
-            if (Object.keys(partyBlurbs).length > 0) {
-                const preview = document.getElementById('partyBlurbPreview');
-                const list = document.getElementById('partyBlurbList');
-                if (preview && list) {
-                    preview.style.display = 'block';
-                    list.innerHTML = Object.entries(partyBlurbs).map(([name, blurb]) =>
-                        '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(0,0,0,0.08);">' +
-                        '<div style="font-size:0.75rem;font-weight:600;color:var(--blush);margin-bottom:4px;">' + name + '</div>' +
-                        '<div contenteditable="true" data-name="' + name + '" oninput="updatePartyBlurb(this)" style="font-size:0.82rem;line-height:1.6;color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px;background:white;outline:none;font-family:Jost,sans-serif;cursor:text;" title="Click to edit">' + blurb + '</div>' +
-                        '</div>'
-                    ).join('');
-                }
-            }
+            data.partyBlurbs = {...partyBlurbs, ...partyBlurbs_local};
+            // Merge generated blurbs into module-level partyBlurbs, then re-render party panel
+            Object.assign(partyBlurbs, partyBlurbs_local);
+            renderParty();
             clearInterval(msgInterval);
             generatedStoryCopy = storyCopy;
             generatedData = data;
+            // Populate story editor with generated text
+            const storyEl = document.getElementById('storyEditor');
+            if (storyEl && storyCopy) {
+                storyEl.innerHTML = storyCopy;
+                storyEl.style.color = 'var(--text)';
+            }
             generatedHTML = buildWebsiteHTML(data, storyCopy);
 
             document.getElementById('previewFrame').srcdoc = generatedHTML;
