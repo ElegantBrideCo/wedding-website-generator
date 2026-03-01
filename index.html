@@ -8,8 +8,8 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --sage: #9AAE8E; --sage-dark: #7A9070;
-            --blush: #B8807A; --blush-light: #F2E8E6;
+            --sage: #A8BEA0; --sage-dark: #8AAE88;
+            --blush: #C9A8A4; --blush-light: #F8F1F0;
             --cream: #F7F5F1; --warm-gray: #EDE9E4;
             --text: #2E2B28; --text-light: #7A756E; --border: #DDD8D0;
             --surface: #FFFFFF; --surface2: #FAF8F5;
@@ -27,8 +27,8 @@
 
         /* ── AUTH SCREEN ── */
         #authScreen { min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
-        .auth-card { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 48px 44px; width: 100%; max-width: 440px; box-shadow: 0 8px 40px rgba(0,0,0,0.06); }
-        .auth-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--text); margin-bottom: 6px; }
+        .auth-card { background: white; border-radius: 4px; border: 1px solid var(--border); padding: 52px 48px; width: 100%; max-width: 420px; box-shadow: 0 4px 40px rgba(0,0,0,0.06); }
+        .auth-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: var(--text); margin-bottom: 8px; letter-spacing: 0.04em; }
         .auth-card p { color: var(--text-light); font-size: 0.88rem; line-height: 1.6; margin-bottom: 28px; }
         .auth-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 28px; }
         .auth-tab { flex: 1; padding: 10px; text-align: center; font-size: 0.85rem; font-weight: 500; color: var(--text-light); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
@@ -37,8 +37,8 @@
         .auth-field label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
         .auth-field input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 14px; font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--text); transition: border-color 0.2s; }
         .auth-field input:focus { outline: none; border-color: var(--blush); }
-        .btn-auth { width: 100%; background: var(--blush); color: white; border: none; padding: 13px; border-radius: 50px; font-family: 'Jost', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
-        .btn-auth:hover { background: #C49090; }
+        .btn-auth { width: 100%; background: var(--text); color: white; border: none; padding: 14px; border-radius: 3px; font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
+        .btn-auth:hover { background: var(--blush); }
         .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; }
         .auth-error { color: #c0392b; font-size: 0.82rem; margin-top: 10px; display: none; }
         .auth-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--text-light); font-size: 0.8rem; }
@@ -130,10 +130,9 @@
 
         /* Right panel */
         .right-panel { flex: 1; background: #E8E4DF; display: flex; flex-direction: column; overflow: hidden; }
-        .preview-bar { background: white; border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-        .dot-r { background: #FF6058; } .dot-y { background: #FFBD2E; } .dot-g { background: #28C840; }
-        .url-bar { flex: 1; background: var(--cream); border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; color: var(--text-light); }
+        .preview-bar { background: var(--cream); border-bottom: 1px solid var(--border); padding: 7px 16px; display: flex; align-items: center; gap: 10px; }
+        
+        .url-bar { flex: 1; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 5px 14px; font-size: 0.73rem; color: var(--text-light); letter-spacing: 0.02em; font-family: 'Jost', sans-serif; }
         .preview-wrap { flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 0; transition: all 0.3s; position: relative; }
         .preview-wrap.mobile { padding: 20px; }
         #previewFrame { width: 100%; height: 100%; border: none; flex-shrink: 0; transition: all 0.3s; }
@@ -237,7 +236,7 @@
             </div>
         </div>
         <div class="toolbar-right">
-            <button class="btn-generate-sm" onclick="generateWebsite()" id="generateBtn">Generate Website</button>
+            <button class="btn-generate-sm" onclick="generateWebsite()" id="generateBtn">Generate My Website</button>
             <button class="btn-publish" onclick="publishWebsite()" id="publishBtn" style="display:none;">→ Publish</button>
             <a id="publishedChip" class="published-chip" href="#" target="_blank" style="display:none;">✓ Live</a>
         </div>
@@ -334,17 +333,30 @@
                 <!-- WEDDING DETAILS -->
                 <div class="edit-panel" id="panel-details">
                     <h3>Wedding Details</h3>
-                    <div class="ep-field"><label>Ceremony Venue</label><input type="text" id="ceremonyLocation" placeholder="e.g. Riverside Gardens, Austin TX" oninput="liveUpdate()"></div>
+
+                    <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--warm-gray);">Ceremony</div>
+                    <div class="ep-field"><label>Venue Name</label><input type="text" id="ceremonyLocation" placeholder="e.g. Riverside Gardens" oninput="liveUpdate()"></div>
                     <div class="ep-field"><label>Ceremony Time</label><input type="time" id="ceremonyTime" onchange="liveUpdate()"></div>
-                    <div class="ep-field"><label>Ceremony Address <span style="font-weight:300;color:var(--text-light);">(for map)</span></label><input type="text" id="ceremonyAddress" placeholder="e.g. 123 River Rd, Austin TX" oninput="liveUpdate()"></div>
-                    <div class="ep-field"><label>Reception Venue <span style="font-weight:300;color:var(--text-light);">(leave blank if same)</span></label><input type="text" id="receptionLocation" placeholder="Same as ceremony" oninput="liveUpdate()"></div>
-                    <div class="ep-field"><label>Reception Address <span style="font-weight:300;color:var(--text-light);">(if different)</span></label><input type="text" id="receptionAddress" placeholder="Leave blank if same" oninput="liveUpdate()"></div>
-                    <div class="ep-field"><label>Dress Code</label>
-                        <select id="dressCode" onchange="liveUpdate()">
-                            <option value="">Select dress code...</option>
-                            <option>Black Tie</option><option>Formal</option><option>Cocktail Attire</option>
-                            <option>Semi-Formal</option><option>Garden Party</option><option>Casual Chic</option>
-                            <option>Casual</option><option>Outdoor / Come Comfortable</option>
+                    <div class="ep-field"><label>Address <span style="font-weight:400;color:var(--text-light);text-transform:none;letter-spacing:0;">(used for map)</span></label><input type="text" id="ceremonyAddress" placeholder="123 Garden Lane, City, State" oninput="liveUpdate()"></div>
+
+                    <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin:18px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--warm-gray);">Reception</div>
+                    <p class="ep-hint" style="margin-bottom:10px;">Leave blank if your reception is at the same venue.</p>
+                    <div class="ep-field"><label>Venue Name</label><input type="text" id="receptionLocation" placeholder="Same as ceremony" oninput="liveUpdate()"></div>
+                    <div class="ep-field"><label>Address</label><input type="text" id="receptionAddress" placeholder="Leave blank if same location" oninput="liveUpdate()"></div>
+
+                    <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin:18px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--warm-gray);">Dress Code</div>
+                    <div class="ep-field">
+                        <select id="dressCode" onchange="liveUpdate()" style="color:var(--text);">
+                            <option value="">Select attire...</option>
+                            <option>Black Tie</option>
+                            <option>Black Tie Optional</option>
+                            <option>Formal</option>
+                            <option>Cocktail Attire</option>
+                            <option>Semi-Formal</option>
+                            <option>Garden Party</option>
+                            <option>Casual Chic</option>
+                            <option>Casual</option>
+                            <option>Outdoor — Dress Comfortably</option>
                         </select>
                     </div>
                 </div>
@@ -444,7 +456,7 @@
                                 <input type="radio" name="registryMsgOpt" value="0" checked style="display:none;"><strong>Classic</strong> — Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:
                             </div>
                             <div id="rmsg-wrap-1" onclick="document.querySelector('input[name=registryMsgOpt][value=\'1\']').checked=true;setRegistryMsg(1)" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;background:white;">
-                                <input type="radio" name="registryMsgOpt" value="1" style="display:none;"><strong>Experience</strong> — Since we already have everything we need at home, we're celebrating with an experience instead. Your contribution to our honeymoon means the world!
+                                <input type="radio" name="registryMsgOpt" value="1" style="display:none;"><strong>Experience</strong> — We're celebrating our new life together with experiences and adventures. Your contribution to our honeymoon fund means the world to us!
                             </div>
                             <div id="rmsg-wrap-2" onclick="document.querySelector('input[name=registryMsgOpt][value=\'2\']').checked=true;setRegistryMsg(2)" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.82rem;line-height:1.5;background:white;">
                                 <input type="radio" name="registryMsgOpt" value="2" style="display:none;"><strong>Casual</strong> — No gifts necessary — your love and presence are all we need. But if you insist, here's where we're registered:
@@ -476,12 +488,6 @@
                 <!-- THEME & TONE -->
                 <div class="edit-panel" id="panel-theme">
                     <h3>Design & Color</h3>
-                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Choose a Design</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;" id="designGrid"></div>
-                    <hr class="ep-section-divider">
-                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Color Variant</div>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;" id="colorDots"></div>
-                    <hr class="ep-section-divider">
                     <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Heading Font</div>
                     <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;" id="fontPicker">
                         <div onclick="setFont('cormorant')" id="font-cormorant" style="padding:10px 14px;border:1.5px solid var(--blush);border-radius:8px;cursor:pointer;background:var(--blush-light,#fdf0f0);">
@@ -501,6 +507,12 @@
                             <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Clean · Contemporary</span>
                         </div>
                     </div>
+                    <hr class="ep-section-divider">
+                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Choose a Design</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;" id="designGrid"></div>
+                    <hr class="ep-section-divider">
+                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Color Variant</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;" id="colorDots"></div>
                 </div>
                 <!-- PLANNING RESOURCES -->
                 <!-- PLANNING RESOURCES -->
@@ -582,7 +594,7 @@
         <!-- RIGHT PANEL (live preview) -->
         <div class="right-panel">
             <div class="preview-bar">
-                <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+                
                 <div class="url-bar" id="previewUrl">yournames.netlify.app — preview</div>
             </div>
             <div class="preview-wrap" id="previewWrap">
@@ -590,7 +602,7 @@
                 <div id="previewPlaceholder" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--text-light);pointer-events:none;">
                     <div style="font-size:3rem;"></div>
                     <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--text);">Your website preview will appear here</div>
-                    <div style="font-size:0.85rem;">Fill in your details and click <strong>Generate Website</strong></div>
+                    <div style="font-size:0.85rem;">Fill in your details and click <strong>Generate My Website</strong></div>
                 </div>
             </div>
         </div>
@@ -799,8 +811,8 @@
             tone: (document.querySelector('input[name="tone"]:checked') || {}).value || 'romantic',
             theme: selectedDesign || 'blush_garden',
             themeVariant: selectedVariant || 0,
-            themeColors: DESIGNS[selectedDesign]?.variants[selectedVariant] || DESIGNS.blush_garden.variants[0],
-            themeFloral: DESIGNS[selectedDesign]?.floral || 'garden',
+            themeColors: DESIGNS[selectedDesign]?.variants[selectedVariant] || DESIGNS.ivory_champagne.variants[0],
+            themeFloral: DESIGNS[selectedDesign]?.floral || false,
             headFont: fontMap[selectedFont] || fontMap.cormorant,
             customRegName: document.getElementById('customRegName').value.trim(),
             customRegUrl: document.getElementById('customRegUrl').value.trim(),
@@ -1080,7 +1092,7 @@
     // ── REGISTRY ──────────────────────────────────────────────────────────────
     const registryMsgPresets = [
         "Your presence is the greatest gift. But if you'd like to celebrate with something special, we're registered at:",
-        "Since we already have everything we need at home, we're celebrating with an experience instead. Your contribution to our honeymoon means the world!",
+        "We're celebrating our new life together with experiences and adventures. Your contribution to our honeymoon fund means the world to us!",
         "No gifts necessary — your love and presence are all we need. But if you insist, here's where we're registered:",
         null // freehand
     ];
@@ -1216,13 +1228,15 @@
         const partyWithNotes = data.partyMembers.filter(p => p.name && p.role);
         const partyInstruction = partyWithNotes.length > 0 ? `
 
-Also write a short 2-3 sentence blurb for each wedding party member. After the story HTML, output:
+IMPORTANT: After the story HTML, you MUST also write a short 2-3 sentence blurb for each wedding party member listed below. Output them in this EXACT format with no deviations:
 PARTY_BLURBS_START
-[{"name":"...","blurb":"..."}]
+[{"name":"${partyWithNotes[0]?.name || 'Person'}","blurb":"blurb text here"}]
 PARTY_BLURBS_END
 
-Wedding party:
-${partyWithNotes.map(p => `- ${p.name} (${p.role}${p.relation ? ', ' + p.relation : ''}): Tone: ${p.tone || 'Sweet'}. About them: ${p.note || 'No info provided'}`).join('\n')}` : '';
+Wedding party members to write blurbs for:
+${partyWithNotes.map(p => `- ${p.name} (${p.role}${p.relation ? ', ' + p.relation : ''}): Tone: ${p.tone || 'sweet'}. Notes: ${p.note || 'a wonderful person'}`).join('\n')}
+
+Write warm, personal blurbs. Use the tone specified. Keep each blurb to 2-3 sentences.` : '';
 
         const prompt = `Write the "Our Story" section for ${data.name1} and ${data.name2}'s wedding website.
 
@@ -1297,16 +1311,19 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         if (!generatedHTML) { showToast('Generate your website first!'); return; }
         const btn = document.getElementById('publishBtn');
         const origHTML = btn.innerHTML;
-        btn.innerHTML = '⏳ Publishing...'; btn.disabled = true;
+        btn.innerHTML = 'Publishing...'; btn.disabled = true;
 
-        const d = collectFormData();
-        const siteName = (d.name1 + '-and-' + d.name2).toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-
+        const payload = { html: generatedHTML, siteName, projectName: publishedSiteId };
         try {
             const res = await fetch('/deploy-site', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ html: generatedHTML, siteName, projectName: publishedSiteId })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
             });
+            if (!res.ok) {
+                const errText = await res.text().catch(() => 'No response body');
+                throw new Error('Server error ' + res.status + ': ' + errText.substring(0, 150));
+            }
             const result = await res.json();
             if (result.error) throw new Error(result.error);
 
@@ -1314,17 +1331,18 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             publishedSiteUrl = result.url;
             showPublishedBanner(publishedSiteUrl);
             btn.innerHTML = '✓ Published!';
-            setTimeout(() => { btn.innerHTML = '🔄 Update Site'; btn.disabled = false; }, 3000);
-            showToast('🎉 Your wedding website is live!', 5000);
+            setTimeout(() => { btn.innerHTML = origHTML; btn.disabled = false; }, 3000);
+            showToast('Your wedding website is live!', 5000);
             autoSave();
 
         } catch(err) {
             btn.innerHTML = origHTML; btn.disabled = false;
-            showToast('Publishing failed: ' + err.message);
+            console.error('Publish error:', err);
+            showToast('Publishing failed: ' + (err.message || 'Please try again.'));
         }
     }
 
-    // ── DESIGN SYSTEM ────────────────────────────────────────────────────────
+    // ── DESIGN    // ── DESIGN SYSTEM ────────────────────────────────────────────────────────
     const DESIGNS = {
         blush_garden: {
             name: 'Blush Garden', desc: 'Soft · Romantic · Floral',
@@ -1428,7 +1446,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         }
     };
 
-    let selectedDesign = 'blush_garden';
+    let selectedDesign = 'ivory_champagne';
     let selectedVariant = 0;
 
     function renderDesignGrid() {
@@ -1690,7 +1708,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         let t;
         if (data.themeColors) {
             const v = data.themeColors;
-            const d = DESIGNS[data.theme] || DESIGNS.blush_garden;
+            const d = DESIGNS[data.theme] || DESIGNS.ivory_champagne;
             const hf = data.headFont || (selectedFont ? fontMap[selectedFont] : "'Cormorant Garamond', serif");
             t = {
                 primary: v.primary, primaryDark: v.primary,
