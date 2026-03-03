@@ -1,46 +1,34 @@
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json',
-};
+export async function onRequestPost(context) {
+  const { request, env } = context;
+  
+  const body = await request.json();
 
-export async function onRequest(context) {
-  const { request } = context;
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify(body),
+  });
 
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
+  const data = await response.json();
 
-  if (request.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
-  }
-
-  try {
-    const { messages } = await request.json();
-    const ANTHROPIC_API_KEY = context.env.ANTHROPIC_API_KEY;
-
-    if (!ANTHROPIC_API_KEY) {
-      return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500, headers: corsHeaders });
+  return new Response(JSON.stringify(data), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
     }
+  });
+}
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-opus-4-5',
-        max_tokens: 2000,
-        messages,
-      }),
-    });
-
-    const data = await response.json();
-    return new Response(JSON.stringify(data), { status: 200, headers: corsHeaders });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: corsHeaders });
-  }
+export async function onRequestOptions() {
+  return new Response(null, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    }
+  });
 }
