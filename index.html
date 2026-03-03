@@ -74,10 +74,10 @@
         .icon-nav-item .nav-label { font-size: 0.58rem; font-weight: 500; color: var(--text-light); line-height: 1.2; }
         .icon-nav-item.active .nav-label { color: var(--blush); }
         /* Edit panel column */
-        .left-panel { width: 340px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+        .left-panel { width: 340px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; }
         .left-panel-header { padding: 14px 18px 10px; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light); flex-shrink: 0; }
         /* Edit panels */
-        .edit-panels { flex: 1; overflow-y: auto; }
+        .edit-panels { flex: 1; overflow-y: auto; overflow-x: hidden; }
         .edit-panel { display: none; padding: 18px; }
         .edit-panel.active { display: block; }
         .edit-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--text); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--warm-gray); }
@@ -1085,10 +1085,14 @@
         const prompt = `Write a 2-3 sentence wedding party blurb for ${p.name}, who is the ${p.role}${p.relation ? ' and ' + p.relation : ''}. Tone: ${tone}. ${p.note ? 'About them: ' + p.note + '.' : ''} Write in third person. Keep it warm and personal. Output ONLY the blurb text, nothing else.`;
 
         try {
-            const res = await fetch('/generate', {
+            const res = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-20250514',
+                    max_tokens: 1000,
+                    messages: [{ role: 'user', content: prompt }]
+                })
             });
             const result = await res.json();
             if (result.error) throw new Error(result.error);
@@ -1255,10 +1259,14 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output ONLY the HTML. No extra commentary.`;
 
         try {
-            const res = await fetch('/generate', {
+            const res = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-20250514',
+                    max_tokens: 1000,
+                    messages: [{ role: 'user', content: prompt }]
+                })
             });
             const result = await res.json();
             if (result.error) throw new Error(result.error);
@@ -1388,9 +1396,14 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output the story HTML first. Nothing else unless party blurbs were requested.`;
 
         try {
-            const res = await fetch('/generate', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+            const res = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-20250514',
+                    max_tokens: 1000,
+                    messages: [{ role: 'user', content: prompt }]
+                })
             });
             const result = await res.json();
             const rawText = result.content?.[0]?.text || '<p>A beautiful love story.</p>';
