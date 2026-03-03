@@ -513,7 +513,6 @@
                     <hr class="ep-section-divider">
                     <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Color Variant</div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;" id="colorDots"></div>
-                </div>
                 <!-- PLANNING RESOURCES -->
                 <!-- PLANNING RESOURCES -->
                 <div class="edit-panel" id="panel-resources">
@@ -577,7 +576,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div><!-- end panel-theme -->
 
             </div><!-- end edit-panels -->
         </div><!-- end left-panel -->
@@ -1587,8 +1586,15 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
         }
     };;
 
-    let selectedDesign = 'ivory_champagne';
+    let selectedDesign = 'coastal';
     let selectedVariant = 0;
+    let selectedFont = 'cormorant';
+    const fontMap = {
+        cormorant: "'Cormorant Garamond', serif",
+        playfair:  "'Playfair Display', serif",
+        raleway:   "'Raleway', sans-serif",
+        lato:      "'Lato', sans-serif"
+    };
 
     function renderDesignGrid() {
         // Theme cards are already rendered as static HTML in the theme picker
