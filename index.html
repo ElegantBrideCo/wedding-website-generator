@@ -129,11 +129,11 @@
         .btn-apply { background: var(--sage); color: white; border: none; padding: 8px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; margin-top: 10px; }
 
         /* Right panel */
-        .right-panel { flex: 1; background: #E8E4DF; display: flex; flex-direction: column; overflow: hidden; }
+        .right-panel { flex: 1; background: #E8E4DF; display: flex; flex-direction: column; overflow: hidden; min-height: 0; height: 100%; }
         .preview-bar { background: var(--cream); border-bottom: 1px solid var(--border); padding: 7px 16px; display: flex; align-items: center; gap: 10px; }
         
         .url-bar { flex: 1; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 5px 14px; font-size: 0.73rem; color: var(--text-light); letter-spacing: 0.02em; font-family: 'Jost', sans-serif; }
-        .preview-wrap { flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 0; transition: all 0.3s; position: relative; }
+        .preview-wrap { flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 0; transition: all 0.3s; position: relative; min-height: 0; }
         .preview-wrap.mobile { padding: 20px; }
         #previewFrame { width: 100%; height: 100%; border: none; flex-shrink: 0; transition: all 0.3s; }
         .preview-wrap.mobile #previewFrame { width: 390px; height: 844px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
