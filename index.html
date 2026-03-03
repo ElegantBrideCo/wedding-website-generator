@@ -1084,7 +1084,7 @@
         const prompt = `Write a 2-3 sentence wedding party blurb for ${p.name}, who is the ${p.role}${p.relation ? ' and ' + p.relation : ''}. Tone: ${tone}. ${p.note ? 'About them: ' + p.note + '.' : ''} Write in third person. Keep it warm and personal. Output ONLY the blurb text, nothing else.`;
 
         try {
-            const res = await fetch('https://api.anthropic.com/v1/messages', {
+            const res = await fetch('/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -1258,7 +1258,7 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output ONLY the HTML. No extra commentary.`;
 
         try {
-            const res = await fetch('https://api.anthropic.com/v1/messages', {
+            const res = await fetch('/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -1395,7 +1395,7 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output the story HTML first. Nothing else unless party blurbs were requested.`;
 
         try {
-            const res = await fetch('https://api.anthropic.com/v1/messages', {
+            const res = await fetch('/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
