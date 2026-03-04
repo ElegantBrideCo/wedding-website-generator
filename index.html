@@ -133,9 +133,9 @@
         .preview-bar { background: var(--cream); border-bottom: 1px solid var(--border); padding: 7px 16px; display: flex; align-items: center; gap: 10px; }
         
         .url-bar { flex: 1; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 5px 14px; font-size: 0.73rem; color: var(--text-light); letter-spacing: 0.02em; font-family: 'Jost', sans-serif; }
-        .preview-wrap { flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 0; transition: all 0.3s; position: relative; min-height: 0; }
+        .preview-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 0; transition: all 0.3s; position: relative; min-height: 0; }
         .preview-wrap.mobile { padding: 20px; }
-        #previewFrame { width: 100%; height: 100%; border: none; flex-shrink: 0; transition: all 0.3s; }
+        #previewFrame { width: 100%; height: 100%; min-height: 600px; border: none; display: block; transition: all 0.3s; }
         .preview-wrap.mobile #previewFrame { width: 390px; height: 844px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 
         /* Loading overlay */
@@ -486,7 +486,7 @@
                     </div>
                 </div>
                 <!-- THEME & TONE -->
-                <div class="edit-panel" id="panel-theme">
+                <div class="edit-panel" id="panel-theme" style="max-width:100%;overflow-x:hidden;">
                     <h3>Design & Color</h3>
                     <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Heading Font</div>
                     <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;" id="fontPicker">
@@ -527,7 +527,7 @@
                     </div>
                 </div>
                 <!-- THEME & TONE -->
-                <div class="edit-panel" id="panel-theme">
+                <div class="edit-panel" id="panel-theme" style="max-width:100%;overflow-x:hidden;">
                     <h3>Color Theme & Tone</h3>
                     <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Heading Font</div>
                     <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;" id="fontPicker">
@@ -549,27 +549,86 @@
                         </div>
                     </div>
                     <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Theme</div>
-                    <div style="display:flex;flex-direction:column;gap:8px;" id="themePicker">
+                    <div style="display:flex;flex-direction:column;gap:8px;width:100%;overflow:hidden;" id="themePicker">
                         <div onclick="switchTheme('coastal')" id="theme-coastal" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
                             <input type="radio" name="eptheme" value="coastal" class="ep-theme-opt" style="display:none;">
-                            <div style="height:52px;background:linear-gradient(135deg,#1A5C6E 0%,#4A9BB0 100%);position:relative;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Coastal Tropical</span></div><divstyle="padding:7px10px;"><strongstyle="font-size:0.82rem;">CoastalTropical</strong><spanstyle="font-size:0.7rem;color:var(--text-light);">—Breezy·Romantic·Destination</span></div></div><divonclick="switchTheme('autumn')" id="theme-autumn" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
-                            <input type="radio" name="eptheme" value="autumn" class="ep-theme-opt" style="display:none;">
-                            <div style="height:52px;background:linear-gradient(135deg,#5C2E0E 0%,#C8902A 100%);position:relative;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Autumn Harvest</span></div><divstyle="padding:7px10px;"><strongstyle="font-size:0.82rem;">AutumnHarvest</strong><spanstyle="font-size:0.7rem;color:var(--text-light);">—Warm·Rustic·Golden</span></div></div><divonclick="switchTheme('winter_night')" id="theme-winter_night" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
-                            <input type="radio" name="eptheme" value="winter_night" class="ep-theme-opt" style="display:none;">
-                            <div style="height:52px;background:linear-gradient(135deg,#0D1B2A 0%,#7AAED4 100%);position:relative;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Winter Night</span></div><divstyle="padding:7px10px;"><strongstyle="font-size:0.82rem;">WinterWonderlandNight</strong><spanstyle="font-size:0.7rem;color:var(--text-light);">—Magical·Starlit·Elegant</span></div></div><divonclick="switchTheme('winter_day')" id="theme-winter_day" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
-                            <input type="radio" name="eptheme" value="winter_day" class="ep-theme-opt" style="display:none;">
-                            <div style="height:52px;background:linear-gradient(135deg,#2C4A6E 0%,#A8C8E8 100%);position:relative;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Winter Day</span></div><divstyle="padding:7px10px;"><strongstyle="font-size:0.82rem;">WinterWonderlandDay</strong><spanstyle="font-size:0.7rem;color:var(--text-light);">—Crisp·Dreamy·Serene</span></div></div><divonclick="switchTheme('cherry')" id="theme-cherry" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
-                            <input type="radio" name="eptheme" value="cherry" class="ep-theme-opt" style="display:none;">
-                            <div style="height:52px;background:linear-gradient(135deg,#7D3054 0%,#C478A0 100%);position:relative;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Cherry Blossom</span></div><divstyle="padding:7px10px;"><strongstyle="font-size:0.82rem;">CherryBlossom</strong><spanstyle="font-size:0.7rem;color:var(--text-light);">—Romantic·Delicate·Japanese</span></div></div><divonclick="switchTheme('rustic')" id="theme-rustic" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
-                            <input type="radio" name="eptheme" value="rustic" class="ep-theme-opt" style="display:none;">
-                            <div style="height:52px;background:linear-gradient(135deg,#4A2C0A 0%,#C8902A 100%);position:relative;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Rustic Barn</span></div><divstyle="padding:7px10px;"><strongstyle="font-size:0.82rem;">RusticBarn</strong><spanstyle="font-size:0.7rem;color:var(--text-light);">—Warm·Country·Sunlit</span></div></div><divonclick="switchTheme('allwhite')" id="theme-allwhite" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
-                            <input type="radio" name="eptheme" value="allwhite" class="ep-theme-opt" style="display:none;">
-                            <div style="height:52px;background:linear-gradient(135deg,#C8B8A8 0%,#E8E0D8 100%);position:relative;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">All White</span></div><divstyle="padding:7px10px;"><strongstyle="font-size:0.82rem;">AllWhiteMinimal</strong><spanstyle="font-size:0.7rem;color:var(--text-light);">—Clean·Elegant·Timeless</span></div></div><divonclick="switchTheme('gatsby')" id="theme-gatsby" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
-                            <input type="radio" name="eptheme" value="gatsby" class="ep-theme-opt" style="display:none;">
-                            <div style="height:72px;overflow:hidden;position:relative;background:#0A0A0A;display:flex;align-items:center;justify-content:center;">
-                              <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#C9A96E;letter-spacing:3px;opacity:0.9;">✦ GATSBY ✦</div>
+                            <div style="height:52px;background:linear-gradient(135deg,#1A5C6E 0%,#4A9BB0 100%);display:flex;align-items:center;justify-content:center;">
+                              <span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Coastal Tropical</span>
                             </div>
-                            <div style="padding:7px 10px;"><strong style="font-size:0.82rem;">Gatsby &amp; Gold</strong> <span style="font-size:0.7rem;color:var(--text-light);">— Art Deco · Black Tie · Glamour</span></div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Coastal Tropical</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Breezy · Romantic · Destination</span>
+                            </div>
+                        </div>
+                        <div onclick="switchTheme('autumn')" id="theme-autumn" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
+                            <input type="radio" name="eptheme" value="autumn" class="ep-theme-opt" style="display:none;">
+                            <div style="height:52px;background:linear-gradient(135deg,#5C2E0E 0%,#C8902A 100%);display:flex;align-items:center;justify-content:center;">
+                              <span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Autumn Harvest</span>
+                            </div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Autumn Harvest</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Warm · Rustic · Golden</span>
+                            </div>
+                        </div>
+                        <div onclick="switchTheme('winter_night')" id="theme-winter_night" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
+                            <input type="radio" name="eptheme" value="winter_night" class="ep-theme-opt" style="display:none;">
+                            <div style="height:52px;background:linear-gradient(135deg,#0D1B2A 0%,#7AAED4 100%);display:flex;align-items:center;justify-content:center;">
+                              <span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Winter Wonderland Night</span>
+                            </div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Winter Wonderland Night</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Magical · Starlit · Elegant</span>
+                            </div>
+                        </div>
+                        <div onclick="switchTheme('winter_day')" id="theme-winter_day" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
+                            <input type="radio" name="eptheme" value="winter_day" class="ep-theme-opt" style="display:none;">
+                            <div style="height:52px;background:linear-gradient(135deg,#2C4A6E 0%,#A8C8E8 100%);display:flex;align-items:center;justify-content:center;">
+                              <span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Winter Wonderland Day</span>
+                            </div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Winter Wonderland Day</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Crisp · Dreamy · Serene</span>
+                            </div>
+                        </div>
+                        <div onclick="switchTheme('cherry')" id="theme-cherry" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
+                            <input type="radio" name="eptheme" value="cherry" class="ep-theme-opt" style="display:none;">
+                            <div style="height:52px;background:linear-gradient(135deg,#7D3054 0%,#C478A0 100%);display:flex;align-items:center;justify-content:center;">
+                              <span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Cherry Blossom</span>
+                            </div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Cherry Blossom</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Romantic · Delicate · Japanese</span>
+                            </div>
+                        </div>
+                        <div onclick="switchTheme('rustic')" id="theme-rustic" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
+                            <input type="radio" name="eptheme" value="rustic" class="ep-theme-opt" style="display:none;">
+                            <div style="height:52px;background:linear-gradient(135deg,#4A2C0A 0%,#C8902A 100%);display:flex;align-items:center;justify-content:center;">
+                              <span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">Rustic Barn</span>
+                            </div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Rustic Barn</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Warm · Country · Sunlit</span>
+                            </div>
+                        </div>
+                        <div onclick="switchTheme('allwhite')" id="theme-allwhite" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
+                            <input type="radio" name="eptheme" value="allwhite" class="ep-theme-opt" style="display:none;">
+                            <div style="height:52px;background:linear-gradient(135deg,#C8B8A8 0%,#E8E0D8 100%);display:flex;align-items:center;justify-content:center;">
+                              <span style="font-size:9px;color:white;letter-spacing:1.5px;text-transform:uppercase;opacity:0.9;font-weight:500;">All White Minimal</span>
+                            </div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">All White Minimal</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Clean · Elegant · Timeless</span>
+                            </div>
+                        </div>
+                        <div onclick="switchTheme('gatsby')" id="theme-gatsby" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
+                            <input type="radio" name="eptheme" value="gatsby" class="ep-theme-opt" style="display:none;">
+                            <div style="height:52px;background:#0A0A0A;display:flex;align-items:center;justify-content:center;">
+                              <span style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;color:#C9A96E;letter-spacing:3px;">✦ GATSBY ✦</span>
+                            </div>
+                            <div style="padding:7px 10px;overflow:hidden;">
+                              <strong style="font-size:0.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Gatsby &amp; Gold</strong>
+                              <span style="font-size:0.7rem;color:var(--text-light);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Art Deco · Black Tie · Glamour</span>
+                            </div>
                         </div>
                     </div>
 
