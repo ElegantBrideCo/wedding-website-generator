@@ -600,7 +600,7 @@
         <div class="right-panel">
             <div class="preview-bar">
                 
-                <div class="url-bar" id="previewUrl">yournames.netlify.app — preview</div>
+                <div class="url-bar" id="previewUrl">yournames.pages.dev — preview</div>
             </div>
             <div class="preview-wrap" id="previewWrap">
                 <iframe id="previewFrame" title="Live Preview"></iframe>
@@ -744,7 +744,7 @@
                     publishedSiteUrl = data.site_url || null;
                     document.getElementById('previewFrame').srcdoc = generatedHTML;
                     showPreviewPlaceholder(false);
-                    document.getElementById('previewUrl').textContent = (data.form_data.name1 || 'your') + '-and-' + (data.form_data.name2 || 'names') + '.netlify.app';
+                    document.getElementById('previewUrl').textContent = (data.form_data.name1 || 'your') + '-and-' + (data.form_data.name2 || 'names') + '.pages.dev';
                     enableStoryEditor();
                     document.getElementById('publishBtn').style.display = 'flex';
                     setStepDone(1); setStepDone(2); setStepActive(3);
@@ -1440,7 +1440,7 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             generatedHTML = buildWebsiteHTML(data, storyCopy);
 
             document.getElementById('previewFrame').srcdoc = generatedHTML;
-            document.getElementById('previewUrl').textContent = (data.name1 + '-and-' + data.name2).toLowerCase().replace(/\s+/g, '-') + '.netlify.app';
+            document.getElementById('previewUrl').textContent = (data.name1 + '-and-' + data.name2).toLowerCase().replace(/\s+/g, '-') + '.pages.dev';
             document.getElementById('generatingOverlay').classList.remove('visible');
             document.getElementById('publishBtn').style.display = 'flex';
             setStepDone(2); setStepActive(3);
