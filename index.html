@@ -1,3 +1,4 @@
+<!-- VERSION 7 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -129,7 +130,7 @@
         .btn-apply { background: var(--sage); color: white; border: none; padding: 8px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; margin-top: 10px; }
 
         /* Right panel */
-        .right-panel { flex: 1; background: #E8E4DF; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+        .right-panel { flex: 1; background: lime; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
         .preview-bar { background: var(--cream); border-bottom: 1px solid var(--border); padding: 7px 16px; display: flex; align-items: center; gap: 10px; }
         
         .url-bar { flex: 1; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 5px 14px; font-size: 0.73rem; color: var(--text-light); letter-spacing: 0.02em; font-family: 'Jost', sans-serif; }
@@ -2018,7 +2019,8 @@ Output the story HTML first. Nothing else unless party blurbs were requested.`;
             selectedRegistries.length > 0 ? '<a href="#registry" onclick="event.preventDefault();document.getElementById(\'registry\').scrollIntoView({behavior:\'smooth\'});">Registry</a>' : '',
         ].filter(Boolean).join('\n    ');
 
-        return `<!DOCTYPE html>
+        return `<!-- VERSION 7 -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
