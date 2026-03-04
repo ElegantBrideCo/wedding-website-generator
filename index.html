@@ -47,7 +47,7 @@
         .btn-google:hover { border-color: var(--blush); background: var(--cream); }
 
         /* ── MAIN EDITOR LAYOUT ── */
-        #appScreen { display: none; position: fixed; top: 58px; left: 0; right: 0; bottom: 0; }
+        #appScreen { display: none; position: fixed; top: 58px; left: 0; right: 0; bottom: 0; overflow: hidden; }
         #appScreen.visible { display: flex; flex-direction: column; }
         .app-toolbar { background: white; border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 52px; flex-shrink: 0; gap: 12px; }
         .toolbar-left { display: flex; align-items: center; gap: 10px; }
@@ -64,7 +64,7 @@
         .published-chip { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; border-radius: 20px; padding: 5px 12px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 6px; text-decoration: none; }
 
         /* ── TWO-PANEL EDITOR ── */
-        .editor-panels { display: flex; flex-direction: row; flex: 1; overflow: hidden; min-height: 0; height: calc(100vh - 58px - 52px); }
+        .editor-panels { display: flex; flex-direction: row; overflow: hidden; position: absolute; top: 52px; left: 0; right: 0; bottom: 0; }
         /* Narrow icon nav strip */
         .icon-nav { width: 68px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 8px 0; overflow-y: auto; }
         .icon-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 4px; width: 100%; cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s; text-align: center; }
@@ -129,13 +129,13 @@
         .btn-apply { background: var(--sage); color: white; border: none; padding: 8px 18px; border-radius: 20px; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; margin-top: 10px; }
 
         /* Right panel */
-        .right-panel { flex: 1; background: #E8E4DF; display: flex; flex-direction: column; overflow: hidden; min-height: 0; border: 3px solid red; }
+        .right-panel { flex: 1; background: #E8E4DF; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
         .preview-bar { background: var(--cream); border-bottom: 1px solid var(--border); padding: 7px 16px; display: flex; align-items: center; gap: 10px; }
         
         .url-bar { flex: 1; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 5px 14px; font-size: 0.73rem; color: var(--text-light); letter-spacing: 0.02em; font-family: 'Jost', sans-serif; }
-        .preview-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 0; transition: all 0.3s; position: relative; min-height: 0; }
+        .preview-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
         .preview-wrap.mobile { padding: 20px; }
-        #previewFrame { width: 100%; height: 100%; min-height: 600px; border: none; display: block; transition: all 0.3s; }
+        #previewFrame { width: 100%; height: 100%; border: none; display: block; }
         .preview-wrap.mobile #previewFrame { width: 390px; height: 844px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 
         /* Loading overlay */
