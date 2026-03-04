@@ -172,6 +172,7 @@
             .left-panel { width: 280px; }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 
@@ -179,10 +180,6 @@
 <header class="site-header">
     <a href="https://www.elegantbrideco.com" class="brand">Elegant Bride Co.</a>
     <div class="header-right">
-        <div id="userPill" class="user-pill" style="display:none;">
-            Logged in as <strong id="userEmail">—</strong>
-        </div>
-        <button class="btn-signout" id="signOutBtn" style="display:none;" onclick="signOut()">Sign out</button>
     </div>
 </header>
 
@@ -510,47 +507,7 @@
                         </div>
                     </div>
                     <hr class="ep-section-divider">
-                    
-                    
-                <!-- PLANNING RESOURCES -->
-                <!-- PLANNING RESOURCES -->
-                <div class="edit-panel" id="panel-resources">
-                    <h3>Resources</h3>
-
-
-                    <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px;background:white;">
-                        <div style="font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:8px;">RESOURCES FOR BRIDES</div>
-                        <div style="display:flex;flex-direction:column;gap:6px;">
-                            <a href="https://www.elegantbrideco.com/wedding-dresses" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Wedding Dresses</a>
-                            <a href="https://www.elegantbrideco.com/best-wedding-invitations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Browse Invitations</a>
-                            <a href="https://www.elegantbrideco.com/decorations" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Wedding Decorations</a>
-                            <a href="https://www.elegantbrideco.com/downloads" target="_blank" style="font-size:0.82rem;color:var(--blush);text-decoration:none;">Free Wedding Planner App</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- THEME & TONE -->
-                <div class="edit-panel" id="panel-theme" style="max-width:100%;overflow-x:hidden;">
-                    <h3>Color Theme & Tone</h3>
-                    <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Heading Font</div>
-                    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;" id="fontPicker">
-                        <div onclick="setFont('cormorant')" id="font-cormorant" style="padding:10px 14px;border:1.5px solid var(--blush);border-radius:8px;cursor:pointer;background:var(--blush-light,#fdf0f0);">
-                            <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--text);">Cormorant</span>
-                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Classic · Romantic</span>
-                        </div>
-                        <div onclick="setFont('playfair')" id="font-playfair" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
-                            <span style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--text);">Playfair Display</span>
-                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Bold · Timeless</span>
-                        </div>
-                        <div onclick="setFont('raleway')" id="font-raleway" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
-                            <span style="font-family:'Raleway',sans-serif;font-size:1.3rem;font-weight:300;color:var(--text);">Raleway</span>
-                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Modern · Minimal</span>
-                        </div>
-                        <div onclick="setFont('lato')" id="font-lato" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;background:white;">
-                            <span style="font-family:'Lato',sans-serif;font-size:1.3rem;font-weight:300;color:var(--text);">Lato</span>
-                            <span style="font-size:0.7rem;color:var(--text-light);margin-left:8px;">Clean · Contemporary</span>
-                        </div>
-                    </div>
-                    <div style="font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:10px;">Theme</div>
+                    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;">Theme</div>
                     <div style="display:flex;flex-direction:column;gap:8px;width:100%;overflow:hidden;" id="themePicker">
                         <div onclick="switchTheme('coastal')" id="theme-coastal" style="border:1.5px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;background:white;transition:all 0.15s;">
                             <input type="radio" name="eptheme" value="coastal" class="ep-theme-opt" style="display:none;">
@@ -689,6 +646,17 @@
 
     const genMessages = ['Writing your love story...','Designing your website...','Building your gallery...','Adding the finishing touches...','Almost ready...'];
 
+    // ── SUPABASE CONFIG ───────────────────────────────────────────────────────
+    // 🔧 REPLACE THESE TWO VALUES with your Supabase project URL and anon key
+    // Find them at: supabase.com → your project → Settings → API
+    const SUPABASE_URL = 'https://tdtloxdwnvmqluhdpyef.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_bIaiUSKE9QcQOT7GB6Nysg_a-GgbesM';
+
+    let sbClient = null;
+    try {
+        sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch(e) { console.warn('Supabase init failed:', e); }
+
     // ── AUTH ──────────────────────────────────────────────────────────────────
     function switchAuthTab(tab) {
         document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
@@ -698,100 +666,85 @@
     }
 
     async function handleLogin() {
+        if (!sbClient) { alert('Supabase not configured. Please add your project URL and anon key.'); return; }
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
         const errEl = document.getElementById('loginError');
         const btn = document.getElementById('loginBtn');
         errEl.style.display = 'none';
-        if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
-        btn.textContent = 'Signing in...'; btn.disabled = true;
-        try {
-            const res = await fetch('/auth', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'login', email, password })
-            });
-            const data = await res.json();
-            if (data.error) throw new Error(data.error);
-            await loginSuccess(data.user, data.session);
-        } catch (err) {
-            errEl.textContent = err.message.includes('Invalid') ? 'Incorrect email or password.' : err.message;
-            errEl.style.display = 'block';
-            btn.textContent = 'Sign In'; btn.disabled = false;
-        }
+        btn.disabled = true; btn.textContent = 'Signing in...';
+        const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+        btn.disabled = false; btn.textContent = 'Sign In';
+        if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+        await loginSuccess(data.user, data.session);
     }
 
     async function handleSignup() {
+        if (!sbClient) { alert('Supabase not configured. Please add your project URL and anon key.'); return; }
         const email = document.getElementById('signupEmail').value.trim();
         const password = document.getElementById('signupPassword').value;
         const password2 = document.getElementById('signupPassword2').value;
         const errEl = document.getElementById('signupError');
         const btn = document.getElementById('signupBtn');
         errEl.style.display = 'none';
-        if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+        if (password !== password2) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
         if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
-        if (password !== password2) { errEl.textContent = "Passwords don\u0027t match."; errEl.style.display = 'block'; return; }
-        btn.textContent = 'Creating account...'; btn.disabled = true;
-        try {
-            const res = await fetch('/auth', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'signup', email, password })
-            });
-            const data = await res.json();
-            if (data.error) throw new Error(data.error);
-            await loginSuccess(data.user, data.session);
-        } catch (err) {
-            errEl.textContent = err.message;
+        btn.disabled = true; btn.textContent = 'Creating account...';
+        const { data, error } = await sbClient.auth.signUp({ email, password });
+        btn.disabled = false; btn.textContent = 'Create Account';
+        if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+        if (data.user && !data.session) {
+            errEl.style.color = 'green';
+            errEl.textContent = 'Check your email to confirm your account, then sign in!';
             errEl.style.display = 'block';
-            btn.textContent = 'Create Account'; btn.disabled = false;
+            return;
         }
+        await loginSuccess(data.user, data.session);
     }
 
     function handleGoogleSignIn() {
-        showToast('Google sign-in coming soon! Please use email & password for now.');
+        sbClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
     }
 
     async function loginSuccess(user, session) {
         currentUser = user;
         authToken = session?.access_token || null;
-        document.getElementById('userEmail').textContent = user.email;
-        document.getElementById('userPill').style.display = 'flex';
-        document.getElementById('signOutBtn').style.display = 'block';
-        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('appScreen').classList.add('visible');
-        renderSchedule(); renderParty(); renderHotels();
-        renderDesignGrid(); renderColorDots();
-        // Try to load saved data
         await loadUserData();
     }
 
-    function signOut() {
-        currentUser = null; authToken = null;
-        document.getElementById('userPill').style.display = 'none';
-        document.getElementById('signOutBtn').style.display = 'none';
+    async function signOut() {
+        await sbClient.auth.signOut();
+        currentUser = null;
+        authToken = null;
         document.getElementById('appScreen').classList.remove('visible');
-        document.getElementById('authScreen').style.display = 'flex';
+        document.getElementById('authScreen').classList.remove('hidden');
     }
 
-    // ── LOAD / SAVE ───────────────────────────────────────────────────────────
+    // Check if already logged in on page load
+    if (sbClient) {
+        sbClient.auth.getSession().then(async ({ data: { session } }) => {
+            if (session) await loginSuccess(session.user, session);
+        });
+    }
+
+    // ── LOAD / SAVE (localStorage — no backend needed) ────────────────────────
     async function loadUserData() {
-        if (!authToken) return;
         try {
-            const res = await fetch('/auth', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'load', token: authToken })
-            });
-            const data = await res.json();
-            if (data.site && data.site.form_data) {
-                restoreFormData(data.site.form_data);
-                if (data.site.generated_html) {
-                    generatedHTML = data.site.generated_html;
-                    generatedStoryCopy = data.site.story_copy || '';
-                    generatedData = data.site.form_data;
-                    publishedSiteId = data.site.site_id;
-                    publishedSiteUrl = data.site.site_url;
+            const saved = localStorage.getItem('eb_site_data');
+            if (!saved) return;
+            const data = JSON.parse(saved);
+            if (data.form_data) {
+                restoreFormData(data.form_data);
+                if (data.generated_html) {
+                    generatedHTML = data.generated_html;
+                    generatedStoryCopy = data.story_copy || '';
+                    generatedData = data.form_data;
+                    publishedSiteUrl = data.site_url || null;
                     document.getElementById('previewFrame').srcdoc = generatedHTML;
-            showPreviewPlaceholder(false);
-                    document.getElementById('previewUrl').textContent = (data.site.form_data.name1 || 'your') + '-and-' + (data.site.form_data.name2 || 'names') + '.netlify.app';
+                    showPreviewPlaceholder(false);
+                    document.getElementById('previewUrl').textContent = (data.form_data.name1 || 'your') + '-and-' + (data.form_data.name2 || 'names') + '.netlify.app';
                     enableStoryEditor();
                     document.getElementById('publishBtn').style.display = 'flex';
                     setStepDone(1); setStepDone(2); setStepActive(3);
@@ -888,20 +841,16 @@
 
     function autoSave() {
         clearTimeout(autoSaveTimer);
-        autoSaveTimer = setTimeout(async () => {
-            if (!authToken || !generatedHTML) return;
+        autoSaveTimer = setTimeout(() => {
+            if (!generatedHTML) return;
             try {
-                await fetch('/auth', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'save', token: authToken,
-                        formData: collectFormData(),
-                        generatedHtml: generatedHTML,
-                        storyCopy: generatedStoryCopy,
-                        siteId: publishedSiteId,
-                        siteUrl: publishedSiteUrl
-                    })
-                });
+                const payload = {
+                    form_data: collectFormData(),
+                    generated_html: generatedHTML,
+                    story_copy: generatedStoryCopy,
+                    site_url: publishedSiteUrl
+                };
+                localStorage.setItem('eb_site_data', JSON.stringify(payload));
             } catch(e) { console.warn('Auto-save failed', e); }
         }, 2000);
     }
@@ -1142,9 +1091,9 @@
         const prompt = `Write a 2-3 sentence wedding party blurb for ${p.name}, who is the ${p.role}${p.relation ? ' and ' + p.relation : ''}. Tone: ${tone}. ${p.note ? 'About them: ' + p.note + '.' : ''} Write in third person. Keep it warm and personal. Output ONLY the blurb text, nothing else.`;
 
         try {
-            const res = await fetch('/generate', {
+            const res = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
                 body: JSON.stringify({
                     model: 'claude-sonnet-4-20250514',
                     max_tokens: 1000,
@@ -1152,8 +1101,8 @@
                 })
             });
             const result = await res.json();
-            if (result.error) throw new Error(result.error);
-            const blurbText = (result.content?.[0]?.text || result.text || '').trim()
+            if (result.error) throw new Error(result.error?.message || result.error);
+            const blurbText = (result.content?.[0]?.text || '').trim()
                 .replace(/^["']|["']$/g, '');
             if (blurbText) {
                 partyBlurbs[p.name] = blurbText;
@@ -1226,6 +1175,10 @@
         renderDesignGrid();
         renderColorDots();
         ['dresses','invitations','decorations','planner'].forEach(id => updateResStyle(id, true));
+        // Initialize panels
+        renderSchedule(); renderParty(); renderHotels();
+        // Load any previously saved data from localStorage
+        loadUserData();
     });
     function updateResStyle(id, checked) {
         const wrap = document.getElementById('res-' + id + '-wrap');
@@ -1316,9 +1269,9 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output ONLY the HTML. No extra commentary.`;
 
         try {
-            const res = await fetch('/generate', {
+            const res = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
                 body: JSON.stringify({
                     model: 'claude-sonnet-4-20250514',
                     max_tokens: 1000,
@@ -1326,8 +1279,8 @@ Output ONLY the HTML. No extra commentary.`;
                 })
             });
             const result = await res.json();
-            if (result.error) throw new Error(result.error);
-            const storyHTML = (result.content?.[0]?.text || result.text || '').trim();
+            if (result.error) throw new Error(result.error?.message || result.error);
+            const storyHTML = (result.content?.[0]?.text || '').trim();
             if (storyHTML) {
                 generatedStoryCopy = storyHTML;
                 if (editor) {
@@ -1453,9 +1406,9 @@ Write 2-3 paragraphs as HTML <p> tags. Then add one memorable pull quote wrapped
 Output the story HTML first. Nothing else unless party blurbs were requested.`;
 
         try {
-            const res = await fetch('/generate', {
+            const res = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
                 body: JSON.stringify({
                     model: 'claude-sonnet-4-20250514',
                     max_tokens: 1000,
