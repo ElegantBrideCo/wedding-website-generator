@@ -14,7 +14,7 @@
             --text: #2E2B28; --text-light: #7A756E; --border: #DDD8D0;
             --surface: #FFFFFF; --surface2: #FAF8F5;
         }
-        body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); height: 100vh; overflow: hidden; letter-spacing: 0.01em; }
+        body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; letter-spacing: 0.01em; }
 
         /* ── SITE HEADER ── */
         .site-header { background: white; border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 58px; position: sticky; top: 0; z-index: 200; box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
@@ -47,8 +47,8 @@
         .btn-google:hover { border-color: var(--blush); background: var(--cream); }
 
         /* ── MAIN EDITOR LAYOUT ── */
-        #appScreen { display: none; height: calc(100vh - 58px); flex-direction: column; }
-        #appScreen.visible { display: flex; flex-direction: column; }
+        #appScreen { display: none; }
+        #appScreen.visible { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
         .app-toolbar { background: white; border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 52px; flex-shrink: 0; gap: 12px; }
         .toolbar-left { display: flex; align-items: center; gap: 10px; }
         .toolbar-center { display: flex; gap: 6px; }
@@ -64,7 +64,7 @@
         .published-chip { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; border-radius: 20px; padding: 5px 12px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 6px; text-decoration: none; }
 
         /* ── TWO-PANEL EDITOR ── */
-        .editor-panels { display: flex; flex: 1; overflow: hidden; min-height: 0; height: 100%; }
+        .editor-panels { display: flex; flex-direction: row; flex: 1; overflow: hidden; min-height: 0; }
         /* Narrow icon nav strip */
         .icon-nav { width: 68px; flex-shrink: 0; background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 8px 0; overflow-y: auto; }
         .icon-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 4px; width: 100%; cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s; text-align: center; }
